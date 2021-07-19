@@ -1,0 +1,23 @@
+{
+    "display": {
+        "icon": {
+            "item": "dolphinsofthedeep:diamond_dolphin_armour"
+        },
+        "title": {
+            "translate": "advancement.dolphinsofthedeep.root.title"
+        },
+        "description": {
+            "translate": "advancement.dolphinsofthedeep.root.description"
+        },
+        "background": "dolphinsofthedeep:textures/gui/blues.png",
+        "hidden": false
+    },
+    "criteria": {
+        "in_water": {
+            "trigger": "minecraft:enter_block",
+            "conditions": {
+                "block": "minecraft:water"
+            }
+        }
+    }
+}
