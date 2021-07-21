@@ -1,5 +1,6 @@
-package io.github.webcoder49.dolphinsofthedeep;
+package io.github.webcoder49.dolphinsofthedeep.tools;
 
+import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
@@ -17,7 +18,7 @@ public class ToolsGoldenDelphinium implements ToolMaterial {
     }
     @Override
     public float getAttackDamage() {
-        return 2.5F;
+        return -2.5F;
     }
     @Override
     public int getMiningLevel() {

@@ -2,7 +2,7 @@
     "parent": "dolphinsofthedeep:root",
     "display": {
         "icon": {
-            "item": "dolphinsofthedeep:leather_dolphin_armour"
+            "item": "dolphinsofthedeep:iron_dolphin_armour"
         },
         "title": {
             "translate": "advancement.dolphinsofthedeep.obtained_dolphin_armour.title"

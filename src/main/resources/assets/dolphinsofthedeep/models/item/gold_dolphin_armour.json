@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-      "layer0": "dolphinsofthedeep:item/gold_dolphin_armour"
+      "layer0": "dolphinsofthedeep:item/dolphin_armour/gold_dolphin_armour"
     }
   }

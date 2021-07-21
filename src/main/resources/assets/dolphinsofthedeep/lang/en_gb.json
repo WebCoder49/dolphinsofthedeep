@@ -15,12 +15,20 @@
 
     "advancement.dolphinsofthedeep.root.title": "Dolphins of the Deep",
     "advancement.dolphinsofthedeep.root.description": "You're in water, so why don't you get some dolphins?",
+
     "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title": "Ready to Ride",
     "advancement.dolphinsofthedeep.obtained_dolphin_saddle.description": "Obtain a dolphin saddle to ride dolphins!",
     "advancement.dolphinsofthedeep.used_dolphin_saddle.title": "Ridin' on my... Dolphin",
     "advancement.dolphinsofthedeep.used_dolphin_saddle.description": "Use your saddle to ride a dolphin",
+
     "advancement.dolphinsofthedeep.obtained_dolphin_armour.title": "I haven't got arms, but I've got armour!",
     "advancement.dolphinsofthedeep.obtained_dolphin_armour.description": "Obtain any type of dolphin armour",
+    "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.title": "Even bluer...",
+    "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.description": [
+        "Obtain diamond dolphin armour"
+    ],
+    "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.title": "I haven't got arms, but I've got armour!",
+    "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.description": "Obtain any type of dolphin armour",
     "advancement.dolphinsofthedeep.used_dolphin_armour.title": "Faster than a horse",
     "advancement.dolphinsofthedeep.used_dolphin_armour.description": "Ride a dolphin with any type of dolphin armour"
 }

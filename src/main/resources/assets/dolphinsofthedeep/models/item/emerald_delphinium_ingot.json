@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-      "layer0": "dolphinsofthedeep:item/emerald_delphinium_ingot"
+      "layer0": "dolphinsofthedeep:item/delphinium/emerald_delphinium_ingot"
     }
   }

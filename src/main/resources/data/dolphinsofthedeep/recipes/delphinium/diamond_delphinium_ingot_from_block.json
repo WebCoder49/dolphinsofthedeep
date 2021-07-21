@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+      {
+        "item": "dolphinsofthedeep:diamond_delphinium_block"
+      }
+    ],
+    "result": {
+      "item": "dolphinsofthedeep:diamond_delphinium_ingot",
+      "count": 9
+    }
+  }

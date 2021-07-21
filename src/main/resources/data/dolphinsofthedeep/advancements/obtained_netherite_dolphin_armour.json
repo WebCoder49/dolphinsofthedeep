@@ -1,0 +1,25 @@
+{
+    "parent": "dolphinsofthedeep:obtained_dolphin_armour",
+    "display": {
+        "icon": {
+            "item": "dolphinsofthedeep:netherite_dolphin_armour"
+        },
+        "title": {
+            "translate": "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.title"
+        },
+        "description": {
+            "translate": "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.description"
+        },
+        "hidden": false
+    },
+    "criteria": {
+        "obtained_dolphin_saddle": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [{
+                    "item": "dolphinsofthedeep:netherite_dolphin_armour"
+                }]
+            }
+        }
+    }
+}
