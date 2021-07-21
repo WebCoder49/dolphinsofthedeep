@@ -6,6 +6,13 @@
     "item.dolphinsofthedeep.diamond_dolphin_armour": "Diamond Dolphin Armour",
     "item.dolphinsofthedeep.netherite_dolphin_armour": "Netherite Dolphin Armour",
 
+    "item.dolphinsofthedeep.golden_delphinium_ingot": "Golden Delphinium Ingot",
+    "block.dolphinsofthedeep.golden_delphinium_block": "Golden Delphinium Block",
+    "item.dolphinsofthedeep.emerald_delphinium_ingot": "Emerald Delphinium Ingot",
+    "block.dolphinsofthedeep.emerald_delphinium_block": "Emerald Delphinium Block",
+    "item.dolphinsofthedeep.diamond_delphinium_ingot": "Diamond Delphinium Ingot",
+    "block.dolphinsofthedeep.diamond_delphinium_block": "Diamond Delphinium Block",
+
     "advancement.dolphinsofthedeep.root.title": "Dolphins of the Deep",
     "advancement.dolphinsofthedeep.root.description": "You're in water, so why don't you get some dolphins?",
     "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title": "Ready to Ride",

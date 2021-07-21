@@ -8,7 +8,7 @@
             "translate": "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title"
         },
         "description": {
-            "translate": "aadvancement.dolphinsofthedeep.obtained_dolphin_saddle.description"
+            "translate": "advancement.dolphinsofthedeep.obtained_dolphin_saddle.description"
         },
         "hidden": false
     },
@@ -16,7 +16,9 @@
         "obtained_dolphin_saddle": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": ["dolphinsofthedeep:dolphin_saddle"]
+                "items": [{
+                    "item": "dolphinsofthedeep:dolphin_saddle"
+                }]
             }
         }
     }
