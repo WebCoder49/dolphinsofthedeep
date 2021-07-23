@@ -6,6 +6,9 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -20,15 +23,16 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.github.webcoder49.dolphinsofthedeep.tools.CustomAxeItem;
-import io.github.webcoder49.dolphinsofthedeep.tools.CustomHoeItem;
-import io.github.webcoder49.dolphinsofthedeep.tools.CustomPickaxeItem;
+import io.github.webcoder49.dolphinsofthedeep.materials.armour.ArmourGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomAxeItem;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomHoeItem;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomPickaxeItem;
 
 /* Import other mod classes */
 
-import io.github.webcoder49.dolphinsofthedeep.tools.ToolsGoldenDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.tools.ToolsEmeraldDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.tools.ToolsDiamondDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsDiamondDelphinium;
 
 
 public class DolphinsOfTheDeep implements ModInitializer {
@@ -68,6 +72,14 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static ToolItem DIAMOND_DELPHINIUM_PICKAXE = new CustomPickaxeItem(ToolsDiamondDelphinium.INSTANCE, 5, -2.8F, new Item.Settings().group(ItemGroup.TOOLS));
     public static ToolItem DIAMOND_DELPHINIUM_AXE = new CustomAxeItem(ToolsDiamondDelphinium.INSTANCE, 9, -3, new Item.Settings().group(ItemGroup.TOOLS));
     public static ToolItem DIAMOND_DELPHINIUM_HOE = new CustomHoeItem(ToolsDiamondDelphinium.INSTANCE, 1, 0, new Item.Settings().group(ItemGroup.TOOLS));
+
+    // Armour - create instances
+
+    public static ArmorMaterial GOLDEN_DELPHINIUM_ARMOUR = new ArmourGoldenDelphinium();
+    public static ArmorItem GOLDEN_DELPHINIUM_HELMET = new ArmorItem(GOLDEN_DELPHINIUM_ARMOUR, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ArmorItem GOLDEN_DELPHINIUM_CHESTPLATE = new ArmorItem(GOLDEN_DELPHINIUM_ARMOUR, EquipmentSlot.CHEST, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ArmorItem GOLDEN_DELPHINIUM_LEGGINGS = new ArmorItem(GOLDEN_DELPHINIUM_ARMOUR, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ArmorItem GOLDEN_DELPHINIUM_BOOTS = new ArmorItem(GOLDEN_DELPHINIUM_ARMOUR, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
 
     // Item Groups
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
@@ -127,6 +139,13 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_pickaxe"), DIAMOND_DELPHINIUM_PICKAXE);
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_axe"), DIAMOND_DELPHINIUM_AXE);
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_hoe"), DIAMOND_DELPHINIUM_HOE);
+
+        // Delphinium armour
+
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_helmet"), GOLDEN_DELPHINIUM_HELMET);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_chestplate"), GOLDEN_DELPHINIUM_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_leggings"), GOLDEN_DELPHINIUM_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_boots"), GOLDEN_DELPHINIUM_BOOTS);
 
         /* Register Blocks */
         // Delphinium blocks

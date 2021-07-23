@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.tools;
+package io.github.webcoder49.dolphinsofthedeep.materials.tools;
 
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ToolMaterial;

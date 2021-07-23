@@ -14,10 +14,13 @@
     },
     "criteria": {
         "in_water": {
-            "trigger": "minecraft:enter_block",
-            "conditions": {
-                "block": "minecraft:water"
-            }
+            "trigger": "minecraft:tick"
         }
+    },
+
+    "rewards": {
+        "recipes": [
+            "dolphinsofthedeep:delphinium/emerald_delphinium_ingot", "dolphinsofthedeep:delphinium/golden_delphinium_ingot", "dolphinsofthedeep:delphinium/diamond_delphinium_ingot"
+        ]
     }
 }
