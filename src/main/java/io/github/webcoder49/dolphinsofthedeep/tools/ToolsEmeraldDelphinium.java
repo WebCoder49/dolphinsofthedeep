@@ -4,17 +4,17 @@ import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 
-public class ToolsGoldenDelphinium implements ToolMaterial {
+public class ToolsEmeraldDelphinium implements ToolMaterial {
 
-    public static final ToolsGoldenDelphinium INSTANCE = new ToolsGoldenDelphinium();
+    public static final ToolsEmeraldDelphinium INSTANCE = new ToolsEmeraldDelphinium();
 
     @Override
     public int getDurability() {
-        return 42;
+        return 150;
     }
     @Override
     public float getMiningSpeedMultiplier() {
-        return 12.0F;
+        return 3.0F;
     }
     @Override
     public float getAttackDamage() {
@@ -22,14 +22,14 @@ public class ToolsGoldenDelphinium implements ToolMaterial {
     }
     @Override
     public int getMiningLevel() {
-        return 1;
+        return 0;
     }
     @Override
     public int getEnchantability() {
-        return 25;
+        return 20;
     }
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(DolphinsOfTheDeep.GOLDEN_DELPHINIUM_INGOT);
+        return Ingredient.ofItems(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT);
     }
 }

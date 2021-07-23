@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
+import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -19,9 +20,15 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import io.github.webcoder49.dolphinsofthedeep.tools.CustomAxeItem;
+import io.github.webcoder49.dolphinsofthedeep.tools.CustomHoeItem;
+import io.github.webcoder49.dolphinsofthedeep.tools.CustomPickaxeItem;
+
 /* Import other mod classes */
 
 import io.github.webcoder49.dolphinsofthedeep.tools.ToolsGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.tools.ToolsEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.tools.ToolsDiamondDelphinium;
 
 
 public class DolphinsOfTheDeep implements ModInitializer {
@@ -44,7 +51,23 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final Block DIAMOND_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(30.0f).resistance(15.0f));
 
     // Tools - create instances
-    public static ToolItem GOLDEN_DELPHINIUM_SHOVEL = new ShovelItem(ToolsGoldenDelphinium.INSTANCE, 1.5F, -4.5F, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem GOLDEN_DELPHINIUM_SHOVEL = new ShovelItem(ToolsGoldenDelphinium.INSTANCE, 2.5F, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem GOLDEN_DELPHINIUM_SWORD = new SwordItem(ToolsGoldenDelphinium.INSTANCE, 4, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ToolItem GOLDEN_DELPHINIUM_PICKAXE = new CustomPickaxeItem(ToolsGoldenDelphinium.INSTANCE, 2, -2.8F, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem GOLDEN_DELPHINIUM_AXE = new CustomAxeItem(ToolsGoldenDelphinium.INSTANCE, 7, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem GOLDEN_DELPHINIUM_HOE = new CustomHoeItem(ToolsGoldenDelphinium.INSTANCE, 1, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    
+    public static ToolItem EMERALD_DELPHINIUM_SHOVEL = new ShovelItem(ToolsEmeraldDelphinium.INSTANCE, 1.5F, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem EMERALD_DELPHINIUM_SWORD = new SwordItem(ToolsEmeraldDelphinium.INSTANCE, 3, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ToolItem EMERALD_DELPHINIUM_PICKAXE = new CustomPickaxeItem(ToolsEmeraldDelphinium.INSTANCE, 1, -2.8F, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem EMERALD_DELPHINIUM_AXE = new CustomAxeItem(ToolsEmeraldDelphinium.INSTANCE, 5, -2.2F, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem EMERALD_DELPHINIUM_HOE = new CustomHoeItem(ToolsEmeraldDelphinium.INSTANCE, 1, -3, new Item.Settings().group(ItemGroup.TOOLS));
+
+    public static ToolItem DIAMOND_DELPHINIUM_SHOVEL = new ShovelItem(ToolsDiamondDelphinium.INSTANCE, 5.5F, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem DIAMOND_DELPHINIUM_SWORD = new SwordItem(ToolsDiamondDelphinium.INSTANCE, 7, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
+    public static ToolItem DIAMOND_DELPHINIUM_PICKAXE = new CustomPickaxeItem(ToolsDiamondDelphinium.INSTANCE, 5, -2.8F, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem DIAMOND_DELPHINIUM_AXE = new CustomAxeItem(ToolsDiamondDelphinium.INSTANCE, 9, -3, new Item.Settings().group(ItemGroup.TOOLS));
+    public static ToolItem DIAMOND_DELPHINIUM_HOE = new CustomHoeItem(ToolsDiamondDelphinium.INSTANCE, 1, 0, new Item.Settings().group(ItemGroup.TOOLS));
 
     // Item Groups
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
@@ -88,6 +111,22 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         // Delphinium tools
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_shovel"), GOLDEN_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_sword"), GOLDEN_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_pickaxe"), GOLDEN_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_axe"), GOLDEN_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_hoe"), GOLDEN_DELPHINIUM_HOE);
+
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_shovel"), EMERALD_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_sword"), EMERALD_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_pickaxe"), EMERALD_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_axe"), EMERALD_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_hoe"), EMERALD_DELPHINIUM_HOE);
+
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_shovel"), DIAMOND_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_sword"), DIAMOND_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_pickaxe"), DIAMOND_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_axe"), DIAMOND_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_hoe"), DIAMOND_DELPHINIUM_HOE);
 
         /* Register Blocks */
         // Delphinium blocks
