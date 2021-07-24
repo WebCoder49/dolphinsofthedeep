@@ -54,6 +54,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final Block EMERALD_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(10.0f).resistance(5.0f));
     public static final Block DIAMOND_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(30.0f).resistance(15.0f));
 
+    public static final SeaLaser SEA_LASER_BLOCK = new SeaLaser(FabricBlockSettings.of(Material.METAL).hardness(1000000.0f).resistance(1000000.0f));
+
     // Tools - create instances
     public static ToolItem GOLDEN_DELPHINIUM_SHOVEL = new ShovelItem(ToolsGoldenDelphinium.INSTANCE, 2.5F, -3, new Item.Settings().group(ItemGroup.TOOLS));
     public static ToolItem GOLDEN_DELPHINIUM_SWORD = new SwordItem(ToolsGoldenDelphinium.INSTANCE, 4, -2.4F, new Item.Settings().group(ItemGroup.COMBAT));
@@ -155,6 +157,10 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_block"), new BlockItem(EMERALD_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "diamond_delphinium_block"), DIAMOND_DELPHINIUM_BLOCK);
         Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_block"), new BlockItem(DIAMOND_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        
+        // Sea laser
+        Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "sea_laser"), SEA_LASER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
     }
 
     public static void log(Level level, String message){
