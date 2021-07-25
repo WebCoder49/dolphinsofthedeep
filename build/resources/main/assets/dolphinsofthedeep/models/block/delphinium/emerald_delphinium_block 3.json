@@ -1,6 +1,0 @@
-{
-    "parent": "block/cube_all",
-    "textures": {
-      "all": "dolphinsofthedeep:block/delphinium/emerald_delphinium_block"
-    }
-  }
