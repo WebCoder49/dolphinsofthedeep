@@ -1,13 +1,12 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
-import javax.swing.text.html.BlockView;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 
 public class SeaLaser extends Block {
     public SeaLaser(Settings settings) {
