@@ -1,0 +1,54 @@
+{
+    "item.dolphinsofthedeep.dolphin_saddle": "Dolphin Saddle",
+    "item.dolphinsofthedeep.leather_dolphin_armour": "Leather Dolphin Armour",
+    "item.dolphinsofthedeep.iron_dolphin_armour": "Iron Dolphin Armour",
+    "item.dolphinsofthedeep.gold_dolphin_armour": "Gold Dolphin Armour",
+    "item.dolphinsofthedeep.diamond_dolphin_armour": "Diamond Dolphin Armour",
+    "item.dolphinsofthedeep.netherite_dolphin_armour": "Netherite Dolphin Armour",
+
+    "item.dolphinsofthedeep.golden_delphinium_ingot": "Golden Delphinium Ingot",
+    "block.dolphinsofthedeep.golden_delphinium_block": "Golden Delphinium Block",
+    "item.dolphinsofthedeep.emerald_delphinium_ingot": "Emerald Delphinium Ingot",
+    "block.dolphinsofthedeep.emerald_delphinium_block": "Emerald Delphinium Block",
+    "item.dolphinsofthedeep.diamond_delphinium_ingot": "Diamond Delphinium Ingot",
+    "block.dolphinsofthedeep.diamond_delphinium_block": "Diamond Delphinium Block",
+
+    "item.dolphinsofthedeep.golden_delphinium_axe": "Golden Delphinium Axe",
+    "item.dolphinsofthedeep.golden_delphinium_hoe": "Golden Delphinium Hoe",
+    "item.dolphinsofthedeep.golden_delphinium_pickaxe": "Golden Delphinium Pickaxe",
+    "item.dolphinsofthedeep.golden_delphinium_shovel": "Golden Delphinium Shovel",
+    "item.dolphinsofthedeep.golden_delphinium_sword": "Golden Delphinium Sword",
+
+    "item.dolphinsofthedeep.emerald_delphinium_axe": "Diamond Delphinium Axe",
+    "item.dolphinsofthedeep.emerald_delphinium_hoe": "Diamond Delphinium Hoe",
+    "item.dolphinsofthedeep.emerald_delphinium_pickaxe": "Diamond Delphinium Pickaxe",
+    "item.dolphinsofthedeep.emerald_delphinium_shovel": "Diamond Delphinium Shovel",
+    "item.dolphinsofthedeep.emerald_delphinium_sword": "Diamond Delphinium Sword",
+
+    "item.dolphinsofthedeep.diamond_delphinium_axe": "Golden Delphinium Axe",
+    "item.dolphinsofthedeep.diamond_delphinium_hoe": "Golden Delphinium Hoe",
+    "item.dolphinsofthedeep.diamond_delphinium_pickaxe": "Golden Delphinium Pickaxe",
+    "item.dolphinsofthedeep.diamond_delphinium_shovel": "Golden Delphinium Shovel",
+    "item.dolphinsofthedeep.diamond_delphinium_sword": "Golden Delphinium Sword",
+
+    "advancement.dolphinsofthedeep.root.title": "Dolphins of the Deep",
+    "advancement.dolphinsofthedeep.root.description": "Ride dolphins, craft dolphin armour, and much more...",
+
+    "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title": "Ready to Ride",
+    "advancement.dolphinsofthedeep.obtained_dolphin_saddle.description": "Obtain a dolphin saddle to ride dolphins!",
+    "advancement.dolphinsofthedeep.used_dolphin_saddle.title": "Ridin' on my... Dolphin",
+    "advancement.dolphinsofthedeep.used_dolphin_saddle.description": "Use your saddle to ride a dolphin",
+    "advancement.dolphinsofthedeep.used_dolphin_armour.title": "Don't try this in real life!",
+    "advancement.dolphinsofthedeep.used_dolphin_armour.description": "Ride a dolphin with any type of dolphin armour (not irl)",
+    "advancement.dolphinsofthedeep.obtained_dolphin_armour.title": "I haven't got arms, but I've got armour!",
+    "advancement.dolphinsofthedeep.obtained_dolphin_armour.description": "Obtain any type of dolphin armour",
+    "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.title": "Even bluer...",
+    "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.description": "Obtain diamond dolphin armour!",
+    "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.title": "Fins of Netherite",
+    "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.description": "Obtain netherite dolphin armour!",
+    
+    "advancement.dolphinsofthedeep.obtained_delphinium_ingot.title": "Like dolphin, like player!",
+    "advancement.dolphinsofthedeep.obtained_delphinium_ingot.description": "Craft delphinium and show a marine theme!",
+    "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.title": "Diamonds! ... Delphinium!",
+    "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.description": "Obtain diamond delphinium ingots..."
+}

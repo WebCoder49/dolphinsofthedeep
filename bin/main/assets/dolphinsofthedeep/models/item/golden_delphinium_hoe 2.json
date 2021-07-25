@@ -1,0 +1,6 @@
+{
+    "parent": "item/golden_hoe",
+    "textures": {
+      "layer0": "dolphinsofthedeep:item/delphinium/tools/golden/hoe"
+    }
+  }

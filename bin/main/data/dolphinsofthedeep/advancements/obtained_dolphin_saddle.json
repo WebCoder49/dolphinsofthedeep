@@ -1,0 +1,25 @@
+{
+    "parent": "dolphinsofthedeep:root",
+    "display": {
+        "icon": {
+            "item": "dolphinsofthedeep:dolphin_saddle"
+        },
+        "title": {
+            "translate": "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title"
+        },
+        "description": {
+            "translate": "advancement.dolphinsofthedeep.obtained_dolphin_saddle.description"
+        },
+        "hidden": false
+    },
+    "criteria": {
+        "obtained_dolphin_saddle": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [{
+                    "item": "dolphinsofthedeep:dolphin_saddle"
+                }]
+            }
+        }
+    }
+}

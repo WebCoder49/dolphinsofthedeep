@@ -1,0 +1,6 @@
+{
+    "parent": "item/golden_pickaxe",
+    "textures": {
+      "layer0": "dolphinsofthedeep:item/delphinium/tools/golden/pickaxe"
+    }
+  }

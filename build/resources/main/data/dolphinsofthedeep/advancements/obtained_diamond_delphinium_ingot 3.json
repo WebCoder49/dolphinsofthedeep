@@ -1,0 +1,24 @@
+{
+    "parent": "dolphinsofthedeep:obtained_delphinium_ingot",
+    "display": {
+        "icon": {
+            "item": "dolphinsofthedeep:diamond_delphinium_ingot",
+            "frame": "goal"
+        },
+        "title": {
+            "translate": "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.title"
+        },
+        "description": {
+            "translate": "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.description"
+        },
+        "hidden": false
+    },
+    "criteria": {
+        "diamond": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [{"item": "dolphinsofthedeep:diamond_delphinium_ingot"}]
+            }
+        }
+    }
+}

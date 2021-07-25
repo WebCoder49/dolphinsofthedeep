@@ -1,0 +1,23 @@
+{
+    "parent": "dolphinsofthedeep:obtained_dolphin_saddle",
+    "display": {
+        "icon": {
+            "item": "dolphinsofthedeep:dolphin_saddle"
+        },
+        "title": {
+            "translate": "advancement.dolphinsofthedeep.used_dolphin_saddle.title"
+        },
+        "description": {
+            "translate": "advancement.dolphinsofthedeep.used_dolphin_saddle.description"
+        },
+        "hidden": false
+    },
+    "criteria": {
+        "used_dolphin_saddle": {
+            "trigger": "minecraft:item_used_on_block",
+            "conditions": {
+                "item": "dolphinsofthedeep:dolphin_saddle"
+            }
+        }
+    }
+}

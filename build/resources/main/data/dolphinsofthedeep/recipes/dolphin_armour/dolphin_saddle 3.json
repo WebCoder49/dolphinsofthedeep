@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "KKK",
+      "KSK",
+      "KKK"
+    ],
+    "key": {
+      "K": {
+        "item": "minecraft:kelp"
+      },
+      "S": {
+        "item": "minecraft:saddle"
+      }
+    },
+    "result": {
+      "item": "dolphinsofthedeep:dolphin_saddle",
+      "count": 1
+    }
+  }
