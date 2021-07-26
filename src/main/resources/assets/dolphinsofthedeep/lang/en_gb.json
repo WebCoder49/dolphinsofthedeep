@@ -50,5 +50,8 @@
     "advancement.dolphinsofthedeep.obtained_delphinium_ingot.title": "Like dolphin, like player!",
     "advancement.dolphinsofthedeep.obtained_delphinium_ingot.description": "Craft delphinium and show a marine theme!",
     "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.title": "Diamonds! ... Delphinium!",
-    "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.description": "Obtain diamond delphinium ingots..."
+    "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.description": "Obtain diamond delphinium ingots...",
+
+    "death.attack.sea_laser": "%1$s was zapped to death by a Sea Laser",
+    "death.attack.sea_laser.player": "%1$s was zapped to death by a Sea Laser while fighting %2$s"
 }
