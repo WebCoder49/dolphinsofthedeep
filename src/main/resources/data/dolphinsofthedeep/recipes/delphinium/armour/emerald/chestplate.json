@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "dolphinsofthedeep:emerald_delphinium_ingot"
+    }
+  },
+  "result": {
+    "item": "dolphinsofthedeep:emerald_delphinium_chestplate",
+    "count": 1
+  }
+}

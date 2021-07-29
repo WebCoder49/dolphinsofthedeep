@@ -35,7 +35,7 @@ public class SeaLaser extends Block implements Waterloggable {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         CustomDamageSource damageSource = new CustomDamageSource("sea_laser");
-        entity.damage(damageSource, 3F);
+        entity.damage(damageSource, 7F);
     }
 
     @Override

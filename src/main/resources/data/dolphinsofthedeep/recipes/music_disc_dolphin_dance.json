@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "GEG",
+      "DoD",
+      "GEG"
+    ],
+    "key": {
+      "o": {
+        "item": "dolphinsofthedeep:music_disc_dolphin_dance_broken"
+      },
+      "E": {
+        "item": "dolphinsofthedeep:emerald_delphinium_ingot"
+      },
+      "G": {
+        "item": "dolphinsofthedeep:golden_delphinium_ingot"
+      },
+      "D": {
+        "item": "dolphinsofthedeep:diamond_delphinium_ingot"
+      }
+    },
+    "result": {
+      "item": "dolphinsofthedeep:music_disc_dolphin_dance",
+      "count": 1
+    }
+  }

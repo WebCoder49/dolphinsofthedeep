@@ -40,9 +40,13 @@
             "dolphinsofthedeep:delphinium/emerald_delphinium_block", "dolphinsofthedeep:delphinium/emerald_delphinium_ingot_from_block",
             "dolphinsofthedeep:delphinium/golden_delphinium_block", "dolphinsofthedeep:delphinium/golden_delphinium_ingot_from_block",
             "dolphinsofthedeep:delphinium/diamond_delphinium_block", "dolphinsofthedeep:delphinium/diamond_delphinium_ingot_from_block",
-            "dolphinsofthedeep:delphinium/emerald/tools/axe", "dolphinsofthedeep:delphinium/tools/emerald/hoe", "dolphinsofthedeep:delphinium/tools/emerald/pickaxe", "dolphinsofthedeep:delphinium/tools/emerald/shovel", "dolphinsofthedeep:delphinium/tools/emerald/sword",
-            "dolphinsofthedeep:delphinium/golden/tools/axe", "dolphinsofthedeep:delphinium/tools/golden/hoe", "dolphinsofthedeep:delphinium/tools/golden/pickaxe", "dolphinsofthedeep:delphinium/tools/golden/shovel", "dolphinsofthedeep:delphinium/tools/golden/sword",
-            "dolphinsofthedeep:delphinium/diamond/tools/axe", "dolphinsofthedeep:delphinium/tools/diamond/hoe", "dolphinsofthedeep:delphinium/tools/diamond/pickaxe", "dolphinsofthedeep:delphinium/tools/diamond/shovel", "dolphinsofthedeep:delphinium/tools/diamond/sword"
+            "dolphinsofthedeep:delphinium/tools/emerald/axe", "dolphinsofthedeep:delphinium/tools/emerald/hoe", "dolphinsofthedeep:delphinium/tools/emerald/pickaxe", "dolphinsofthedeep:delphinium/tools/emerald/shovel", "dolphinsofthedeep:delphinium/tools/emerald/sword",
+            "dolphinsofthedeep:delphinium/tools/golden/axe", "dolphinsofthedeep:delphinium/tools/golden/hoe", "dolphinsofthedeep:delphinium/tools/golden/pickaxe", "dolphinsofthedeep:delphinium/tools/golden/shovel", "dolphinsofthedeep:delphinium/tools/golden/sword",
+            "dolphinsofthedeep:delphinium/tools/diamond/axe", "dolphinsofthedeep:delphinium/tools/diamond/hoe", "dolphinsofthedeep:delphinium/tools/diamond/pickaxe", "dolphinsofthedeep:delphinium/tools/diamond/shovel", "dolphinsofthedeep:delphinium/tools/diamond/sword",
+            "dolphinsofthedeep:delphinium/armour/emerald/helmet", "dolphinsofthedeep:delphinium/armour/emerald/chestplate", "dolphinsofthedeep:delphinium/armour/emerald/leggings", "dolphinsofthedeep:delphinium/armour/emerald/boots", 
+            "dolphinsofthedeep:delphinium/armour/golden/helmet", "dolphinsofthedeep:delphinium/armour/golden/chestplate", "dolphinsofthedeep:delphinium/armour/golden/leggings", "dolphinsofthedeep:delphinium/armour/golden/boots", 
+            "dolphinsofthedeep:delphinium/armour/diamond/helmet", "dolphinsofthedeep:delphinium/armour/diamond/chestplate", "dolphinsofthedeep:delphinium/armour/diamond/leggings", "dolphinsofthedeep:delphinium/armour/diamond/boots", 
+            "dolphinsofthedeep:music_disc_dolphin_dance"
         ]
     }
 }
