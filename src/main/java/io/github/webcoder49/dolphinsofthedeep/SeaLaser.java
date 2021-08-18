@@ -4,10 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -23,7 +25,7 @@ public class SeaLaser extends Block implements Waterloggable {
     public static final BooleanProperty WATERLOGGED;
 
     public SeaLaser(Settings settings) {
-        super(settings);
+        super(settings.luminance((state) -> (int)(15)).noCollision());
     }
 
     @Override
@@ -34,8 +36,20 @@ public class SeaLaser extends Block implements Waterloggable {
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
-        CustomDamageSource damageSource = new CustomDamageSource("sea_laser");
-        entity.damage(damageSource, 7F);
+        if(entity.getType() == EntityType.PLAYER) {
+            CustomDamageSource damageSource = new CustomDamageSource("sea_laser");
+            entity.damage(damageSource, 7F);
+            /*if (!world.isClient) {
+                world.playSound(
+                        null, // Player - if non-null, will play sound for every nearby player *except* the specified player
+                        pos, // The position of where the sound will come from
+                        DolphinsOfTheDeep.SEA_LASER_ZAP, // The sound that will play
+                        SoundCategory.PLAYERS, // This determines which of the volume sliders affect this sound
+                        1f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
+                        1f // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
+                );
+            }*/
+        }
     }
 
     @Override

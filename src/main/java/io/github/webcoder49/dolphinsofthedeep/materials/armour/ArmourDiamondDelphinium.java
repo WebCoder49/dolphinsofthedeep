@@ -4,7 +4,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 
@@ -29,7 +28,7 @@ public class ArmourDiamondDelphinium implements ArmorMaterial {
 
     @Override
     public SoundEvent getEquipSound() {
-        return SoundEvents.ENTITY_DOLPHIN_SPLASH;
+        return DolphinsOfTheDeep.EQUIP_DIAMOND_DELPHINIUM;
     }
 
     @Override

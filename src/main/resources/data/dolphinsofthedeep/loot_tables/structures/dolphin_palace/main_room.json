@@ -1,28 +1,519 @@
 {
-  "type": "minecraft:block",
+  "type": "minecraft:chest",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
-          "type": "minecraft:item",
+          "type": "item",
+          "name": "dolphinsofthedeep:music_disc_dolphin_dance_broken"
+        }
+      ]
+    },
+    {
+      "rolls": 14,
+      "entries": [
+        {
+          "type": "empty",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_ingot",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_ingot",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_ingot",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": 6,
+      "entries": [
+        {
+          "type": "empty",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_helmet",
+          "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "type": "minecraft:uniform",
-                "min": 5,
-                "max": 8
-              },
-              "add": false
+              "function": "enchant_randomly",
+              "enchantments": [
+                "aqua_affinity",
+                "respiration"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
             }
-          ],
-          "name": "dolphinsofthedeep:emerald_delphinium_ingot"
-        }
-      ],
-      "conditions": [
+          ]
+        },
         {
-          "condition": "minecraft:survives_explosion"
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_chestplate",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_leggings",
+          "weight": 3
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_boots",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "depth_strider",
+                "frost_walker"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_helmet",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "aqua_affinity",
+                "respiration"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.75
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_chestplate",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_leggings",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_boots",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "depth_strider",
+                "frost_walker"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.75
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_helmet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "aqua_affinity",
+                "respiration"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_chestplate",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_leggings",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_boots",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "depth_strider",
+                "frost_walker"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 10,
+      "entries": [
+        {
+          "type": "empty",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_axe",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_sword",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "knockback",
+                "unbreaking",
+                "mending"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_pickaxe",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_shovel",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:emerald_delphinium_hoe",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_axe",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_sword",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "knockback",
+                "unbreaking",
+                "mending"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_pickaxe",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_shovel",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:golden_delphinium_hoe",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_axe",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_sword",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "knockback",
+                "unbreaking",
+                "mending"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_pickaxe",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_shovel",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "dolphinsofthedeep:diamond_delphinium_hoe",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "enchant_randomly",
+              "enchantments": [
+                "fortune",
+                "unbreaking",
+                "efficiency"
+              ],
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.5
+                }
+              ]
+            }
+          ]
         }
       ]
     }

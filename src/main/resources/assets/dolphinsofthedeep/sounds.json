@@ -1,7 +1,27 @@
 {
-    "music_disc_dolphin_dance": {
-      "sounds": [
-        "dolphinsofthedeep:music_disc_dolphin_dance"
-      ]
-    }
+  "music_disc_dolphin_dance": {
+    "sounds": [
+      "dolphinsofthedeep:music_disc_dolphin_dance"
+    ]
+  },
+  "equip_emerald_delphinium": {
+    "sounds": [
+      "dolphinsofthedeep:equip_emerald_delphinium"
+    ]
+  },
+  "equip_golden_delphinium": {
+    "sounds": [
+      "dolphinsofthedeep:equip_golden_delphinium"
+    ]
+  },
+  "equip_diamond_delphinium": {
+    "sounds": [
+      "dolphinsofthedeep:equip_diamond_delphinium"
+    ]
+  },
+  "sea_laser_zap": {
+    "sounds": [
+      "dolphinsofthedeep:sea_laser_zap"
+    ]
+  }
   }
