@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.mixin.structure.StructuresConfigAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EquipmentSlot;
@@ -17,9 +18,15 @@ import net.minecraft.item.ShovelItem;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolItem;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.chunk.StructureConfig;
+import net.minecraft.world.gen.chunk.StructuresConfig;
+import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.gen.feature.StructureFeature;
+import net.minecraft.world.gen.feature.StructurePoolFeatureConfig;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -34,7 +41,44 @@ import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomAxeItem;
 import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomHoeItem;
 import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomPickaxeItem;
 
+/* Import other mod classes */
+
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.structures.dolphin_palace.DolphinPalaceFeature;
+import io.github.webcoder49.dolphinsofthedeep.structures.dolphin_palace.DolphinPalacePiece;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsDiamondDelphinium;
+
+
 public class DolphinsOfTheDeep implements ModInitializer {
+    // Pools - Identifiers
+
+    private static final Identifier DOLPHIN_PALACE_MAIN_ROOM_POOL = new Identifier("tutorial:base_pool");
+    private static final Identifier DOLPHIN_PALACE_SMALL_ROOM_POOL = new Identifier("tutorial:color_pool");
+
+    public static final StructureFeature<StructurePoolFeatureConfig> DOLPHIN_PALACE_FEATURE = StructureFeature.register(
+            "dolphinsofthedeep:dolphin_palace",
+            new DolphinPalaceFeature(StructurePoolFeatureConfig.CODEC),
+            GenerationStep.Feature.SURFACE_STRUCTURES
+    );
+    
+    public static final StructurePieceType DOLPHIN_PALACE_PIECE = StructurePieceType.register(
+            DolphinPalacePiece::new,
+            "dolphinsofthedeep:dolphin_palace_piece"
+    );
+
+    public static final ConfiguredStructureFeature<StructurePoolFeatureConfig, ? extends StructureFeature<StructurePoolFeatureConfig>> FEATURE_CONFIGURED
+            = DOLPHIN_PALACE_FEATURE.configure(new StructurePoolFeatureConfig(DOLPHIN_PALACE_MAIN_ROOM_POOL, 7));
+
+    static {
+        StructuresConfigAccessor.setDefaultStructures(
+                new ImmutableMap.Builder<StructureFeature<?>, StructureConfig>()
+                        .putAll(StructuresConfig.DEFAULT_STRUCTURES)
+                        .put(DolphinsOfTheDeep.DOLPHIN_PALACE_FEATURE, new StructureConfig(32, 8, 10387312))
+                        .build()
+        );
+    }
+
     // SoundEvents - create instances
     public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
     public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_ID);
@@ -125,6 +169,12 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         log(Level.INFO, "Hello, World! Hello, Minecraft!");
 
+        /* Register Structures */
+        // Dolphin Palace
+        
+        Registry.BIOME.forEach(biome -> {
+            biome.addStructureFeature(DOLPHIN_PALACE_FEATURE_CONFIGURED);
+        });
 
         /* Register SoundEvents */
         // Music discs
