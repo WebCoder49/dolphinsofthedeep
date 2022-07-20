@@ -33,6 +33,10 @@ import io.github.webcoder49.dolphinsofthedeep.materials.armour.ArmourGoldenDelph
 import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomAxeItem;
 import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomHoeItem;
 import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomPickaxeItem;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsDiamondDelphinium;
+
 
 public class DolphinsOfTheDeep implements ModInitializer {
     // SoundEvents - create instances
