@@ -26,11 +26,11 @@ public class SeaLaser extends Block implements Waterloggable {
         super(settings);
     }
 
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-	}
+//    @Override
+//    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+//		world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+//		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+//	}
 
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
