@@ -1,12 +1,19 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
+import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.items.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.BlockItem;
@@ -19,9 +26,6 @@ import net.minecraft.item.ToolItem;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.GenerationStep;
-
-import com.google.common.collect.ImmutableMap;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +43,12 @@ import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsDiamondDelphi
 
 
 public class DolphinsOfTheDeep implements ModInitializer {
+    /* Constants */
+    public static final String MOD_ID = "dolphinsofthedeep";
+    public static final String MOD_NAME = "Dolphins of the Deep";
+
+
+
     // SoundEvents - create instances
     public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
     public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_ID);
@@ -120,8 +130,15 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     public static Logger LOGGER = LogManager.getLogger();
 
-    public static final String MOD_ID = "dolphinsofthedeep";
-    public static final String MOD_NAME = "Dolphins of the Deep";
+    /* Register Entities */
+    // Dolphin
+    public static final EntityType<DolphinEntity> DOLPHIN = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "dolphin"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DolphinEntity::new).dimensions(
+                    EntityDimensions.fixed(0.75f, 0.75f) // 3/4 of a block hitbox size
+            ).build()
+    );
 
     @Override
     public void onInitialize() {
@@ -136,70 +153,73 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         /* Register Items */
         // Dolphin saddles and Armour
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "dolphin_saddle"), DOLPHIN_SADDLE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "leather_dolphin_armour"), LEATHER_DOLPHIN_ARMOUR);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "iron_dolphin_armour"), IRON_DOLPHIN_ARMOUR);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "gold_dolphin_armour"), GOLD_DOLPHIN_ARMOUR);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_dolphin_armour"), DIAMOND_DOLPHIN_ARMOUR);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "netherite_dolphin_armour"), NETHERITE_DOLPHIN_ARMOUR);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "dolphin_saddle"), DOLPHIN_SADDLE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "leather_dolphin_armour"), LEATHER_DOLPHIN_ARMOUR);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "iron_dolphin_armour"), IRON_DOLPHIN_ARMOUR);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "gold_dolphin_armour"), GOLD_DOLPHIN_ARMOUR);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_dolphin_armour"), DIAMOND_DOLPHIN_ARMOUR);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "netherite_dolphin_armour"), NETHERITE_DOLPHIN_ARMOUR);
 
         // Delphinium ingots
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_ingot"), GOLDEN_DELPHINIUM_INGOT);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_ingot"), EMERALD_DELPHINIUM_INGOT);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_ingot"), DIAMOND_DELPHINIUM_INGOT);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_ingot"), GOLDEN_DELPHINIUM_INGOT);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_ingot"), EMERALD_DELPHINIUM_INGOT);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_ingot"), DIAMOND_DELPHINIUM_INGOT);
 
         // Delphinium tools
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_shovel"), GOLDEN_DELPHINIUM_SHOVEL);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_sword"), GOLDEN_DELPHINIUM_SWORD);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_pickaxe"), GOLDEN_DELPHINIUM_PICKAXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_axe"), GOLDEN_DELPHINIUM_AXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_hoe"), GOLDEN_DELPHINIUM_HOE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_shovel"), GOLDEN_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_sword"), GOLDEN_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_pickaxe"), GOLDEN_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_axe"), GOLDEN_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_hoe"), GOLDEN_DELPHINIUM_HOE);
 
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_shovel"), EMERALD_DELPHINIUM_SHOVEL);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_sword"), EMERALD_DELPHINIUM_SWORD);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_pickaxe"), EMERALD_DELPHINIUM_PICKAXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_axe"), EMERALD_DELPHINIUM_AXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_hoe"), EMERALD_DELPHINIUM_HOE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_shovel"), EMERALD_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_sword"), EMERALD_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_pickaxe"), EMERALD_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_axe"), EMERALD_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_hoe"), EMERALD_DELPHINIUM_HOE);
 
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_shovel"), DIAMOND_DELPHINIUM_SHOVEL);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_sword"), DIAMOND_DELPHINIUM_SWORD);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_pickaxe"), DIAMOND_DELPHINIUM_PICKAXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_axe"), DIAMOND_DELPHINIUM_AXE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_hoe"), DIAMOND_DELPHINIUM_HOE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_shovel"), DIAMOND_DELPHINIUM_SHOVEL);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_sword"), DIAMOND_DELPHINIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_pickaxe"), DIAMOND_DELPHINIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_axe"), DIAMOND_DELPHINIUM_AXE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_hoe"), DIAMOND_DELPHINIUM_HOE);
 
         // Delphinium armour
 
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_helmet"), GOLDEN_DELPHINIUM_HELMET);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_chestplate"), GOLDEN_DELPHINIUM_CHESTPLATE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_leggings"), GOLDEN_DELPHINIUM_LEGGINGS);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_boots"), GOLDEN_DELPHINIUM_BOOTS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_helmet"), GOLDEN_DELPHINIUM_HELMET);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_chestplate"), GOLDEN_DELPHINIUM_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_leggings"), GOLDEN_DELPHINIUM_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_boots"), GOLDEN_DELPHINIUM_BOOTS);
 
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_helmet"), EMERALD_DELPHINIUM_HELMET);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_chestplate"), EMERALD_DELPHINIUM_CHESTPLATE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_leggings"), EMERALD_DELPHINIUM_LEGGINGS);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_boots"), EMERALD_DELPHINIUM_BOOTS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_helmet"), EMERALD_DELPHINIUM_HELMET);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_chestplate"), EMERALD_DELPHINIUM_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_leggings"), EMERALD_DELPHINIUM_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_boots"), EMERALD_DELPHINIUM_BOOTS);
 
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_helmet"), DIAMOND_DELPHINIUM_HELMET);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_chestplate"), DIAMOND_DELPHINIUM_CHESTPLATE);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_leggings"), DIAMOND_DELPHINIUM_LEGGINGS);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_boots"), DIAMOND_DELPHINIUM_BOOTS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_helmet"), DIAMOND_DELPHINIUM_HELMET);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_chestplate"), DIAMOND_DELPHINIUM_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_leggings"), DIAMOND_DELPHINIUM_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_boots"), DIAMOND_DELPHINIUM_BOOTS);
 
         // Music discs
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance"), new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC)));
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance_broken"), MUSIC_DISC_DOLPHIN_DANCE_BROKEN);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance"), new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC)));
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance_broken"), MUSIC_DISC_DOLPHIN_DANCE_BROKEN);
 
         /* Register Blocks */
         // Delphinium blocks
-        Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "golden_delphinium_block"), GOLDEN_DELPHINIUM_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "golden_delphinium_block"), new BlockItem(GOLDEN_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
-        Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "emerald_delphinium_block"), EMERALD_DELPHINIUM_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "emerald_delphinium_block"), new BlockItem(EMERALD_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
-        Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "diamond_delphinium_block"), DIAMOND_DELPHINIUM_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "diamond_delphinium_block"), new BlockItem(DIAMOND_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "golden_delphinium_block"), GOLDEN_DELPHINIUM_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "golden_delphinium_block"), new BlockItem(GOLDEN_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "emerald_delphinium_block"), EMERALD_DELPHINIUM_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_block"), new BlockItem(EMERALD_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "diamond_delphinium_block"), DIAMOND_DELPHINIUM_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_block"), new BlockItem(DIAMOND_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
         
         // Sea laser
-        Registry.register(Registry.BLOCK, new Identifier("dolphinsofthedeep", "sea_laser"), SEA_LASER_BLOCK);
-        Registry.register(Registry.ITEM, new Identifier("dolphinsofthedeep", "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sea_laser"), SEA_LASER_BLOCK);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+        /* Register entities */
+        FabricDefaultAttributeRegistry.register(DOLPHIN, DolphinEntity.createMobAttributes());
     }
 
     public static void log(Level level, String message){

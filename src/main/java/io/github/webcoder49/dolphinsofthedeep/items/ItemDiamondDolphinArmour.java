@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep;
+package io.github.webcoder49.dolphinsofthedeep.items;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -7,8 +7,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class ItemGoldDolphinArmour extends Item {
-    public ItemGoldDolphinArmour(Settings settings) {
+public class ItemDiamondDolphinArmour extends Item {
+    public ItemDiamondDolphinArmour(Settings settings) {
         super(settings);
     }
 

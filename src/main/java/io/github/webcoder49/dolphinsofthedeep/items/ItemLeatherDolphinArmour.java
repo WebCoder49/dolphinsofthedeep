@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep;
+package io.github.webcoder49.dolphinsofthedeep.items;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

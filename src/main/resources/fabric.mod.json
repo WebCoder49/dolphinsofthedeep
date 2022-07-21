@@ -16,7 +16,9 @@
     "main": [
       "io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep"
     ],
-    "client": [],
+    "client": [
+      "io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeepClient"
+    ],
     "server": []
   },
   "mixins": [
