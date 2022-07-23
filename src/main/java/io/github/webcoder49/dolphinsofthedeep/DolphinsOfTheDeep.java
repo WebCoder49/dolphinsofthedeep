@@ -136,7 +136,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "dolphin"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DolphinEntity::new).dimensions(
-                    EntityDimensions.fixed(0.75f, 0.75f) // 3/4 of a block hitbox size
+                    EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
             ).build()
     );
 
@@ -219,7 +219,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         /* Register entities */
-        FabricDefaultAttributeRegistry.register(DOLPHIN, DolphinEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(DOLPHIN, DolphinEntity.createDolphinAttributes());
     }
 
     public static void log(Level level, String message){

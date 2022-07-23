@@ -13,6 +13,6 @@ public class DolphinEntityRenderer extends MobEntityRenderer<DolphinEntity, Dolp
 
     @Override
     public Identifier getTexture(DolphinEntity entity) {
-        return new Identifier(DolphinsOfTheDeep.MOD_ID, "textures/entity/dolphin/dolphin.png");
+        return new Identifier(DolphinsOfTheDeep.MOD_ID, "textures/entity/dolphin/bottlenose.png");
     }
 }
