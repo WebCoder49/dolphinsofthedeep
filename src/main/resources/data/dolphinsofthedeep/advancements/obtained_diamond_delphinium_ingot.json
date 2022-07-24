@@ -17,7 +17,7 @@
         "diamond": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{"item": "dolphinsofthedeep:diamond_delphinium_ingot"}]
+                "items": [{"items": ["dolphinsofthedeep:diamond_delphinium_ingot"]}]
             }
         }
     }

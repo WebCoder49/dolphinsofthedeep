@@ -1,5 +1,5 @@
 {
-    "parent": "dolphinsofthedeep:obtained_dolphin_armour",
+    "parent": "dolphinsofthedeep:obtained_diamond_dolphin_armour",
     "display": {
         "icon": {
             "item": "dolphinsofthedeep:netherite_dolphin_armour",
@@ -15,12 +15,10 @@
         "hidden": false
     },
     "criteria": {
-        "obtained_dolphin_saddle": {
+        "netherite": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{
-                    "item": "dolphinsofthedeep:netherite_dolphin_armour"
-                }]
+                "items": [{"items": ["dolphinsofthedeep:netherite_dolphin_armour"]}]
             }
         }
     }
