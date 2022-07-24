@@ -16,19 +16,19 @@
         "emerald": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{"item": "dolphinsofthedeep:emerald_delphinium_ingot"}]
+                "items": [{"items": ["dolphinsofthedeep:emerald_delphinium_ingot"]}]
             }
         },
         "gold": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{"item": "dolphinsofthedeep:golden_delphinium_ingot"}]
+                "items": [{"items": ["dolphinsofthedeep:golden_delphinium_ingot"]}]
             }
         },
         "diamond": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{"item": "dolphinsofthedeep:diamond_delphinium_ingot"}]
+                "items": [{"items": ["dolphinsofthedeep:diamond_delphinium_ingot"]}]
             }
         }
     },

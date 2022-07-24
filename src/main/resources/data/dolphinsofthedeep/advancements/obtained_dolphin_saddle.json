@@ -13,13 +13,20 @@
         "hidden": false
     },
     "criteria": {
-        "obtained_dolphin_saddle": {
+        "dolphin_saddle": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{
-                    "item": "dolphinsofthedeep:dolphin_saddle"
-                }]
+                "items": [{"items": ["dolphinsofthedeep:dolphin_saddle"]}]
             }
         }
+    },
+    "rewards": {
+        "recipes": [
+            "dolphinsofthedeep:dolphin_armour/leather_dolphin_armour",
+            "dolphinsofthedeep:dolphin_armour/iron_dolphin_armour",
+            "dolphinsofthedeep:dolphin_armour/gold_dolphin_armour",
+            "dolphinsofthedeep:dolphin_armour/diamond_dolphin_armour",
+            "dolphinsofthedeep:dolphin_armour/netherite_dolphin_armour"
+        ]
     }
 }

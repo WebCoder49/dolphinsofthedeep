@@ -16,7 +16,7 @@
         "used_dolphin_saddle": {
             "trigger": "minecraft:item_used_on_block",
             "conditions": {
-                "item": "dolphinsofthedeep:dolphin_saddle"
+                "item": {"items": ["dolphinsofthedeep:dolphin_saddle"]}
             }
         }
     }

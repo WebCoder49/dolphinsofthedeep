@@ -48,11 +48,9 @@
 
     "advancement.dolphinsofthedeep.obtained_dolphin_saddle.title": "Ready to Ride",
     "advancement.dolphinsofthedeep.obtained_dolphin_saddle.description": "Obtain a dolphin saddle to ride dolphins!",
-    "advancement.dolphinsofthedeep.used_dolphin_saddle.title": "Ridin' on my... Dolphin",
-    "advancement.dolphinsofthedeep.used_dolphin_saddle.description": "Use your saddle to ride a dolphin",
-    "advancement.dolphinsofthedeep.used_dolphin_armour.title": "Don't try this in real life!",
-    "advancement.dolphinsofthedeep.used_dolphin_armour.description": "Ride a dolphin with any type of dolphin armour (not irl)",
-    "advancement.dolphinsofthedeep.obtained_dolphin_armour.title": "I haven't got arms, but I've got armour!",
+    "advancement.dolphinsofthedeep.used_dolphin_saddle.title": "Don't try this in real life!",
+    "advancement.dolphinsofthedeep.used_dolphin_saddle.description": "Ride a dolphin with any type of dolphin armour",
+    "advancement.dolphinsofthedeep.obtained_dolphin_armour.title": "Arms? No. Armour? Yes!",
     "advancement.dolphinsofthedeep.obtained_dolphin_armour.description": "Obtain any type of dolphin armour",
     "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.title": "Even bluer...",
     "advancement.dolphinsofthedeep.obtained_diamond_dolphin_armour.description": "Obtain diamond dolphin armour!",
@@ -60,7 +58,7 @@
     "advancement.dolphinsofthedeep.obtained_netherite_dolphin_armour.description": "Obtain netherite dolphin armour!",
     
     "advancement.dolphinsofthedeep.obtained_delphinium_ingot.title": "Like dolphin, like player!",
-    "advancement.dolphinsofthedeep.obtained_delphinium_ingot.description": "Craft delphinium and show a marine theme!",
+    "advancement.dolphinsofthedeep.obtained_delphinium_ingot.description": "Craft with delphinium and show a marine theme!",
     "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.title": "Diamonds! ... Delphinium!",
     "advancement.dolphinsofthedeep.obtained_diamond_delphinium_ingot.description": "Obtain diamond delphinium ingots...",
 

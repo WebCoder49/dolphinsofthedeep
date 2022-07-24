@@ -15,12 +15,10 @@
         "hidden": false
     },
     "criteria": {
-        "obtained_dolphin_saddle": {
+        "diamond": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
-                "items": [{
-                    "item": "dolphinsofthedeep:diamond_dolphin_armour"
-                }]
+                "items": [{"items": ["dolphinsofthedeep:diamond_dolphin_armour"]}]
             }
         }
     }
