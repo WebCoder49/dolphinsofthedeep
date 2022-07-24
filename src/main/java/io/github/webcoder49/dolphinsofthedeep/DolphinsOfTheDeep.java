@@ -68,9 +68,10 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final Item DIAMOND_DELPHINIUM_INGOT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
 
     // Blocks - create instances
-    public static final Block GOLDEN_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(20.0f).resistance(10.0f));
-    public static final Block EMERALD_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(10.0f).resistance(5.0f));
-    public static final Block DIAMOND_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(30.0f).resistance(15.0f));
+    // Hardness: to break; resistance: explosions
+    public static final Block GOLDEN_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(15.0f).resistance(10.0f));
+    public static final Block EMERALD_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(5.0f).resistance(5.0f));
+    public static final Block DIAMOND_DELPHINIUM_BLOCK = new Block(FabricBlockSettings.of(Material.METAL).hardness(20.0f).resistance(15.0f));
 
     public static final SeaLaser SEA_LASER_BLOCK = new SeaLaser(FabricBlockSettings.of(Material.METAL).hardness(1000000.0f).resistance(1000000.0f));
 

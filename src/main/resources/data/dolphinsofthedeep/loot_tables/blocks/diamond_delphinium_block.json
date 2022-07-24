@@ -2,22 +2,17 @@
     "type": "minecraft:block",
     "pools": [
       {
-        "rolls": 1,
+        "rolls": 9,
         "entries": [
           {
             "type": "minecraft:item",
-            "functions": [
-              {
-                "function": "minecraft:set_count",
-                "count": {
-                  "type": "minecraft:uniform",
-                  "min": 5,
-                  "max": 8
-                },
-                "add": false
-              }
-            ],
+            "functions": [],
             "name": "dolphinsofthedeep:diamond_delphinium_ingot"
+          },
+          {
+            "type": "minecraft:item",
+            "functions": [],
+            "name": "minecraft:diamond"
           }
         ],
         "conditions": [
