@@ -14,15 +14,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -114,7 +106,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static ArmorItem DIAMOND_DELPHINIUM_LEGGINGS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
     public static ArmorItem DIAMOND_DELPHINIUM_BOOTS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
 
-    // Item Groups
+    // Item Groups - TODO: Update
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
     new Identifier("dolphinsofthedeep", "items"))
     .icon(() -> new ItemStack(DIAMOND_DOLPHIN_ARMOUR))
@@ -140,6 +132,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
                     EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
             ).build()
     );
+
+    // Register spawn eggs - TODO: Update for different types
+    public static final Item DOLPHIN_SPAWN_EGG = new SpawnEggItem(DOLPHIN, 9197, 2473732, new Item.Settings().group(ItemGroup.MISC));
 
     @Override
     public void onInitialize() {
@@ -206,6 +201,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance"), new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC)));
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance_broken"), MUSIC_DISC_DOLPHIN_DANCE_BROKEN);
 
+        // Spawn eggs
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "dolphin_spawn_egg"), DOLPHIN_SPAWN_EGG);
+
         /* Register Blocks */
         // Delphinium blocks
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "golden_delphinium_block"), GOLDEN_DELPHINIUM_BLOCK);
@@ -221,6 +219,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         /* Register entities */
         FabricDefaultAttributeRegistry.register(DOLPHIN, DolphinEntity.createDolphinAttributes());
+
     }
 
     public static void log(Level level, String message){
