@@ -70,5 +70,9 @@
     "item.dolphinsofthedeep.music_disc_dolphin_dance_broken": "Broken Music Disc",
     "item.dolphinsofthedeep.music_disc_dolphin_dance.desc": "O G - Dolphin Dance",
     "item.dolphinsofthedeep.music_disc_dolphin_dance_broken.desc": "Dolphin Dance (*Broken*)",
-    "item.dolphinsofthedeep.dolphin_spawn_egg": "Dolphin Spawn Egg"
+    "item.dolphinsofthedeep.dolphin_spawn_egg": "Dolphin Spawn Egg",
+
+    "entity.dolphinsofthedeep.dolphin": "Dolphin",
+    "entity.dolphinsofthedeep.dolphin.tamed": "You tamed a dolphin!",
+    "entity.dolphinsofthedeep.dolphin.chatPrefix": "[Dolphin] %1$s > "
 }
