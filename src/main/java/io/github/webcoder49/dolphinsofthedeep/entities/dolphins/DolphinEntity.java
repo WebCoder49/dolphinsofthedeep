@@ -100,7 +100,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             }
         } else {
             // TODO: Remove duplicates
-            // TODO: Replace Custom classes' constructors by only super
             if(this.getOwner() == null) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
@@ -259,5 +258,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     public boolean canBeSaddled() {
         return this.getTamed();
+    }
+
+    // Rideable
+    /**
+     * Dolphins can be ridden in water
+     * @return true
+     */
+    public boolean canBeRiddenInWater() {
+        return true;
     }
 }
