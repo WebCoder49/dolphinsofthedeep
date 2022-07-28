@@ -100,6 +100,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             }
         } else {
             // TODO: Remove duplicates
+            // TODO: Replace Custom classes' constructors by only super
             if(this.getOwner() == null) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
