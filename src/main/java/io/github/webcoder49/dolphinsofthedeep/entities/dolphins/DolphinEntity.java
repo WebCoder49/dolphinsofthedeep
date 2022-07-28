@@ -1,6 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import io.github.webcoder49.dolphinsofthedeep.entities.components.TamableComponent;
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -25,6 +26,7 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +40,14 @@ import java.util.UUID;
 public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable {
     // Components
     private final SaddledComponent saddledComponent;
+    private final TamableComponent tamableComponent;
+
+    private static Ingredient TAMING_INGREDIENT;
+
+    protected static final TrackedData<Boolean> IS_TAMED;
+    protected static final TrackedData<Optional<UUID>> OWNER_UUID;
+    private static final TrackedData<Boolean> SADDLED;
+    private static final TrackedData<Integer> BOOST_TIME;
 
     /**
      * Constructor for a dolphin
@@ -45,6 +55,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public DolphinEntity(EntityType<? extends net.minecraft.entity.passive.DolphinEntity> entityType, World world) {
         super(entityType, world);
         this.saddledComponent = new SaddledComponent(this.dataTracker, BOOST_TIME, SADDLED);
+        this.tamableComponent = new TamableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
     }
 
     /**
@@ -53,7 +64,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     protected void initDataTracker() {
         super.initDataTracker();
         // Taming
-        this.dataTracker.startTracking(TAMEABLE_FLAGS, (byte)0);
+        this.dataTracker.startTracking(IS_TAMED, false);
         this.dataTracker.startTracking(OWNER_UUID, Optional.empty());
         // Saddling
         this.dataTracker.startTracking(SADDLED, false);
@@ -63,135 +74,17 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     // NBTs
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-
-        // Taming
-        if (this.getOwnerUuid() != null) { // Tamed
-            // Add Owner UUID
-            nbt.putUuid("Owner", this.getOwnerUuid());
-        }
-        // Saddling
+        this.tamableComponent.writeNbt(nbt);
         this.saddledComponent.writeNbt(nbt);
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        // Get UUID of owner
-        UUID uUID;
-        if (nbt.containsUuid("Owner")) { // UUID
-            uUID = nbt.getUuid("Owner");
-        } else { // Username
-            String string = nbt.getString("Owner");
-            uUID = ServerConfigHandler.getPlayerUuidByName(this.getServer(), string);
-        }
-
-        if (uUID != null) { // Tamed
-            try {
-                this.setOwnerUuid(uUID);
-                this.setTamed(true);
-            } catch (Throwable var4) { // UUID Doesn't exist
-                this.setTamed(false);
-            }
-        }
-        // Saddling
+        this.tamableComponent.readNbt(nbt, this.getServer());
         this.saddledComponent.readNbt(nbt);
     }
 
-    /** Each bit is 1 flag:
-     * 128=
-     * 64=
-     * 32=
-     * 16=
-     * 8=
-     * 4=Tamed?
-     * 2=
-     * 1=
-     */
-    protected static final TrackedData<Byte> TAMEABLE_FLAGS;
-    protected static final TrackedData<Optional<UUID>> OWNER_UUID;
-    private static Ingredient TAMING_INGREDIENT;
-
-    private static final TrackedData<Boolean> SADDLED;
-    private static final TrackedData<Integer> BOOST_TIME;
-
-    /* Tamable */
-    // Attach owner data to DataTracker
-    static {
-        TAMEABLE_FLAGS = DataTracker.registerData(DolphinEntity.class, TrackedDataHandlerRegistry.BYTE);
-        OWNER_UUID = DataTracker.registerData(DolphinEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
-
-
-        /**
-         * Items used to tame a dolphin = Tropical Fish, Salmon, Cod
-         */
-        TAMING_INGREDIENT = Ingredient.ofItems(Items.TROPICAL_FISH, Items.SALMON, Items.COD);
-    }
-
-    // Getting and setting owner - lowest-level>highest-level
-
-    /**
-     * Set bit with significance 4 of the tameable flags to show whether tamed
-     * @param tamed Is this animal tamed? = flag value
-     */
-    public void setTamed(boolean tamed) {
-        // Set bit4 tameable flags
-        byte b = (Byte)this.dataTracker.get(TAMEABLE_FLAGS);
-        if (tamed) {
-            this.dataTracker.set(TAMEABLE_FLAGS, (byte)(b | 4)); // Set bit4 to 1
-        } else {
-            this.dataTracker.set(TAMEABLE_FLAGS, (byte)(b & -5)); // Set bit4 to 0
-        }
-    }
-
-    /**
-     * Is this dolphin tamed?
-     * @return
-     */
-    public boolean getTamed() {
-        return (this.dataTracker.get(TAMEABLE_FLAGS) & 4) != 0; // Bit 4
-    }
-
-    /**
-     * Get the UUID of the owner, or null if not tamed
-     * @return Owner UUID
-     */
-    @Nullable
-    public UUID getOwnerUuid() {
-        // Use DataTracker
-        return (UUID)((Optional)this.dataTracker.get(OWNER_UUID)).orElse((Object)null);
-    }
-
-    /**
-     * Set the UUID of the owner, or null if not tamed
-     * @param uuid UUID of the owner
-     */
-    public void setOwnerUuid(@Nullable UUID uuid) {
-        this.dataTracker.set(OWNER_UUID, Optional.ofNullable(uuid));
-    }
-
-    /**
-     * Set the username of the owner, or null if not tamed
-     * @param player username of the owner
-     */
-    public void setOwner(PlayerEntity player) {
-        this.setTamed(true);
-        this.setOwnerUuid(player.getUuid());
-        // TODO: Add Advancement Criteria
-    }
-
-    /**
-     * Get the username of the owner, or null if not tamed
-     */
-    @Nullable
-    public LivingEntity getOwner() {
-        try {
-            UUID uUID = this.getOwnerUuid();
-            return uUID == null ? null : this.world.getPlayerByUuid(uUID);
-        } catch (IllegalArgumentException var2) {
-            return null;
-        }
-    }
-
-    // Tame with fish
+    // Events
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         DolphinsOfTheDeep.log(Level.INFO, "Interacted.");
@@ -222,12 +115,74 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     return ActionResult.FAIL;
                 }
             } else if(this.getOwner() == player) { // Tamed by player.
+                if(itemStack.isOf(Items.SADDLE)) { // Saddle
+                    itemStack.useOnEntity(player, this, hand);
+                    this.saddle(SoundCategory.NEUTRAL);
+                    player.startRiding(this);
+                }
                 this.tellOwner(Text.of("Hello!"));
                 return ActionResult.SUCCESS;
             } else { // Tamed by someone else
                 return ActionResult.FAIL;
             }
         }
+    }
+
+    /* Tamable */
+    // Attach owner data to DataTracker
+    static {
+        IS_TAMED = DataTracker.registerData(DolphinEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        OWNER_UUID = DataTracker.registerData(DolphinEntity.class, TrackedDataHandlerRegistry.OPTIONAL_UUID);
+
+
+        /**
+         * Items used to tame a dolphin = Tropical Fish, Salmon, Cod
+         */
+        TAMING_INGREDIENT = Ingredient.ofItems(Items.TROPICAL_FISH, Items.SALMON, Items.COD);
+    }
+
+    // Getting and setting owner - lowest-level>highest-level
+
+    public void setTamed(boolean tamed) {
+        this.tamableComponent.setTamed(tamed);
+    }
+
+    public boolean getTamed() {
+        return this.tamableComponent.getTamed();
+    }
+
+    /**
+     * Get the UUID of the owner, or null if not tamed
+     * @return Owner UUID
+     */
+    @Nullable
+    public UUID getOwnerUuid() {
+        // Use DataTracker
+        return this.tamableComponent.getOwnerUuid();
+    }
+
+    /**
+     * Set the UUID of the owner, or null if not tamed
+     * @param uuid UUID of the owner
+     */
+    public void setOwnerUuid(@Nullable UUID uuid) {
+        this.tamableComponent.setOwnerUuid(uuid);
+    }
+
+    /**
+     * Set the username of the owner, or null if not tamed
+     * @param player username of the owner
+     */
+    public void setOwner(PlayerEntity player) {
+        this.tamableComponent.setOwner(player);
+    }
+
+    /**
+     * Get the username of the owner, or null if not tamed
+     */
+    @Nullable
+    public LivingEntity getOwner() {
+        return this.tamableComponent.getOwner(this.world);
     }
 
     /**
@@ -304,5 +259,4 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public boolean canBeSaddled() {
         return this.getTamed();
     }
-
 }

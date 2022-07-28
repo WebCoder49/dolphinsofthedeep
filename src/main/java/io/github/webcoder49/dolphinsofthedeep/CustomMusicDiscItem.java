@@ -13,7 +13,7 @@ public class CustomMusicDiscItem extends MusicDiscItem {
 	private final int comparatorOutput;
 	private final SoundEvent sound;
 
-    protected CustomMusicDiscItem(int number, SoundEvent sound, Item.Settings settings) {
+    public CustomMusicDiscItem(int number, SoundEvent sound, Item.Settings settings) {
 		super(number, sound, settings);
 		this.comparatorOutput = number;
 		this.sound = sound;
