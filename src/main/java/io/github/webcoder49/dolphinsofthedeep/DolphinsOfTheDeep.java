@@ -1,6 +1,6 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
-import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.items.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -129,7 +129,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "dolphin"),
             FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DolphinEntity::new).dimensions(
-                    EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
+                    EntityDimensions.fixed(1.0f, 0.75f) // 12px hitbox height; 16px block width
             ).build()
     );
 

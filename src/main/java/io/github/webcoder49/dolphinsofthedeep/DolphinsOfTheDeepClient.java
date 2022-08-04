@@ -1,7 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
-import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntityModel;
-import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntityRenderer;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntityModel;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

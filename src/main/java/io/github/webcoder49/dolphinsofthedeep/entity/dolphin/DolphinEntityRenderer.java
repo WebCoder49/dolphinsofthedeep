@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
+package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeepClient;

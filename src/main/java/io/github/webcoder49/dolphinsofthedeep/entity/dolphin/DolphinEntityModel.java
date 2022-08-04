@@ -1,12 +1,10 @@
-package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
+package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.WolfEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
-import net.minecraft.client.render.entity.model.WolfEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class DolphinEntityModel extends EntityModel<DolphinEntity> {
