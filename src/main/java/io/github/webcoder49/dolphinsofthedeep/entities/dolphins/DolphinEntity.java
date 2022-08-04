@@ -3,6 +3,8 @@ package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entities.components.TamableComponent;
 import net.minecraft.entity.*;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -11,6 +13,7 @@ import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -43,6 +46,10 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private final TamableComponent tamableComponent;
 
     private static Ingredient TAMING_INGREDIENT;
+    private static Ingredient ARMOUR_INGREDIENT;
+
+    protected SimpleInventory items;
+    private static final int INV_SIZE = 1;
 
     protected static final TrackedData<Boolean> IS_TAMED;
     protected static final TrackedData<Optional<UUID>> OWNER_UUID;
@@ -56,6 +63,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         super(entityType, world);
         this.saddledComponent = new SaddledComponent(this.dataTracker, BOOST_TIME, SADDLED);
         this.tamableComponent = new TamableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
+
+        this.items = new SimpleInventory(INV_SIZE);
     }
 
     /**
@@ -84,6 +93,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         this.saddledComponent.readNbt(nbt);
     }
 
+    // Attributes
+    public static DefaultAttributeContainer.Builder createDolphinAttributes() {
+        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_SPEED_BOOST, 1.0D);
+    }
+
     // Events
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
@@ -91,9 +105,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         // Get item in hand
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
+        boolean item_used = false;
+
         if (this.world.isClient) {
             // Just display to player; not whole server
-            if(this.getOwner() == null && this.isTamingItem(itemStack)) {
+            if(
+                    (this.getOwner() == null && this.isTamingItem(itemStack))
+                            || (this.getOwner() == player && this.isArmourItem(itemStack))
+            ) {
                 return ActionResult.SUCCESS;
             } else {
                 return ActionResult.FAIL;
@@ -107,7 +126,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     this.tellOwner(this.getTranslatedText("tamed"));
 
                     this.playSound(SoundEvents.ENTITY_DOLPHIN_EAT, 1.0F, 1.0F);
-                    this.eat(itemStack, player, hand);
+                    util.Items.useItem(itemStack, player);
 
                     return ActionResult.CONSUME;
                 } else {
@@ -115,10 +134,18 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     return ActionResult.FAIL;
                 }
             } else if(this.getOwner() == player) { // Tamed by player.
-                if(itemStack.isOf(Items.SADDLE)) { // Saddle
+                if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE)) { // Saddle
                     itemStack.useOnEntity(player, this, hand);
+                    item_used = true;
+
                     this.saddle(SoundCategory.NEUTRAL);
                     player.startRiding(this);
+
+                } else if(this.isArmourItem(itemStack)) { // Armour
+                    itemStack.useOnEntity(player, this, hand);
+                    item_used = true;
+
+                    this.setArmour(itemStack);
                 }
                 this.tellOwner(Text.of("Hello!"));
                 return ActionResult.SUCCESS;
@@ -260,6 +287,33 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         return this.getTamed();
     }
 
+    // Inventory + Armour
+    static {
+        ARMOUR_INGREDIENT = Ingredient.ofItems(DolphinsOfTheDeep.LEATHER_DOLPHIN_ARMOUR, DolphinsOfTheDeep.IRON_DOLPHIN_ARMOUR, DolphinsOfTheDeep.GOLD_DOLPHIN_ARMOUR, DolphinsOfTheDeep.DIAMOND_DOLPHIN_ARMOUR, DolphinsOfTheDeep.NETHERITE_DOLPHIN_ARMOUR);
+    }
+
+    /**
+     * Equip a piece of dolphin armour from the player
+     * @param playerArmourStack The player's stack of dolphin armour
+     */
+    public void setArmour(ItemStack playerArmourStack) {
+        if(!this.items.getStack(0).isEmpty()) {
+            // Give player old armour
+            this.dropStack(this.items.getStack(0));
+        }
+        Item armour = playerArmourStack.getItem();
+        ItemStack myArmourStack = new ItemStack(armour);
+        this.items.setStack(0, myArmourStack);
+        this.tellOwner(Text.of(":) I have ").copy().append(this.items.getStack(0).getName()));
+    }
+    /**
+     * Return true if the item is dolphin armour.
+     */
+    public boolean isArmourItem(ItemStack stack) {
+        return ARMOUR_INGREDIENT.test(stack);
+    }
+
+
     // Rideable
     /**
      * Dolphins can be ridden in water
@@ -267,5 +321,53 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      */
     public boolean canBeRiddenInWater() {
         return true;
+    }
+
+    /**
+     * Return the first passenger with movement control as a LivingEntity
+     * @return nullable LivingEntity passenger
+     */
+    @Nullable
+    public LivingEntity getPrimaryPassenger() {
+        Entity passenger = super.getFirstPassenger();
+        if(this.isSaddled()) { // Therefore, passenger has movement control
+            if (passenger instanceof LivingEntity) { // Casting to LivingEntity
+                return (LivingEntity) passenger;
+            }
+        }
+        return null;
+    }
+
+    public void travel(Vec3d movementInput) {
+        LivingEntity passenger = this.getPrimaryPassenger();
+        if(this.hasPassengers() && passenger != null) {
+            // Allow riding
+            // Rotate the same as passenger
+            this.setYaw(passenger.getYaw());
+            this.setPitch(passenger.getPitch());
+            this.setRotation(this.getYaw(), this.getPitch());
+
+            // Travel, using player's jump/float y velocity
+            Vec3d passengerVelocity = passenger.getVelocity();
+            double yVel = passengerVelocity.y;
+
+            if (passenger.getPitch() > 30 && yVel < 0) {
+                // Looking down; sinking
+                yVel *= 10;
+            }
+
+
+            double speed_boost = this.getAttributes().getValue(DolphinAttributes.DOLPHIN_SPEED_BOOST);
+
+            // Transfer jumping as well with yVel
+            this.setVelocity(this.getVelocity().x, yVel * speed_boost, this.getVelocity().z);
+            // Use player's riding speed to travel
+            this.setMovementSpeed(passenger.getMovementSpeed());
+            super.travel(new Vec3d(passenger.sidewaysSpeed * speed_boost, passenger.upwardSpeed, passenger.forwardSpeed * speed_boost));
+
+            this.tryCheckBlockCollision();
+        } else {
+            super.travel(movementInput);
+        }
     }
 }
