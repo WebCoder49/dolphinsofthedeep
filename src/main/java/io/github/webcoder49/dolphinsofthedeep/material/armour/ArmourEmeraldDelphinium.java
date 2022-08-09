@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.materials.armour;
+package io.github.webcoder49.dolphinsofthedeep.material.armour;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;

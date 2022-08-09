@@ -1,12 +1,10 @@
-package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
+package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.WolfEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
-import net.minecraft.client.render.entity.model.WolfEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class DolphinEntityModel extends EntityModel<DolphinEntity> {
@@ -113,6 +111,5 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         ImmutableList.of(this.head, this.body, this.tail, this.nose, this.leftFin, this.rightFin, this.tailFin, this.dorsalFin).forEach((modelRenderer) -> { // Render each part
             modelRenderer.render(matrices, vertices, light, overlay, red, green, blue, alpha);
         });
-        // TODO: Add fins
     }
 }

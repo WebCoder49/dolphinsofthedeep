@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.materials.armour;
+package io.github.webcoder49.dolphinsofthedeep.material.armour;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorMaterial;
@@ -8,13 +8,13 @@ import net.minecraft.sound.SoundEvents;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 
-public class ArmourGoldenDelphinium implements ArmorMaterial {
+public class ArmourDiamondDelphinium implements ArmorMaterial {
     private static final int[] BASE_DURABILITY = new int[] {68, 61, 66, 100};
-    private static final int[] PROTECTION_VALUES = new int[] {2, 4, 6, 2};
+    private static final int[] PROTECTION_VALUES = new int[] {3, 6, 8, 3};
 
     @Override
     public int getDurability(EquipmentSlot slot) {
-        return BASE_DURABILITY[slot.getEntitySlotId()] * 95;
+        return BASE_DURABILITY[slot.getEntitySlotId()] * 450;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class ArmourGoldenDelphinium implements ArmorMaterial {
 
     @Override
     public int getEnchantability() {
-        return 28;
+        return 25;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class ArmourGoldenDelphinium implements ArmorMaterial {
 
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(DolphinsOfTheDeep.GOLDEN_DELPHINIUM_INGOT);
+        return Ingredient.ofItems(DolphinsOfTheDeep.DIAMOND_DELPHINIUM_INGOT);
     }
 
     @Override
     public String getName() {
-        return "golden_delphinium";
+        return "diamond_delphinium";
     }
 
     @Override

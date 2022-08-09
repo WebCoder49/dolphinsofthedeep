@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.materials.tools;
+package io.github.webcoder49.dolphinsofthedeep.material.tools;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.item.ToolMaterial;

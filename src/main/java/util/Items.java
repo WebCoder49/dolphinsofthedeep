@@ -9,7 +9,7 @@ public class Items {
      * @param stack The stack from which to use up an item
      * @param player The player who owns the stack
      */
-    public static void useItem(ItemStack stack, PlayerEntity player) {
+    public static void useUpItem(ItemStack stack, PlayerEntity player) {
         if(!player.getAbilities().creativeMode) { // Don't use up in creative
             stack.decrement(1);
         }

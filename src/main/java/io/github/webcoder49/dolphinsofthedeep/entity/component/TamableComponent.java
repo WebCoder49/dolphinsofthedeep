@@ -1,15 +1,10 @@
-package io.github.webcoder49.dolphinsofthedeep.entities.components;
+package io.github.webcoder49.dolphinsofthedeep.entity.component;
 
-import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntity;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.world.World;

@@ -1,17 +1,15 @@
-package io.github.webcoder49.dolphinsofthedeep.entities.dolphins;
+package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
-import io.github.webcoder49.dolphinsofthedeep.entities.components.TamableComponent;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.TamableComponent;
+import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -19,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.server.ServerConfigHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.MutableText;
@@ -29,7 +26,6 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -45,11 +41,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private final SaddledComponent saddledComponent;
     private final TamableComponent tamableComponent;
 
-    private static Ingredient TAMING_INGREDIENT;
-    private static Ingredient ARMOUR_INGREDIENT;
+    private final static Ingredient TAMING_INGREDIENT;
+    private final static Ingredient ARMOUR_INGREDIENT;
 
     protected SimpleInventory items;
     private static final int INV_SIZE = 1;
+
+    @Nullable
+    protected EntityAttributeModifier dolphinArmourBonus;
 
     protected static final TrackedData<Boolean> IS_TAMED;
     protected static final TrackedData<Optional<UUID>> OWNER_UUID;
@@ -95,7 +94,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     // Attributes
     public static DefaultAttributeContainer.Builder createDolphinAttributes() {
-        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_SPEED_BOOST, 1.0D);
+        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes();
     }
 
     // Events
@@ -105,20 +104,18 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         // Get item in hand
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
-        boolean item_used = false;
 
         if (this.world.isClient) {
             // Just display to player; not whole server
             if(
                     (this.getOwner() == null && this.isTamingItem(itemStack))
-                            || (this.getOwner() == player && this.isArmourItem(itemStack))
+                            || (this.getOwner() == player && this.isDolphinArmour(itemStack))
             ) {
                 return ActionResult.SUCCESS;
             } else {
                 return ActionResult.FAIL;
             }
         } else {
-            // TODO: Remove duplicates
             if(this.getOwner() == null) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
@@ -126,7 +123,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     this.tellOwner(this.getTranslatedText("tamed"));
 
                     this.playSound(SoundEvents.ENTITY_DOLPHIN_EAT, 1.0F, 1.0F);
-                    util.Items.useItem(itemStack, player);
+                    util.Items.useUpItem(itemStack, player);
 
                     return ActionResult.CONSUME;
                 } else {
@@ -136,16 +133,15 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             } else if(this.getOwner() == player) { // Tamed by player.
                 if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE)) { // Saddle
                     itemStack.useOnEntity(player, this, hand);
-                    item_used = true;
+                    util.Items.useUpItem(itemStack, player);
 
                     this.saddle(SoundCategory.NEUTRAL);
                     player.startRiding(this);
 
-                } else if(this.isArmourItem(itemStack)) { // Armour
+                } else if(this.isDolphinArmour(itemStack)) { // Armour
                     itemStack.useOnEntity(player, this, hand);
-                    item_used = true;
-
                     this.setArmour(itemStack);
+                    util.Items.useUpItem(itemStack, player);
                 }
                 this.tellOwner(Text.of("Hello!"));
                 return ActionResult.SUCCESS;
@@ -231,19 +227,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         return TAMING_INGREDIENT.test(stack);
     }
 
-    /**
-     * Eat an item from the player and use it up.
-     * @param itemStack The ItemStack of food.
-     * @param player The player who is holding the food.
-     * @param hand The player's hand which the food is in.
-     */
-    public void eat(ItemStack itemStack, PlayerEntity player, Hand hand) {
-        this.playSound(SoundEvents.ENTITY_DOLPHIN_EAT, 1F, 1F);
-        if(!player.getAbilities().creativeMode) { // Not creative - use up
-            itemStack.decrement(1); // Use up 1 item
-        }
-    }
-
     /* Conversations */
     public boolean tellOwner(Text message) {
         DolphinsOfTheDeep.log(Level.INFO, message.getString());
@@ -293,23 +276,54 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     }
 
     /**
-     * Equip a piece of dolphin armour from the player
-     * @param playerArmourStack The player's stack of dolphin armour
+     * Equip a piece of dolphin armour from the player.
+     * @param armourStack The player's stack of dolphin armour
      */
-    public void setArmour(ItemStack playerArmourStack) {
-        if(!this.items.getStack(0).isEmpty()) {
-            // Give player old armour
-            this.dropStack(this.items.getStack(0));
+    public void setArmour(ItemStack armourStack) {
+        // Drop old armour
+        ItemStack oldArmourStack = this.getArmourStack();
+
+        this.tellOwner(Text.of("I drop ").copy().append(oldArmourStack.getItem().getName()));
+        this.dropStack(oldArmourStack);
+
+        this.tellOwner(Text.of(":) I have ").copy().append(armourStack.getItem().getName()));
+        this.equipArmour(armourStack);
+
+        if(!this.world.isClient()) {
+            // Update attribute based on armour
+            if(this.dolphinArmourBonus != null) { // Remove past bonus
+                this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).removeModifier(this.dolphinArmourBonus);
+            }
+            int bonus = ((DolphinArmour)armourStack.getItem()).getArmourBonus();
+            // Add new bonus
+            this.dolphinArmourBonus = new EntityAttributeModifier("Dolphin armour bonus", (double)bonus, EntityAttributeModifier.Operation.ADDITION);
+            this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).addTemporaryModifier(this.dolphinArmourBonus);
         }
-        Item armour = playerArmourStack.getItem();
-        ItemStack myArmourStack = new ItemStack(armour);
-        this.items.setStack(0, myArmourStack);
-        this.tellOwner(Text.of(":) I have ").copy().append(this.items.getStack(0).getName()));
+        this.tellOwner(Text.of("Armour protection now ").copy().append(Text.of(String.valueOf(this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).getValue()))));
     }
+
+    /**
+     * LOW-LEVEL: Equip a piece of dolphin armour visually using the CHEST EquipmentSlot. Use {@code setArmour} for complete equipping.
+     * @param armourStack ItemStack of dolphin armour
+     */
+    protected void equipArmour(ItemStack armourStack) {
+        // Add armour to CHEST slot
+        this.equipStack(EquipmentSlot.CHEST, armourStack);
+        // Don't drop on death
+        this.setEquipmentDropChance(EquipmentSlot.CHEST, 0.0F);
+    }
+
+    /**
+     * Get the dolphin armour this dolphin is wearing.
+     */
+    public ItemStack getArmourStack() {
+        return this.getEquippedStack(EquipmentSlot.CHEST);
+    }
+
     /**
      * Return true if the item is dolphin armour.
      */
-    public boolean isArmourItem(ItemStack stack) {
+    public boolean isDolphinArmour(ItemStack stack) {
         return ARMOUR_INGREDIENT.test(stack);
     }
 
@@ -356,14 +370,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                 yVel *= 10;
             }
 
-
-            double speed_boost = this.getAttributes().getValue(DolphinAttributes.DOLPHIN_SPEED_BOOST);
-
             // Transfer jumping as well with yVel
-            this.setVelocity(this.getVelocity().x, yVel * speed_boost, this.getVelocity().z);
+            this.setVelocity(this.getVelocity().x, yVel, this.getVelocity().z);
             // Use player's riding speed to travel
             this.setMovementSpeed(passenger.getMovementSpeed());
-            super.travel(new Vec3d(passenger.sidewaysSpeed * speed_boost, passenger.upwardSpeed, passenger.forwardSpeed * speed_boost));
+            super.travel(new Vec3d(passenger.sidewaysSpeed, passenger.upwardSpeed, passenger.forwardSpeed));
 
             this.tryCheckBlockCollision();
         } else {

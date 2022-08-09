@@ -1,5 +1,6 @@
-package io.github.webcoder49.dolphinsofthedeep;
+package io.github.webcoder49.dolphinsofthedeep.block;
 
+import io.github.webcoder49.dolphinsofthedeep.CustomDamageSource;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;

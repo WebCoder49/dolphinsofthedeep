@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep;
+package io.github.webcoder49.dolphinsofthedeep.item;
 
 import java.util.Map;
 
