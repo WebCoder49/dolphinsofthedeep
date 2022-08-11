@@ -2,7 +2,10 @@ package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.TamableComponent;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import net.fabricmc.mapping.tree.TinyTree;
+import net.minecraft.client.render.entity.feature.HorseArmorFeatureRenderer;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -10,6 +13,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -24,19 +28,23 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * Extends vanilla dolphin to add vanilla functionality; extra modded functionality added here
  */
-public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable {
+public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable, ConversationInterface {
     // Components
     private final SaddledComponent saddledComponent;
     private final TamableComponent tamableComponent;
@@ -54,6 +62,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     protected static final TrackedData<Optional<UUID>> OWNER_UUID;
     private static final TrackedData<Boolean> SADDLED;
     private static final TrackedData<Integer> BOOST_TIME;
+
+    public int giftXp = 0;
 
     /**
      * Constructor for a dolphin
@@ -84,12 +94,21 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         super.writeCustomDataToNbt(nbt);
         this.tamableComponent.writeNbt(nbt);
         this.saddledComponent.writeNbt(nbt);
+        // Dolphin armour
+        DolphinArmour armour = this.getArmour();
+        if(armour != null) {
+            nbt.put("ArmorItem", armour.getDefaultStack().writeNbt(new NbtCompound())); // For consistency
+        }
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.tamableComponent.readNbt(nbt, this.getServer());
         this.saddledComponent.readNbt(nbt);
+        // Dolphin armour
+        if(nbt.contains("ArmorItem", 10)) { // TYPE==COMPOUND
+            this.setArmour(ItemStack.fromNbt(nbt.getCompound("ArmorItem")));
+        }
     }
 
     // Attributes
@@ -135,6 +154,10 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     itemStack.useOnEntity(player, this, hand);
                     util.Items.useUpItem(itemStack, player);
 
+                    // TODO: Change to add only once a day
+                    this.giveGift();
+
+
                     this.saddle(SoundCategory.NEUTRAL);
                     player.startRiding(this);
 
@@ -143,7 +166,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     this.setArmour(itemStack);
                     util.Items.useUpItem(itemStack, player);
                 }
-                this.tellOwner(Text.of("Hello!"));
                 return ActionResult.SUCCESS;
             } else { // Tamed by someone else
                 return ActionResult.FAIL;
@@ -208,17 +230,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         return this.tamableComponent.getOwner(this.world);
     }
 
-    /**
-     * Get the translated text by path key under this mob.
-     * @param path "."-separated path of key after entity.modid.entityid
-     * @return Translated MutableText
-     */
-    public MutableText getTranslatedText(String path, Object... args) {
-        return Text.translatable(
-                String.format("%1$s.%2$s", this.getType().getTranslationKey(), path),
-                args
-        );
-    }
 
     /**
      * Return true if the item can be used to tame a dolphin.
@@ -227,20 +238,33 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         return TAMING_INGREDIENT.test(stack);
     }
 
-    /* Conversations */
-    public boolean tellOwner(Text message) {
-        DolphinsOfTheDeep.log(Level.INFO, message.getString());
-        LivingEntity owner = this.getOwner();
-        if(owner instanceof PlayerEntity) {
-            MutableText chatMessage = Text.empty().copy();
-            chatMessage.append(this.getTranslatedText("chatPrefix", this.getName())
-                    .setStyle(Style.EMPTY.withColor(TextColor.parse("aqua"))));
-            chatMessage.append(message);
+    // TODO: CONVERSATION_NUMPOSS_GIFTS_ANNOUNCE = ...
+    // TODO: CONVERSATION_NUMPOSS_GIFTS_DELIVER = ...
+    /* Give gifts */
+    public void giveGiftFromStack(ItemStack itemStack) {
+        Text styledTier = Text.of("RARE").getWithStyle(Style.EMPTY.withColor(Formatting.DARK_RED)).get(0);
+        this.tellOwnerMany(
+                List.of(
+                        new Pair<>(
+                                this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3))
+                                , 3000 // delay in milliseconds
+                        ),
+                        new Pair<>(
+                                this.getTranslatedText("gifts.deliver.beforeTier." + (int) (Math.random() * 1))
+                                        .append(styledTier)
+                                        .append(this.getTranslatedText("gifts.deliver.afterTier." + (int) (Math.random() * 1)))
+                                , 0 // delay in milliseconds
+                        )
+                )
+        ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
+    }
 
-            owner.sendMessage(chatMessage);
-            return true;
-        }
-        return false; // Not player owner
+    public void giveGift() {
+        this.giveGiftFromStack(new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT));
+    }
+
+    public void getGiftType() {
+
     }
 
     /* Riding */
@@ -314,10 +338,22 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     }
 
     /**
-     * Get the dolphin armour this dolphin is wearing.
+     * Get the dolphin armour this dolphin is wearing as a stack.
      */
     public ItemStack getArmourStack() {
         return this.getEquippedStack(EquipmentSlot.CHEST);
+    }
+
+    /**
+     * Get the dolphin armour this dolphin is wearing as a DolphinArmour item.
+     */
+    @Nullable
+    public DolphinArmour getArmour() {
+        Item armourItem = this.getArmourStack().getItem();
+        if(armourItem instanceof DolphinArmour) {
+            return (DolphinArmour) armourItem;
+        }
+        return null;
     }
 
     /**
