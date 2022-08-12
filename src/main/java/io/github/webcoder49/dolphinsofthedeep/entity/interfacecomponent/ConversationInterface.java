@@ -65,7 +65,7 @@ public interface ConversationInterface {
      * @param path "."-separated path of key after entity.modid.entityid
      * @return Translated MutableText
      */
-    default public MutableText getTranslatedText(String path, Object... args) {
+    default MutableText getTranslatedText(String path, Object... args) {
         return Text.translatable(
                 String.format("%1$s.%2$s", this.getType().getTranslationKey(), path),
                 args

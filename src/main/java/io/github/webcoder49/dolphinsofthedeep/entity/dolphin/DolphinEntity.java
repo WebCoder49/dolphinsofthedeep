@@ -3,6 +3,8 @@ package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.TamableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.ConversationInterface;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.GiftTier;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import net.fabricmc.mapping.tree.TinyTree;
 import net.minecraft.client.render.entity.feature.HorseArmorFeatureRenderer;
@@ -44,7 +46,7 @@ import java.util.function.Function;
 /**
  * Extends vanilla dolphin to add vanilla functionality; extra modded functionality added here
  */
-public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable, ConversationInterface {
+public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable, ConversationInterface, TieredGiftInterface {
     // Components
     private final SaddledComponent saddledComponent;
     private final TamableComponent tamableComponent;
@@ -63,7 +65,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private static final TrackedData<Boolean> SADDLED;
     private static final TrackedData<Integer> BOOST_TIME;
 
-    public int giftXp = 0;
+    public double giftXp = 0;
 
     /**
      * Constructor for a dolphin
@@ -238,35 +240,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         return TAMING_INGREDIENT.test(stack);
     }
 
-    // TODO: CONVERSATION_NUMPOSS_GIFTS_ANNOUNCE = ...
-    // TODO: CONVERSATION_NUMPOSS_GIFTS_DELIVER = ...
-    /* Give gifts */
-    public void giveGiftFromStack(ItemStack itemStack) {
-        Text styledTier = Text.of("RARE").getWithStyle(Style.EMPTY.withColor(Formatting.DARK_RED)).get(0);
-        this.tellOwnerMany(
-                List.of(
-                        new Pair<>(
-                                this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3))
-                                , 3000 // delay in milliseconds
-                        ),
-                        new Pair<>(
-                                this.getTranslatedText("gifts.deliver.beforeTier." + (int) (Math.random() * 1))
-                                        .append(styledTier)
-                                        .append(this.getTranslatedText("gifts.deliver.afterTier." + (int) (Math.random() * 1)))
-                                , 0 // delay in milliseconds
-                        )
-                )
-        ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
-    }
-
-    public void giveGift() {
-        this.giveGiftFromStack(new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT));
-    }
-
-    public void getGiftType() {
-
-    }
-
     /* Riding */
     // Saddleable
     static {
@@ -417,4 +390,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             super.travel(movementInput);
         }
     }
+
+    /* Gift giving - see TieredGiftInterface */
 }
