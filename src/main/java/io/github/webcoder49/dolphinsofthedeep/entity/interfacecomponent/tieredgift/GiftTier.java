@@ -3,13 +3,14 @@ package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredg
 import net.minecraft.util.Formatting;
 
 /**
- * Tiers of gifts, with its name, display colour, and probability statistics. Use {@code GiftTierSelector} to choose a random tier from a list.
+ * Tiers of gifts, with their names, display colours, and probability statistics. Use {@code GiftTierSelector} to choose a random tier from a list.
  */
  public enum GiftTier {
     COMMON("common", Formatting.LIGHT_PURPLE),
-    RARE("rare", Formatting.RED),
-    EPIC("epic", Formatting.AQUA),
-    LEGENDARY("epic", Formatting.GOLD);
+    RARE("rare", Formatting.RED, 0.6, 0.5),
+    EPIC("epic", Formatting.AQUA, 0.3, 0.95),
+    LEGENDARY("legendary", Formatting.GOLD, 0.05, 0.99);
+    // See .notes/gifts.xlsx
 
     private String name;
     public String getName() {
