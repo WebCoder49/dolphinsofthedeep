@@ -2,6 +2,8 @@ package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredg
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.ConversationInterface;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -16,7 +18,7 @@ public interface TieredGiftInterface extends ConversationInterface {
     public double giftXp = 0;
 
     /* Give gifts */
-    default void giveGiftFromStack(GiftTier tier) {
+    default void giveGiftFromTier(GiftTier tier) {
         // TODO: Test next line; add to lang; add loot tables
         Text styledTier = this.getTranslatedText("gifts.tier." + tier.getName()).getWithStyle(Style.EMPTY.withFormatting(tier.getFormatting())).get(0);
         this.tellOwnerMany(
@@ -29,15 +31,20 @@ public interface TieredGiftInterface extends ConversationInterface {
                                 this.getTranslatedText("gifts.deliver.beforeTier." + (int) (Math.random() * 1))
                                         .append(styledTier)
                                         .append(this.getTranslatedText("gifts.deliver.afterTier." + (int) (Math.random() * 1)))
-                                , 0 // delay in milliseconds
+                                , 1000 // delay in milliseconds
                         )
-                )
+                ),
+                () -> {
+                    // Give gift
+                    if(this instanceof Entity) {
+                        ((Entity) this).dropStack(tier.getGift(((Entity) this).getServer()), 2);
+                    }
+                }
         ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
     }
 
     default void giveGift() {
-
-        this.giveGiftFromStack(this.getGiftTier());
+        this.giveGiftFromTier(this.getGiftTier());
     }
 
     /**

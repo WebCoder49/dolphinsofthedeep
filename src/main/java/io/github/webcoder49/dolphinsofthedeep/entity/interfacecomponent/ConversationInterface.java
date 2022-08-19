@@ -11,6 +11,7 @@ import net.minecraft.text.TextColor;
 import net.minecraft.util.Pair;
 import org.apache.logging.log4j.Level;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -45,10 +46,11 @@ public interface ConversationInterface {
     /**
      * Send a conversation to the player, with delays
      * @param messages A List of Pairs of (message (MutableText), delay (int, s))
+     * @param then A closure to run after the messages
      */
-    default void tellOwnerMany(List<Pair<MutableText, Integer>> messages) { // TODO: add `then` parameter (what to do afterwards)
+    default void tellOwnerMany(List<Pair<MutableText, Integer>> messages, @Nullable Runnable then) { // TODO: add `then` parameter (what to do afterwards)
         new Thread(() -> {
-            for(int i = 0; i <= messages.size(); i++) {
+            for(int i = 0; i < messages.size(); i++) {
                 Pair<MutableText, Integer> messageAndDelay = messages.get(i);
                 this.tellOwner(messageAndDelay.getLeft()); // Message
                 try {
@@ -56,6 +58,9 @@ public interface ConversationInterface {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }
+            if(then != null) {
+                then.run();
             }
         }).start(); // Run without pausing game
     }

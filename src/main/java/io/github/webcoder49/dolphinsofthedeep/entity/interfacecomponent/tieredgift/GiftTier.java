@@ -1,6 +1,11 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift;
 
+import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootTable;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Formatting;
+import net.minecraft.world.World;
 
 /**
  * Tiers of gifts, with their names, display colours, and probability statistics. Use {@code GiftTierSelector} to choose a random tier from a list.
@@ -42,10 +47,23 @@ import net.minecraft.util.Formatting;
        this(name, formatting, 1, 0);
     }
 
+    /**
+     * Return the probability of getting this gift tier for a certain XP.
+     * @param experience the XP (works best as number of days; higher XP means higher chance of everything but common)
+     */
     public double getProbability(double experience) {
         // Get probability of this tier based on experience
         return max * (
                 1 - Math.pow(this.base, (double) experience)
                 );
+    }
+
+    public ItemStack getGift(MinecraftServer server) {
+        // TODO: Add loot table
+        return new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT);
+
+//        LootTable lootTable = server.getLootManager().getTable(lootTableId);
+        // NEED: server, world, pos, random seed?, luck
+        // RETURN MULTIPLE STACKS?
     }
 }
