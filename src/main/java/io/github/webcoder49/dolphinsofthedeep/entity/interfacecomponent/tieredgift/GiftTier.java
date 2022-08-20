@@ -1,12 +1,21 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -60,12 +69,29 @@ import java.util.function.Consumer;
                 );
     }
 
-    public void getGift(Consumer<ItemStack> after, MinecraftServer server) {
+    /**
+     * Get a gift from the loot table for this tier.
+     * @param after The Consumer to send the gift stacks to
+     * @param world The world this is run in
+     * @param player The player the gift is for
+     * @param pos The position of the entity (used for randomness)
+     */
+    public void getGift(Consumer<ItemStack> after, World world, LivingEntity player, Vec3d pos) {
         // TODO: Add loot table
-        after.accept(new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT));
 
-//        LootTable lootTable = server.getLootManager().getTable(lootTableId);
-        // NEED: server, world, pos, random seed?, luck
-        // RETURN MULTIPLE STACKS?
+        Identifier lootTableId = new Identifier(DolphinsOfTheDeep.MOD_ID, "dolphingift/" + this.name);
+        LootTable lootTable = Objects.requireNonNull(world.getServer()).getLootManager().getTable(lootTableId);
+
+        // Add parameters
+        LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
+                .parameter(LootContextParameters.ORIGIN, pos)
+                .parameter(LootContextParameters.THIS_ENTITY, player);
+
+        if(player instanceof PlayerEntity) {
+            builder.luck(((PlayerEntity) player).getLuck());
+        }
+
+        // Build
+        lootTable.generateLoot(builder.build(LootContextTypes.GIFT), after);
     }
 }

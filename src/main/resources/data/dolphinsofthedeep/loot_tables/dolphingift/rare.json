@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:gift",
+  "pools": [
+    {
+      "rolls": 9,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [],
+          "name": "dolphinsofthedeep:golden_delphinium_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [],
+          "name": "minecraft:gold_ingot"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}

@@ -42,7 +42,7 @@ public interface TieredGiftInterface extends ConversationInterface {
                             // Drop a gift stack
                             ((Entity) this).dropStack(gift, 2);
                         };
-                        tier.getGift(after, thisEntity.getServer());
+                        tier.getGift(after, thisEntity.world, this.getOwner(), thisEntity.getPos());
                     }
                 }
         ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
