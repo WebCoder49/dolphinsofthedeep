@@ -76,10 +76,15 @@
     "entity.dolphinsofthedeep.dolphin.tamed": "You tamed a dolphin!",
     "entity.dolphinsofthedeep.dolphin.chatPrefix": "[Dolphin] %1$s > ",
 
+    "dolphinsofthedeep.gifts.tier.common": "COMMON",
+    "dolphinsofthedeep.gifts.tier.rare": "RARE",
+    "dolphinsofthedeep.gifts.tier.epic": "EPIC",
+    "dolphinsofthedeep.gifts.tier.legendary": "LEGENDARY",
+
     "entity.dolphinsofthedeep.dolphin.gifts.announce.0": "I've got something for you...",
     "entity.dolphinsofthedeep.dolphin.gifts.announce.1": "Let's play catch. I've thrown something to you...",
     "entity.dolphinsofthedeep.dolphin.gifts.announce.2": "It's taking me ages to find it. I know it'll be in here somewhere...",
-    "entity.dolphinsofthedeep.dolphin.gifts.deliver.beforeTier.0": "It's a ",
+    "entity.dolphinsofthedeep.dolphin.gifts.deliver.beforeTier.0": "It's a(n) ",
     "entity.dolphinsofthedeep.dolphin.gifts.deliver.afterTier.0": " gift!",
 
     "attribute.name.dolphin.speed_boost": "Dolphin Speed Boost"

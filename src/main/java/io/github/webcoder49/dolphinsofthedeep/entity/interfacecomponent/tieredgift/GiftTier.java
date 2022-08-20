@@ -7,6 +7,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 
+import java.util.function.Consumer;
+
 /**
  * Tiers of gifts, with their names, display colours, and probability statistics. Use {@code GiftTierSelector} to choose a random tier from a list.
  */
@@ -58,9 +60,9 @@ import net.minecraft.world.World;
                 );
     }
 
-    public ItemStack getGift(MinecraftServer server) {
+    public void getGift(Consumer<ItemStack> after, MinecraftServer server) {
         // TODO: Add loot table
-        return new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT);
+        after.accept(new ItemStack(DolphinsOfTheDeep.EMERALD_DELPHINIUM_INGOT));
 
 //        LootTable lootTable = server.getLootManager().getTable(lootTableId);
         // NEED: server, world, pos, random seed?, luck

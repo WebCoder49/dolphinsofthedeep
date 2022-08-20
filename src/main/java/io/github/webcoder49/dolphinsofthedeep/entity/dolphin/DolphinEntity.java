@@ -66,6 +66,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private static final TrackedData<Integer> BOOST_TIME;
 
     public double giftXp = 0;
+    public double lastGiftDay = -1;
 
     /**
      * Constructor for a dolphin
@@ -156,9 +157,10 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     itemStack.useOnEntity(player, this, hand);
                     util.Items.useUpItem(itemStack, player);
 
-                    // TODO: Change to add only once a day
-                    this.giveGift();
-
+                    if(this.shouldGiveGift()) {
+                        this.giveGift(this.giftXp);
+                        giftXp++;
+                    }
 
                     this.saddle(SoundCategory.NEUTRAL);
                     player.startRiding(this);
@@ -392,4 +394,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     }
 
     /* Gift giving - see TieredGiftInterface */
+    public boolean shouldGiveGift() {
+        // TODO: Change to add only once a day
+        long dayNo = this.getWorld().getLunarTime() / 24000;
+        // Already given today
+        if(dayNo == lastGiftDay) {
+            return false;
+        }
+        this.lastGiftDay = dayNo;
+        return true;
+    }
 }
