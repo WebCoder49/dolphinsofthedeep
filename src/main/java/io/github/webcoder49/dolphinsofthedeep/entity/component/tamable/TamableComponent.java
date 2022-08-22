@@ -1,8 +1,10 @@
-package io.github.webcoder49.dolphinsofthedeep.entity.component;
+package io.github.webcoder49.dolphinsofthedeep.entity.component.tamable;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FollowMobGoal;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
@@ -21,9 +23,12 @@ import java.util.UUID;
  */
 public class TamableComponent {
     // TrackedData
-    DataTracker dataTracker;
-    TrackedData<Boolean> isTamed;
-    TrackedData<Optional<UUID>> ownerUuid;
+    private DataTracker dataTracker;
+    private TrackedData<Boolean> isTamed;
+    private TrackedData<Optional<UUID>> ownerUuid;
+
+    private FollowMobGoal followOwnerGoal;
+
     public TamableComponent(DataTracker dataTracker, TrackedData<Boolean> isTamed, TrackedData<Optional<UUID>> ownerUuid) {
         // Save TrackedData fields
         this.dataTracker = dataTracker;

@@ -1,19 +1,20 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
-import io.github.webcoder49.dolphinsofthedeep.entity.component.TamableComponent;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TamableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
-import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.DelayedMessage;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.FollowMobGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -46,14 +47,13 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private final static Ingredient TAMING_INGREDIENT;
     private final static Ingredient ARMOUR_INGREDIENT;
 
-    protected SimpleInventory items;
-    private static final int INV_SIZE = 1;
-
     @Nullable
     protected EntityAttributeModifier dolphinArmourBonus;
 
     protected static final TrackedData<Boolean> IS_TAMED;
     protected static final TrackedData<Optional<UUID>> OWNER_UUID;
+    protected @Nullable FollowMobGoal followOwnerGoal = null;
+
     private static final TrackedData<Boolean> SADDLED;
     private static final TrackedData<Integer> BOOST_TIME;
 
@@ -67,8 +67,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         super(entityType, world);
         this.saddledComponent = new SaddledComponent(this.dataTracker, BOOST_TIME, SADDLED);
         this.tamableComponent = new TamableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
-
-        this.items = new SimpleInventory(INV_SIZE);
     }
 
     /**
@@ -223,7 +221,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      * @param uuid UUID of the owner
      */
     public void setOwnerUuid(@Nullable UUID uuid) {
+        this.onRemoveOwner(this.getOwner());
         this.tamableComponent.setOwnerUuid(uuid);
+        if(uuid != null) {
+            this.onAddOwner(world.getPlayerByUuid(uuid));
+        }
     }
 
     /**
@@ -231,7 +233,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      * @param player username of the owner
      */
     public void setOwner(PlayerEntity player) {
+        this.onRemoveOwner(this.getOwner());
         this.tamableComponent.setOwner(player);
+        if(player != null) {
+            this.onAddOwner(player);
+        }
     }
 
     /**
@@ -240,6 +246,23 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Nullable
     public LivingEntity getOwner() {
         return this.tamableComponent.getOwner(this.world);
+    }
+
+    // Events
+
+    /**
+     * Runs when the old owner is removed. Remove AI, etc.
+     * @param oldOwner The old, removed owner entity
+     */
+    private void onRemoveOwner(LivingEntity oldOwner) {
+    }
+
+    /**
+     * Runs when a new owner is added. Add AI, etc.
+     * @param newOwner The new, added owner entity
+     */
+    private void onAddOwner(LivingEntity newOwner) {
+//        new FollowMobGoal(newOwner, 1, 3, 64));
     }
 
 
