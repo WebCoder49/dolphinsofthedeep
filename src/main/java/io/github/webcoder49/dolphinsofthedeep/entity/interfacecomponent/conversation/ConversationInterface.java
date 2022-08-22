@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent;
+package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.entity.EntityType;
@@ -22,6 +22,15 @@ public interface ConversationInterface {
     LivingEntity getOwner();
     Text getName();
     EntityType<?> getType();
+
+    Conversation getConversation();
+    void setConversation(Conversation conversation);
+
+    default void conversationTick() {
+        if (this.getConversation() != null) {
+            this.getConversation().tick(this::tellOwner);
+        }
+    }
 
     /**
      * Send a message to the owner in the chat and return a boolean success flag.
@@ -49,20 +58,8 @@ public interface ConversationInterface {
      * @param then A closure to run after the messages
      */
     default void tellOwnerMany(List<Pair<MutableText, Integer>> messages, @Nullable Runnable then) { // TODO: add `then` parameter (what to do afterwards)
-        new Thread(() -> {
-            for(int i = 0; i < messages.size(); i++) {
-                Pair<MutableText, Integer> messageAndDelay = messages.get(i);
-                this.tellOwner(messageAndDelay.getLeft()); // Message
-                try {
-                    Thread.sleep(messageAndDelay.getRight()); // Delay
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(then != null) {
-                then.run();
-            }
-        }).start(); // Run without pausing game
+        // TODO: Delete
+        tellOwner(Text.of("PLACEHOLDER"));
     }
 
     /**

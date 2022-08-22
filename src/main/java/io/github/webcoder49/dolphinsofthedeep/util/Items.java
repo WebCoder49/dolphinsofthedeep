@@ -1,4 +1,4 @@
-package util;
+package io.github.webcoder49.dolphinsofthedeep.util;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

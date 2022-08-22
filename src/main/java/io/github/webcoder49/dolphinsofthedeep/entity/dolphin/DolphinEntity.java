@@ -2,12 +2,11 @@ package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.TamableComponent;
-import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.ConversationInterface;
-import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.GiftTier;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.DelayedMessage;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
-import net.fabricmc.mapping.tree.TinyTree;
-import net.minecraft.client.render.entity.feature.HorseArmorFeatureRenderer;
 import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -15,7 +14,6 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
@@ -25,23 +23,17 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Pair;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Function;
+
+import static io.github.webcoder49.dolphinsofthedeep.util.Items.useUpItem;
 
 /**
  * Extends vanilla dolphin to add vanilla functionality; extra modded functionality added here
@@ -121,6 +113,15 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     // Events
     @Override
+    public void tick() {
+        // Components
+        if(!this.world.isClient) {
+            this.conversationTick();
+        }
+        super.tick();
+    }
+
+    @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         DolphinsOfTheDeep.log(Level.INFO, "Interacted.");
         // Get item in hand
@@ -144,8 +145,15 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     this.setOwner(player);
                     this.tellOwner(this.getTranslatedText("tamed"));
 
+//                    // TODO: DEBUG ONLY!!!!
+//                    this.setConversation(new Conversation(
+//                            new DelayedMessage(Text.of("A"), 20),
+//                            new DelayedMessage(Text.of("B"), 20),
+//                            new DelayedMessage(Text.of("C"), 20)
+//                    ));
+
                     this.playSound(SoundEvents.ENTITY_DOLPHIN_EAT, 1.0F, 1.0F);
-                    util.Items.useUpItem(itemStack, player);
+                    useUpItem(itemStack, player);
 
                     return ActionResult.CONSUME;
                 } else {
@@ -155,7 +163,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             } else if(this.getOwner() == player) { // Tamed by player.
                 if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE)) { // Saddle
                     itemStack.useOnEntity(player, this, hand);
-                    util.Items.useUpItem(itemStack, player);
+                    useUpItem(itemStack, player);
 
                     if(this.shouldGiveGift()) {
                         this.giveGift(this.giftXp);
@@ -168,7 +176,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                 } else if(this.isDolphinArmour(itemStack)) { // Armour
                     itemStack.useOnEntity(player, this, hand);
                     this.setArmour(itemStack);
-                    util.Items.useUpItem(itemStack, player);
+                    useUpItem(itemStack, player);
                 }
                 return ActionResult.SUCCESS;
             } else { // Tamed by someone else
@@ -403,5 +411,19 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         }
         this.lastGiftDay = dayNo;
         return true;
+    }
+
+    /* Conversation - see ConversationInterface */
+
+    @Nullable Conversation conversation = null;
+
+    @Override
+    public Conversation getConversation() {
+        return this.conversation;
+    }
+
+    @Override
+    public void setConversation(Conversation conversation) {
+        this.conversation = conversation;
     }
 }
