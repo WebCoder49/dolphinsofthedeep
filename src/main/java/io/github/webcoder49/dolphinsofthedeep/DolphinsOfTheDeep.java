@@ -1,7 +1,8 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
-import io.github.webcoder49.dolphinsofthedeep.entities.dolphins.DolphinEntity;
-import io.github.webcoder49.dolphinsofthedeep.items.*;
+import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.item.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -23,15 +24,15 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.github.webcoder49.dolphinsofthedeep.materials.armour.ArmourDiamondDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.materials.armour.ArmourEmeraldDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.materials.armour.ArmourGoldenDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomAxeItem;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomHoeItem;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.CustomPickaxeItem;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsGoldenDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsEmeraldDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.materials.tools.ToolsDiamondDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourDiamondDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomAxeItem;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomHoeItem;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomPickaxeItem;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsDiamondDelphinium;
 
 
 public class DolphinsOfTheDeep implements ModInitializer {
@@ -48,12 +49,12 @@ public class DolphinsOfTheDeep implements ModInitializer {
     // Items - create instances
     public static final Item MUSIC_DISC_DOLPHIN_DANCE_BROKEN = new Item(new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));
 
-    public static final Item DOLPHIN_SADDLE = new ItemDolphinSaddle(new FabricItemSettings().group(ItemGroup.MISC).maxCount(16));
-    public static final Item LEATHER_DOLPHIN_ARMOUR = new ItemLeatherDolphinArmour(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(8));
-    public static final Item IRON_DOLPHIN_ARMOUR = new ItemIronDolphinArmour(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(4));
-    public static final Item GOLD_DOLPHIN_ARMOUR = new ItemGoldDolphinArmour(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(3));
-    public static final Item DIAMOND_DOLPHIN_ARMOUR = new ItemDiamondDolphinArmour(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1));
-    public static final Item NETHERITE_DOLPHIN_ARMOUR = new ItemNetheriteDolphinArmour(new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1));
+    public static final Item DOLPHIN_SADDLE = new DolphinSaddle(new FabricItemSettings().group(ItemGroup.MISC).maxCount(16));
+    public static final Item LEATHER_DOLPHIN_ARMOUR = new DolphinArmour("leather", 3, new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(8));
+    public static final Item IRON_DOLPHIN_ARMOUR = new DolphinArmour("iron", 5, new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(4));
+    public static final Item GOLD_DOLPHIN_ARMOUR = new DolphinArmour("gold", 7, new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(3));
+    public static final Item DIAMOND_DOLPHIN_ARMOUR = new DolphinArmour("diamond", 11, new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1));
+    public static final Item NETHERITE_DOLPHIN_ARMOUR = new DolphinArmour("netherite", 13, new FabricItemSettings().group(ItemGroup.COMBAT).maxCount(1));
     
     public static final Item GOLDEN_DELPHINIUM_INGOT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
     public static final Item EMERALD_DELPHINIUM_INGOT = new Item(new FabricItemSettings().group(ItemGroup.MISC));
