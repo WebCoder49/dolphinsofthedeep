@@ -1,7 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
-import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntityModel;
-import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntityRenderer;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityModel;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,14 +13,24 @@ import net.minecraft.util.Identifier;
 @Environment(EnvType.CLIENT)
 public class DolphinsOfTheDeepClient implements ClientModInitializer {
     public static final EntityModelLayer MODEL_DOLPHIN_LAYER = new EntityModelLayer(new Identifier(DolphinsOfTheDeep.MOD_ID, "dolphin"), "main");
+    public static final EntityModelLayer MODEL_LONG_NOSE_DOLPHIN_LAYER = new EntityModelLayer(new Identifier(DolphinsOfTheDeep.MOD_ID, "long_nose_dolphin"), "main");
     @Override
     public void onInitializeClient() {
         /* Register EntityRenderers */
-        // Dolphin
-        EntityRendererRegistry.register(DolphinsOfTheDeep.DOLPHIN, (context) -> {
-            return new DolphinEntityRenderer(context);
+        // Dolphins
+        EntityRendererRegistry.register(DolphinsOfTheDeep.BOTTLENOSE, (context) -> {
+            return new DolphinEntityRenderer(context, "bottlenose", MODEL_DOLPHIN_LAYER);
+        });
+        EntityRendererRegistry.register(DolphinsOfTheDeep.PINKRIVER, (context) -> {
+            return new DolphinEntityRenderer(context, "pinkriver", MODEL_LONG_NOSE_DOLPHIN_LAYER);
         });
 
-        EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelData);
+        // Register different models
+        EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, () -> {
+            return DolphinEntityModel.getTexturedModelData(false);
+        });
+        EntityModelLayerRegistry.registerModelLayer(MODEL_LONG_NOSE_DOLPHIN_LAYER, () -> {
+            return DolphinEntityModel.getTexturedModelData(true);
+        });
     }
 }

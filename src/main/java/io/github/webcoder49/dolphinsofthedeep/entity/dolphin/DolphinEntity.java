@@ -1,34 +1,43 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
-import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TamableComponent;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.FollowOwnerGoal;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.FollowMobGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtInt;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,9 +49,12 @@ import static io.github.webcoder49.dolphinsofthedeep.util.Items.useUpItem;
  * Extends vanilla dolphin to add vanilla functionality; extra modded functionality added here
  */
 public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable, ConversationInterface, TieredGiftInterface {
+    // Species-specific
+    private int TAMING_CHANCE = 2; // 1 in 2 chance - harder for most common
+
     // Components
     private final SaddledComponent saddledComponent;
-    private final TamableComponent tamableComponent;
+    private final TameableComponent tameableComponent;
 
     private final static Ingredient TAMING_INGREDIENT;
     private final static Ingredient ARMOUR_INGREDIENT;
@@ -57,7 +69,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     private static final TrackedData<Boolean> SADDLED;
     private static final TrackedData<Integer> BOOST_TIME;
 
-    public double giftXp = 0;
+    public int giftXp = 0;
     public double lastGiftDay = -1;
 
     /**
@@ -66,7 +78,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public DolphinEntity(EntityType<? extends net.minecraft.entity.passive.DolphinEntity> entityType, World world) {
         super(entityType, world);
         this.saddledComponent = new SaddledComponent(this.dataTracker, BOOST_TIME, SADDLED);
-        this.tamableComponent = new TamableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
+        this.tameableComponent = new TameableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
     }
 
     /**
@@ -85,23 +97,31 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     // NBTs
     public void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
-        this.tamableComponent.writeNbt(nbt);
+        this.tameableComponent.writeNbt(nbt);
         this.saddledComponent.writeNbt(nbt);
         // Dolphin armour
         DolphinArmour armour = this.getArmour();
         if(armour != null) {
             nbt.put("ArmorItem", armour.getDefaultStack().writeNbt(new NbtCompound())); // For consistency
         }
+        nbt.put("GiftXP", NbtInt.of(this.giftXp)); // For consistency
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
-        this.tamableComponent.readNbt(nbt, this.getServer());
+        this.tameableComponent.readNbt(nbt, this.getServer());
         this.saddledComponent.readNbt(nbt);
         // Dolphin armour
         if(nbt.contains("ArmorItem", 10)) { // TYPE==COMPOUND
             this.setArmour(ItemStack.fromNbt(nbt.getCompound("ArmorItem")));
         }
+    }
+
+    // AI
+    @Override
+    protected void initGoals() {
+        super.initGoals();
+        this.goalSelector.add(10, new FollowOwnerGoal(this, 1.0, 1.0, 1024.0));
     }
 
     // Attributes
@@ -140,15 +160,12 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             if(this.getOwner() == null) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
-                    this.setOwner(player);
-                    this.tellOwner(this.getTranslatedText("tamed"));
-
-//                    // TODO: DEBUG ONLY!!!!
-//                    this.setConversation(new Conversation(
-//                            new DelayedMessage(Text.of("A"), 20),
-//                            new DelayedMessage(Text.of("B"), 20),
-//                            new DelayedMessage(Text.of("C"), 20)
-//                    ));
+                    if(this.random.nextInt(this.TAMING_CHANCE) == 0) { // TODO: TEST
+                        this.setOwner(player);
+                        this.tellOwner(this.getTranslatedText("tamed", player.getName()));
+                        DolphinsOfTheDeep.log(Level.INFO, "Tamed.");
+                        this.world.addParticle(ParticleTypes.BUBBLE, this.getParticleX(1.0), this.getY()+1.0, this.getParticleZ(1.0), 0.0, 1.0, 0.0);
+                    }
 
                     this.playSound(SoundEvents.ENTITY_DOLPHIN_EAT, 1.0F, 1.0F);
                     useUpItem(itemStack, player);
@@ -160,6 +177,9 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                 }
             } else if(this.getOwner() == player) { // Tamed by player.
                 if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE)) { // Saddle
+                    if(player instanceof ServerPlayerEntity) {
+                        Criteria.USING_ITEM.trigger((ServerPlayerEntity) player, itemStack);
+                    }
                     itemStack.useOnEntity(player, this, hand);
                     useUpItem(itemStack, player);
 
@@ -199,11 +219,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     // Getting and setting owner - lowest-level>highest-level
 
     public void setTamed(boolean tamed) {
-        this.tamableComponent.setTamed(tamed);
+        this.tameableComponent.setTamed(tamed);
     }
 
     public boolean getTamed() {
-        return this.tamableComponent.getTamed();
+        return this.tameableComponent.getTamed();
     }
 
     /**
@@ -213,7 +233,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Nullable
     public UUID getOwnerUuid() {
         // Use DataTracker
-        return this.tamableComponent.getOwnerUuid();
+        return this.tameableComponent.getOwnerUuid();
     }
 
     /**
@@ -221,11 +241,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      * @param uuid UUID of the owner
      */
     public void setOwnerUuid(@Nullable UUID uuid) {
-        this.onRemoveOwner(this.getOwner());
-        this.tamableComponent.setOwnerUuid(uuid);
-        if(uuid != null) {
-            this.onAddOwner(world.getPlayerByUuid(uuid));
-        }
+        this.tameableComponent.setOwnerUuid(uuid);
     }
 
     /**
@@ -233,11 +249,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      * @param player username of the owner
      */
     public void setOwner(PlayerEntity player) {
-        this.onRemoveOwner(this.getOwner());
-        this.tamableComponent.setOwner(player);
-        if(player != null) {
-            this.onAddOwner(player);
-        }
+        this.tameableComponent.setOwner(player);
     }
 
     /**
@@ -245,26 +257,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      */
     @Nullable
     public LivingEntity getOwner() {
-        return this.tamableComponent.getOwner(this.world);
+        return this.tameableComponent.getOwner(this.world);
     }
-
-    // Events
-
-    /**
-     * Runs when the old owner is removed. Remove AI, etc.
-     * @param oldOwner The old, removed owner entity
-     */
-    private void onRemoveOwner(LivingEntity oldOwner) {
-    }
-
-    /**
-     * Runs when a new owner is added. Add AI, etc.
-     * @param newOwner The new, added owner entity
-     */
-    private void onAddOwner(LivingEntity newOwner) {
-//        new FollowMobGoal(newOwner, 1, 3, 64));
-    }
-
 
     /**
      * Return true if the item can be used to tame a dolphin.
@@ -448,5 +442,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Override
     public void setConversation(Conversation conversation) {
         this.conversation = conversation;
+    }
+
+    @Override
+    public void onDeath(DamageSource damageSource) {
+        super.onDeath(damageSource);
+        if(!this.world.isClient && this.getOwner() != null) {
+            // Send death message to owner, formatted
+            this.tellOwner(damageSource.getDeathMessage(this));
+        }
     }
 }

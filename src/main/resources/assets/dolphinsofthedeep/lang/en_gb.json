@@ -72,20 +72,23 @@
     "item.dolphinsofthedeep.music_disc_dolphin_dance_broken.desc": "Dolphin Dance (*Broken*)",
     "item.dolphinsofthedeep.dolphin_spawn_egg": "Dolphin Spawn Egg",
 
-    "entity.dolphinsofthedeep.dolphin": "Dolphin",
-    "entity.dolphinsofthedeep.dolphin.tamed": "You tamed a dolphin!",
-    "entity.dolphinsofthedeep.dolphin.chatPrefix": "[Dolphin] %1$s > ",
+    "entity.dolphinsofthedeep.bottlenose": "Bottlenose",
+    "entity.dolphinsofthedeep.bottlenose.chatPrefix": "[Bottlenose] %1$s > ",
+    "entity.dolphinsofthedeep.pinkriver": "Pink River",
+    "entity.dolphinsofthedeep.pinkriver.chatPrefix": "[Pink River] %1$s > ",
+
+    "dolphinsofthedeep.conversation.tamed": "Hi, %1$s!",
 
     "dolphinsofthedeep.gifts.tier.common": "COMMON",
     "dolphinsofthedeep.gifts.tier.rare": "RARE",
     "dolphinsofthedeep.gifts.tier.epic": "EPIC",
     "dolphinsofthedeep.gifts.tier.legendary": "LEGENDARY",
 
-    "entity.dolphinsofthedeep.dolphin.gifts.announce.0": "I've got something for you...",
-    "entity.dolphinsofthedeep.dolphin.gifts.announce.1": "Let's play catch. I've thrown something to you...",
-    "entity.dolphinsofthedeep.dolphin.gifts.announce.2": "It's taking me ages to find it. I know it'll be in here somewhere...",
-    "entity.dolphinsofthedeep.dolphin.gifts.deliver.beforeTier.0": "It's a(n) ",
-    "entity.dolphinsofthedeep.dolphin.gifts.deliver.afterTier.0": " gift!",
+    "dolphinsofthedeep.conversation.gifts.announce.0": "I've got something for you...",
+    "dolphinsofthedeep.conversation.gifts.announce.1": "Let's play catch. I've thrown something to you...",
+    "dolphinsofthedeep.conversation.gifts.announce.2": "It's taking me ages to find it. I know it'll be in here somewhere...",
+    "dolphinsofthedeep.conversation.gifts.deliver.beforeTier": "It's a(n) ",
+    "dolphinsofthedeep.conversation.gifts.deliver.afterTier": " gift!",
 
     "attribute.name.dolphin.speed_boost": "Dolphin Speed Boost"
 }

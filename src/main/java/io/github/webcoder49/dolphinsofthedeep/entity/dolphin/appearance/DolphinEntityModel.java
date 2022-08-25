@@ -1,6 +1,7 @@
-package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
+package io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance;
 
 import com.google.common.collect.ImmutableList;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -32,7 +33,7 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         this.nose = modelPart.getChild(EntityModelPartNames.NOSE);
     }
 
-    public static TexturedModelData getTexturedModelData() {
+    public static TexturedModelData getTexturedModelData(boolean long_nose) {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
         // Main body (front > back)
@@ -58,13 +59,23 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
                 , ModelTransform.pivot(0F, 0F, -8F)
         );
         // Extra parts
-        modelPartData.addChild(
-                EntityModelPartNames.NOSE,
-                ModelPartBuilder.create()
-                        .uv(0, 0) // Texture location
-                        .cuboid(-2F, 21F, -10F, 4F, 2F, 4F) // Offset + Size
-                , ModelTransform.pivot(0F, 0F, -8F)
-        );
+        if(long_nose) {
+            modelPartData.addChild(
+                    EntityModelPartNames.NOSE,
+                    ModelPartBuilder.create()
+                            .uv(57, 11) // Texture location
+                            .cuboid(-2F, 21F, -14F, 4F, 2F, 8F) // Offset + Size
+                    , ModelTransform.pivot(0F, 0F, -8F)
+            );
+        } else {
+            modelPartData.addChild(
+                    EntityModelPartNames.NOSE,
+                    ModelPartBuilder.create()
+                            .uv(0, 0) // Texture location
+                            .cuboid(-2F, 21F, -10F, 4F, 2F, 4F) // Offset + Size
+                    , ModelTransform.pivot(0F, 0F, -8F)
+            );
+        }
         modelPartData.addChild(
                 EntityModelPartNames.RIGHT_FIN,
                 ModelPartBuilder.create()

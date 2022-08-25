@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface TieredGiftInterface extends ConversationInterface {
-    // TODO: CONVERSATION_NUMPOSS_GIFTS_ANNOUNCE = ...
-    // TODO: CONVERSATION_NUMPOSS_GIFTS_DELIVER = ...
 
     /* Give gifts */
     default void giveGiftFromTier(GiftTier tier) {
@@ -25,13 +23,13 @@ public interface TieredGiftInterface extends ConversationInterface {
         this.setConversation(
                 new Conversation(
                         new DelayedMessage(
-                                this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3))
+                                this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3)) // 3 different messages
                                 , 60 // delay in ticks
                         ),
                         new DelayedMessage(
-                                this.getTranslatedText("gifts.deliver.beforeTier." + (int) (Math.random() * 1))
+                                this.getTranslatedText("gifts.deliver.beforeTier")
                                         .append(styledTier)
-                                        .append(this.getTranslatedText("gifts.deliver.afterTier." + (int) (Math.random() * 1)))
+                                        .append(this.getTranslatedText("gifts.deliver.afterTier"))
                                 , 20 // delay in ticks
                                 , () -> {
                                     // Give gift

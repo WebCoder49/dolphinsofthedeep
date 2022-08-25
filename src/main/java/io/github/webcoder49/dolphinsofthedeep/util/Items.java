@@ -1,7 +1,9 @@
 package io.github.webcoder49.dolphinsofthedeep.util;
 
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class Items {
     /**

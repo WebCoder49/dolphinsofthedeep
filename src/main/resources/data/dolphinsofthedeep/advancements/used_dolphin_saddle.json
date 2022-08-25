@@ -14,7 +14,7 @@
     },
     "criteria": {
         "used_dolphin_saddle": {
-            "trigger": "minecraft:item_used_on_block",
+            "trigger": "minecraft:using_item",
             "conditions": {
                 "item": {"items": ["dolphinsofthedeep:dolphin_saddle"]}
             }

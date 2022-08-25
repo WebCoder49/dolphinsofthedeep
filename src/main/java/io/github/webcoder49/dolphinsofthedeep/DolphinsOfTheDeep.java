@@ -1,7 +1,8 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
 import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
-import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.item.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -15,11 +16,13 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import net.minecraft.world.biome.Biome;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -126,16 +129,25 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     /* Register Entities */
     // Dolphin
-    public static final EntityType<DolphinEntity> DOLPHIN = Registry.register(
+    public static final EntityType<BottlenoseDolphinEntity> BOTTLENOSE = Registry.register(
             Registry.ENTITY_TYPE,
-            new Identifier(MOD_ID, "dolphin"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, DolphinEntity::new).dimensions(
+            new Identifier(MOD_ID, "bottlenose"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BottlenoseDolphinEntity::new).dimensions(
                     EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
             ).build()
     );
 
-    // Register spawn eggs - TODO: Update for different types
-    public static final Item DOLPHIN_SPAWN_EGG = new SpawnEggItem(DOLPHIN, 9197, 2473732, new Item.Settings().group(ItemGroup.MISC));
+    public static final EntityType<PinkRiverDolphinEntity> PINKRIVER = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "pinkriver"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PinkRiverDolphinEntity::new).dimensions(
+                    EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
+            ).build()
+    );
+
+    // Register spawn eggs - TODO: Change pinkriver
+    public static final Item BOTTLENOSE_SPAWN_EGG = new SpawnEggItem(BOTTLENOSE, 9197, 2473732, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item PINKRIVER_SPAWN_EGG = new SpawnEggItem(PINKRIVER, 0, 2473732, new Item.Settings().group(ItemGroup.MISC));
 
     @Override
     public void onInitialize() {
@@ -203,7 +215,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance_broken"), MUSIC_DISC_DOLPHIN_DANCE_BROKEN);
 
         // Spawn eggs
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "dolphin_spawn_egg"), DOLPHIN_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bottlenose_spawn_egg"), BOTTLENOSE_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pinkriver_spawn_egg"), PINKRIVER_SPAWN_EGG);
 
         /* Register Blocks */
         // Delphinium blocks
@@ -219,7 +232,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         /* Register entities */
-        FabricDefaultAttributeRegistry.register(DOLPHIN, DolphinEntity.createDolphinAttributes());
+        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createDolphinAttributes());
+        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createDolphinAttributes());
 
     }
 
