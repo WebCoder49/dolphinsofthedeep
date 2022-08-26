@@ -132,7 +132,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final EntityType<BottlenoseDolphinEntity> BOTTLENOSE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "bottlenose"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, BottlenoseDolphinEntity::new).dimensions(
+            FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BottlenoseDolphinEntity::new).dimensions(
                     EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
             ).build()
     );
@@ -140,7 +140,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final EntityType<PinkRiverDolphinEntity> PINKRIVER = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "pinkriver"),
-            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, PinkRiverDolphinEntity::new).dimensions(
+            FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, PinkRiverDolphinEntity::new).dimensions(
                     EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
             ).build()
     );
@@ -216,7 +216,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         // Spawn eggs
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bottlenose_spawn_egg"), BOTTLENOSE_SPAWN_EGG);
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pinkriver_spawn_egg"), PINKRIVER_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pinkriver_spawn_egg"), PINKRIVER_SPAWN_EGG); // TODO: FIX
 
         /* Register Blocks */
         // Delphinium blocks
@@ -232,8 +232,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
 
         /* Register entities */
-        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createDolphinAttributes());
-        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createDolphinAttributes());
+        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createBottlenoseAttributes());
+        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createPinkRiverAttributes());
 
     }
 

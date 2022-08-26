@@ -6,13 +6,72 @@
         "entries": [
           {
             "type": "minecraft:item",
-            "functions": [],
-            "name": "dolphinsofthedeep:diamond_delphinium_ingot"
+            "functions": [
+              {
+                "function": "set_enchantments",
+                "enchantments": {
+                  "respiration": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 64
+                  },
+                  "aqua_affinity": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 32
+                  }
+                }
+              }
+            ],
+            "name": "dolphinsofthedeep:emerald_delphinium_helmet",
+            "weight": 3,
+            "quality": 1
           },
           {
             "type": "minecraft:item",
-            "functions": [],
-            "name": "minecraft:diamond"
+            "functions": [
+              {
+                "function": "set_enchantments",
+                "enchantments": {
+                  "respiration": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 32
+                  },
+                  "aqua_affinity": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 16
+                  }
+                }
+              }
+            ],
+            "name": "dolphinsofthedeep:golden_delphinium_helmet",
+            "weight": 2,
+            "quality": 2
+          },
+          {
+            "type": "minecraft:item",
+            "functions": [
+              {
+                "function": "set_enchantments",
+                "enchantments": {
+                  "respiration": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 16
+                  },
+                  "aqua_affinity": {
+                    "type": "uniform",
+                    "min": 0,
+                    "max": 8
+                  }
+                }
+              }
+            ],
+            "name": "dolphinsofthedeep:diamond_delphinium_helmet",
+            "weight": 1,
+            "quality": 3
           }
         ],
         "conditions": [

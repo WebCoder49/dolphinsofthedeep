@@ -2,7 +2,9 @@
   "required": true,
   "package": "io.github.webcoder49.dolphinsofthedeep.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [],
+  "mixins": [
+    "CustomBiomeFeatures"
+  ],
   "client": [],
   "server": [],
   "injectors": {

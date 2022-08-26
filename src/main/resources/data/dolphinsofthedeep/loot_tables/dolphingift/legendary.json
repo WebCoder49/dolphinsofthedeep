@@ -2,22 +2,11 @@
   "type": "minecraft:gift",
   "pools": [
     {
-      "rolls": 9,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [],
-          "name": "dolphinsofthedeep:emerald_delphinium_ingot"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [],
-          "name": "minecraft:emerald"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
+          "name": "dolphinsofthedeep:music_disc_dolphin_dance_broken"
         }
       ]
     }

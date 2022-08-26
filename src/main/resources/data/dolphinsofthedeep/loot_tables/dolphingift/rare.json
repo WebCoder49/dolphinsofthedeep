@@ -2,17 +2,49 @@
   "type": "minecraft:gift",
   "pools": [
     {
-      "rolls": 9,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [],
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "type": "uniform",
+                "min": 1,
+                "max": 5
+              }
+            }
+          ],
+          "name": "dolphinsofthedeep:emerald_delphinium_ingot"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "type": "uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ],
           "name": "dolphinsofthedeep:golden_delphinium_ingot"
         },
         {
           "type": "minecraft:item",
-          "functions": [],
-          "name": "minecraft:gold_ingot"
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "type": "uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "name": "dolphinsofthedeep:diamond_delphinium_ingot"
         }
       ],
       "conditions": [
