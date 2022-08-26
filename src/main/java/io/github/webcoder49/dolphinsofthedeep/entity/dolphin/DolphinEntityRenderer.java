@@ -2,6 +2,7 @@ package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeepClient;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinArmourFeatureRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
