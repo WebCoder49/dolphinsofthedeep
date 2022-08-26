@@ -12,10 +12,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.*;
 import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
@@ -151,6 +148,11 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        /* Register entities */
+        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createBottlenoseAttributes());
+        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createPinkRiverAttributes());
+
         log(Level.INFO, "Initializing");
 
         log(Level.INFO, "Hello, World! Hello, Minecraft!");
@@ -230,10 +232,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
         // Sea laser
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sea_laser"), SEA_LASER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
-
-        /* Register entities */
-        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createBottlenoseAttributes());
-        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createPinkRiverAttributes());
 
     }
 
