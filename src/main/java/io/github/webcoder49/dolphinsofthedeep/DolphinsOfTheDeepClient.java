@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 
 @Environment(EnvType.CLIENT)
 public class DolphinsOfTheDeepClient implements ClientModInitializer {
@@ -25,12 +27,10 @@ public class DolphinsOfTheDeepClient implements ClientModInitializer {
             return new DolphinEntityRenderer(context, "pinkriver", MODEL_LONG_NOSE_DOLPHIN_LAYER);
         });
 
+        Chunk
+
         // Register different models
-        EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, () -> {
-            return DolphinEntityModel.getTexturedModelData(false);
-        });
-        EntityModelLayerRegistry.registerModelLayer(MODEL_LONG_NOSE_DOLPHIN_LAYER, () -> {
-            return DolphinEntityModel.getTexturedModelData(true);
-        });
+        EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataDefault);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_LONG_NOSE_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataLongNose);
     }
 }

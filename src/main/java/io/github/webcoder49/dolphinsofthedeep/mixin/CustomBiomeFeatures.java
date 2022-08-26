@@ -36,7 +36,7 @@ public class CustomBiomeFeatures {
     @Inject(at = @At("HEAD"), method = "addOceanMobs(Lnet/minecraft/world/biome/SpawnSettings$Builder;III)V")
     private static void addCustomDolphinsOcean(SpawnSettings.Builder builder, int squidWeight, int squidMaxGroupSize, int codWeight, CallbackInfo info) {
         DolphinsOfTheDeep.log(Level.WARN, "Custom Biome Features Initialised!");
-        builder.spawn(SpawnGroup.WATER_CREATURE, new SpawnSettings.SpawnEntry(DolphinsOfTheDeep.BOTTLENOSE, 15, 1, 12));
+//        builder.spawn(SpawnGroup.WATER_CREATURE, new SpawnSettings.SpawnEntry(DolphinsOfTheDeep.BOTTLENOSE, 15, 1, 12));
     }
 
     // Params = 1 SpawnSettings Builder; 3 ints
@@ -44,6 +44,6 @@ public class CustomBiomeFeatures {
     private static void addCustomDolphinsJungle(SpawnSettings.Builder builder, CallbackInfo info) {
         // TODO: Ensure not on land
         DolphinsOfTheDeep.log(Level.WARN, "Custom Biome Features Initialised!");
-        builder.spawn(SpawnGroup.WATER_CREATURE, new SpawnSettings.SpawnEntry(DolphinsOfTheDeep.PINKRIVER, 15, 1, 12));
+//        builder.spawn(SpawnGroup.WATER_CREATURE, new SpawnSettings.SpawnEntry(DolphinsOfTheDeep.PINKRIVER, 15, 1, 12));
     }
 }

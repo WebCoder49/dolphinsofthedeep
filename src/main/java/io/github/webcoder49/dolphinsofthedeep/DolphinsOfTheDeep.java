@@ -129,17 +129,19 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final EntityType<BottlenoseDolphinEntity> BOTTLENOSE = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "bottlenose"),
-            FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, BottlenoseDolphinEntity::new).dimensions(
+            FabricEntityTypeBuilder.createMob().spawnGroup(SpawnGroup.WATER_CREATURE).entityFactory(BottlenoseDolphinEntity::new).dimensions(
                     EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
-            ).build()
+            )
+            .defaultAttributes(BottlenoseDolphinEntity::createBottlenoseAttributes).build()
     );
 
     public static final EntityType<PinkRiverDolphinEntity> PINKRIVER = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "pinkriver"),
-            FabricEntityTypeBuilder.create(SpawnGroup.WATER_CREATURE, PinkRiverDolphinEntity::new).dimensions(
-                    EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
-            ).build()
+            FabricEntityTypeBuilder.createMob().spawnGroup(SpawnGroup.WATER_CREATURE).entityFactory(PinkRiverDolphinEntity::new).dimensions(
+                            EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
+            )
+            .defaultAttributes(PinkRiverDolphinEntity::createPinkRiverAttributes).build()
     );
 
     // Register spawn eggs - TODO: Change pinkriver
@@ -148,10 +150,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     @Override
     public void onInitialize() {
-
-        /* Register entities */
-        FabricDefaultAttributeRegistry.register(BOTTLENOSE, BottlenoseDolphinEntity.createBottlenoseAttributes());
-        FabricDefaultAttributeRegistry.register(PINKRIVER, PinkRiverDolphinEntity.createPinkRiverAttributes());
 
         log(Level.INFO, "Initializing");
 
@@ -232,7 +230,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
         // Sea laser
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sea_laser"), SEA_LASER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
-
     }
 
     public static void log(Level level, String message){

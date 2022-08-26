@@ -111,6 +111,14 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         return TexturedModelData.of(modelData, 80, 62); // 80x62px texture file
     }
 
+
+    public static TexturedModelData getTexturedModelDataDefault() {
+        return DolphinEntityModel.getTexturedModelData(false);
+    }
+    public static TexturedModelData getTexturedModelDataLongNose() {
+        return DolphinEntityModel.getTexturedModelData(true);
+    }
+
     @Override
     public void setAngles(DolphinEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         // Animate transforms
