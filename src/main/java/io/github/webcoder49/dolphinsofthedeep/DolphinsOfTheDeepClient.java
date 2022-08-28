@@ -23,11 +23,12 @@ public class DolphinsOfTheDeepClient implements ClientModInitializer {
         EntityRendererRegistry.register(DolphinsOfTheDeep.BOTTLENOSE, (context) -> {
             return new DolphinEntityRenderer(context, "bottlenose", MODEL_DOLPHIN_LAYER);
         });
+        EntityRendererRegistry.register(DolphinsOfTheDeep.COMMON, (context) -> {
+            return new DolphinEntityRenderer(context, "common", MODEL_DOLPHIN_LAYER);
+        });
         EntityRendererRegistry.register(DolphinsOfTheDeep.PINKRIVER, (context) -> {
             return new DolphinEntityRenderer(context, "pinkriver", MODEL_LONG_NOSE_DOLPHIN_LAYER);
         });
-
-        Chunk
 
         // Register different models
         EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataDefault);

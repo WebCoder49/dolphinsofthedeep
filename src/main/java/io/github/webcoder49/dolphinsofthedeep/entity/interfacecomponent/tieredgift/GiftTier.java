@@ -23,9 +23,9 @@ import java.util.function.Consumer;
  */
  public enum GiftTier {
     COMMON("common", Formatting.LIGHT_PURPLE),
-    RARE("rare", Formatting.RED, 0.6, 0.5),
+    RARE("rare", Formatting.RED, 0.5, 0.75),
     EPIC("epic", Formatting.AQUA, 0.3, 0.95),
-    LEGENDARY("legendary", Formatting.GOLD, 0.05, 0.99);
+    LEGENDARY("legendary", Formatting.GOLD, 0.05, 0.98);
     // See .notes/gifts.xlsx
 
     private String name;

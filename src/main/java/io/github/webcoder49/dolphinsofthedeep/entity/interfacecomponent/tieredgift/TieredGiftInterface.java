@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
+import org.apache.logging.log4j.Level;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -47,16 +48,17 @@ public interface TieredGiftInterface extends ConversationInterface {
         ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
     }
 
-    default void giveGift(double xp) {
-        this.giveGiftFromTier(this.getGiftTier(xp));
+    default void giveGift(double minQuality, double xp) {
+        this.giveGiftFromTier(this.getGiftTier(minQuality, xp));
     }
 
     /**
      * Get the tier of a gift using probabilities based on the gift xp. See the {@code GiftTier} enum for more.
      * @param xp The gift XP (e.g. days experience)
      */
-    default GiftTier getGiftTier(double xp) {
-        double randomLeft = Math.random();
+    default GiftTier getGiftTier(double minQuality, double xp) {
+        DolphinsOfTheDeep.log(Level.DEBUG, String.valueOf(minQuality));
+        double randomLeft = 1 - (Math.random()*minQuality);
         for (GiftTier tier : GiftTier.values()) {
             if(tier != GiftTier.COMMON) { // TODO: TEST; Add list of non-default tiers + default in GiftTier
                 double prob = tier.getProbability(xp);

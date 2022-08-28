@@ -3,7 +3,8 @@
   "package": "io.github.webcoder49.dolphinsofthedeep.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CustomBiomeFeatures"
+    "CustomDefaultFeatures",
+    "CustomOverworldFeatures"
   ],
   "client": [],
   "server": [],

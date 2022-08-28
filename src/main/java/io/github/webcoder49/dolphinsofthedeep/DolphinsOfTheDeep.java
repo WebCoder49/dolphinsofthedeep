@@ -1,25 +1,24 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
 import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.CommonDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.item.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.entity.*;
-import net.minecraft.entity.passive.DolphinEntity;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import net.minecraft.world.biome.Biome;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -109,16 +108,16 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     // Item Groups - TODO: Update
     public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
-    new Identifier("dolphinsofthedeep", "items"))
+    new Identifier(MOD_ID, "items"))
     .icon(() -> new ItemStack(DIAMOND_DOLPHIN_ARMOUR))
     .appendItems(stacks -> {
         stacks.add(new ItemStack(DOLPHIN_SADDLE));
-        stacks.add(ItemStack.EMPTY);
         stacks.add(new ItemStack(LEATHER_DOLPHIN_ARMOUR));
         stacks.add(new ItemStack(IRON_DOLPHIN_ARMOUR));
         stacks.add(new ItemStack(GOLD_DOLPHIN_ARMOUR));
         stacks.add(new ItemStack(DIAMOND_DOLPHIN_ARMOUR));
         stacks.add(new ItemStack(NETHERITE_DOLPHIN_ARMOUR));
+        stacks.
     })
     .build();
 
@@ -135,6 +134,15 @@ public class DolphinsOfTheDeep implements ModInitializer {
             .defaultAttributes(BottlenoseDolphinEntity::createBottlenoseAttributes).build()
     );
 
+    public static final EntityType<CommonDolphinEntity> COMMON = Registry.register(
+            Registry.ENTITY_TYPE,
+            new Identifier(MOD_ID, "common_dolphin"),
+            FabricEntityTypeBuilder.createMob().spawnGroup(SpawnGroup.WATER_CREATURE).entityFactory(CommonDolphinEntity::new).dimensions(
+                            EntityDimensions.fixed(2.0f, 0.75f) // 12px hitbox height; 32px block width
+                    )
+                    .defaultAttributes(CommonDolphinEntity::createCommonAttributes).build()
+    );
+
     public static final EntityType<PinkRiverDolphinEntity> PINKRIVER = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier(MOD_ID, "pinkriver"),
@@ -144,8 +152,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
             .defaultAttributes(PinkRiverDolphinEntity::createPinkRiverAttributes).build()
     );
 
-    // Register spawn eggs - TODO: Change pinkriver
+    // Register spawn eggs - TODO: Change pinkriver + common
     public static final Item BOTTLENOSE_SPAWN_EGG = new SpawnEggItem(BOTTLENOSE, 9197, 2473732, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item COMMON_DOLPHIN_SPAWN_EGG = new SpawnEggItem(COMMON, 9197, 0, new Item.Settings().group(ItemGroup.MISC));
     public static final Item PINKRIVER_SPAWN_EGG = new SpawnEggItem(PINKRIVER, 0, 2473732, new Item.Settings().group(ItemGroup.MISC));
 
     @Override
@@ -216,6 +225,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         // Spawn eggs
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "bottlenose_spawn_egg"), BOTTLENOSE_SPAWN_EGG);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "common_dolphin_spawn_egg"), COMMON_DOLPHIN_SPAWN_EGG);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "pinkriver_spawn_egg"), PINKRIVER_SPAWN_EGG); // TODO: FIX
 
         /* Register Blocks */

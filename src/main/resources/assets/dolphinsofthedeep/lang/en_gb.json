@@ -72,10 +72,12 @@
     "item.dolphinsofthedeep.music_disc_dolphin_dance_broken.desc": "Dolphin Dance (*Broken*)",
     "item.dolphinsofthedeep.dolphin_spawn_egg": "Dolphin Spawn Egg",
 
-    "entity.dolphinsofthedeep.bottlenose": "Bottlenose",
-    "entity.dolphinsofthedeep.bottlenose.chatPrefix": "[Bottlenose] %1$s > ",
-    "entity.dolphinsofthedeep.pinkriver": "Pink River",
-    "entity.dolphinsofthedeep.pinkriver.chatPrefix": "[Pink River] %1$s > ",
+    "entity.dolphinsofthedeep.bottlenose": "Bottlenose Dolphin",
+    "entity.dolphinsofthedeep.bottlenose.chatPrefix": "[Bottlenose D.] %1$s > ",
+    "entity.dolphinsofthedeep.pinkriver": "Pink River Dolphin",
+    "entity.dolphinsofthedeep.pinkriver.chatPrefix": "[Pink River D.] %1$s > ",
+    "entity.dolphinsofthedeep.common_dolphin": "Common Dolphin",
+    "entity.dolphinsofthedeep.common_dolphin.chatPrefix": "[Common Dolphin] %1$s > ",
 
     "dolphinsofthedeep.conversation.tamed": "Hi, %1$s!",
 
@@ -90,5 +92,6 @@
     "dolphinsofthedeep.conversation.gifts.deliver.beforeTier": "It's a(n) ",
     "dolphinsofthedeep.conversation.gifts.deliver.afterTier": " gift!",
 
-    "attribute.name.dolphin.speed_boost": "Dolphin Speed Boost"
+    "attribute.name.dolphin.taming_difficulty": "Dolphin Taming Difficulty",
+    "attribute.name.dolphin.gift_min_quality": "Dolphin Gift Minimum Quality"
 }

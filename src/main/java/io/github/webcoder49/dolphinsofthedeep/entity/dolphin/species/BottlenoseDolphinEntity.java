@@ -1,5 +1,6 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species;
 
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -11,9 +12,7 @@ public class BottlenoseDolphinEntity extends DolphinEntity {
     }
 
     public static DefaultAttributeContainer.Builder createBottlenoseAttributes() {
-        return DolphinEntity.createDolphinAttributes();
+        // Slightly better gifts than common
+        return DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 3).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.1D);
     }
-
-    // Species-specific
-    private int TAMING_CHANCE = 2; // 1 in 2 chance - harder for rarer
 }

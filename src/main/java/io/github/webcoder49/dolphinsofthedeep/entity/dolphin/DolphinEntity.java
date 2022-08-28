@@ -7,6 +7,7 @@ import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversa
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import net.fabricmc.fabric.api.gamerule.v1.FabricGameRuleVisitor;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.FollowMobGoal;
@@ -22,22 +23,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -126,7 +122,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     // Attributes
     public static DefaultAttributeContainer.Builder createDolphinAttributes() {
-        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes();
+        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D);
     }
 
     // Events
@@ -160,7 +156,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             if(this.getOwner() == null) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
-                    if(this.random.nextInt(this.TAMING_CHANCE) == 0) { // TODO: TEST
+                    if(this.random.nextInt((int)this.getAttributeValue(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY)) == 0) { // TODO: TEST
                         this.setOwner(player);
                         this.tellOwner(this.getTranslatedText("tamed", player.getName()));
                         DolphinsOfTheDeep.log(Level.INFO, "Tamed.");
@@ -184,7 +180,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     useUpItem(itemStack, player);
 
                     if(this.shouldGiveGift()) {
-                        this.giveGift(this.giftXp);
+                        this.giveGift(this.getAttributeBaseValue(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY), this.giftXp);
                         giftXp++;
                     }
 
@@ -306,11 +302,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public void setArmour(ItemStack armourStack) {
         // Drop old armour
         ItemStack oldArmourStack = this.getArmourStack();
-
-        this.tellOwner(Text.of("I drop ").copy().append(oldArmourStack.getItem().getName()));
         this.dropStack(oldArmourStack);
-
-        this.tellOwner(Text.of(":) I have ").copy().append(armourStack.getItem().getName()));
         this.equipArmour(armourStack);
 
         if(!this.world.isClient()) {
@@ -323,7 +315,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             this.dolphinArmourBonus = new EntityAttributeModifier("Dolphin armour bonus", (double)bonus, EntityAttributeModifier.Operation.ADDITION);
             this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).addTemporaryModifier(this.dolphinArmourBonus);
         }
-        this.tellOwner(Text.of("Armour protection now ").copy().append(Text.of(String.valueOf(this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).getValue()))));
     }
 
     /**
