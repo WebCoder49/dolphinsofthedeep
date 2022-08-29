@@ -42,7 +42,7 @@ public interface ConversationInterface {
         LivingEntity owner = this.getOwner();
         if(owner instanceof PlayerEntity) {
             MutableText chatMessage = Text.empty().copy();
-            chatMessage.append(this.getTranslatedText("chatPrefix", this.getName())
+            chatMessage.append(this.getEntityTranslatedText("chatPrefix", this.getName())
                     .setStyle(Style.EMPTY.withColor(TextColor.parse("aqua"))));
             chatMessage.append(message);
 
@@ -63,11 +63,23 @@ public interface ConversationInterface {
     }
 
     /**
+     * Get the translated text by path key under general conversation.
+     * @param path "."-separated path of key after modid."conversation"
+     * @return Translated MutableText
+     */
+    default MutableText getTranslatedText(String path, Object... args) {
+        return Text.translatable(
+                String.format("%1$s.%2$s", DolphinsOfTheDeep.MOD_ID + ".conversation", path),
+                args
+        );
+    }
+
+    /**
      * Get the translated text by path key under this mob.
      * @param path "."-separated path of key after entity.modid.entityid
      * @return Translated MutableText
      */
-    default MutableText getTranslatedText(String path, Object... args) {
+    default MutableText getEntityTranslatedText(String path, Object... args) {
         return Text.translatable(
                 String.format("%1$s.%2$s", this.getType().getTranslationKey(), path),
                 args

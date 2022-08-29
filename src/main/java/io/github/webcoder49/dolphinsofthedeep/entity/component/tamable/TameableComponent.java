@@ -1,12 +1,19 @@
-package io.github.webcoder49.dolphinsofthedeep.entity.component;
+package io.github.webcoder49.dolphinsofthedeep.entity.component.tamable;
 
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.FollowMobGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerConfigHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,12 +26,15 @@ import java.util.UUID;
  * to have an instance used as a property of an entity on initialisation, rather than
  * a class to be extended from.
  */
-public class TamableComponent {
+public class TameableComponent {
     // TrackedData
-    DataTracker dataTracker;
-    TrackedData<Boolean> isTamed;
-    TrackedData<Optional<UUID>> ownerUuid;
-    public TamableComponent(DataTracker dataTracker, TrackedData<Boolean> isTamed, TrackedData<Optional<UUID>> ownerUuid) {
+    private DataTracker dataTracker;
+    private TrackedData<Boolean> isTamed;
+    private TrackedData<Optional<UUID>> ownerUuid;
+
+    private FollowMobGoal followOwnerGoal;
+
+    public TameableComponent(DataTracker dataTracker, TrackedData<Boolean> isTamed, TrackedData<Optional<UUID>> ownerUuid) {
         // Save TrackedData fields
         this.dataTracker = dataTracker;
         this.isTamed = isTamed;
@@ -79,7 +89,6 @@ public class TamableComponent {
     public void setOwner(PlayerEntity player) {
         this.setTamed(true);
         this.setOwnerUuid(player.getUuid());
-        // TODO: Add Advancement Criteria
     }
 
     /**
