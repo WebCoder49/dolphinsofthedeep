@@ -9,6 +9,7 @@
 ```
 
 ## Description
+## In Development - BETA Testing in progress. v1.0.0 soon!
 ### **Befriend and ride** a variety of dolphin species in Minecraft, gaining gifts to level up! **Fundraising** for WDC.
 [Minecraft: Java Edition 1.19](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc) / [Minecraft Forge 1.19 - 41.1.0](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.19.html) / [Fabric Loader 0.14.6](https://fabricmc.net/use/installer/) / [Fabric API 0.57.0+1.19](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3936024)
 
