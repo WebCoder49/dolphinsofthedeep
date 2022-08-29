@@ -1,17 +1,10 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "pattern": [
-      "KKK",
-      "KAK",
-      "KKK"
-    ],
-    "key": {
-      "K": {
-        "item": "minecraft:kelp"
-      },
-      "A": {
-        "item": "minecraft:netherite_chestplate"
-      }
+    "type": "minecraft:smithing",
+    "base": {
+      "item": "dolphinsofthedeep:diamond_dolphin_armour"
+    },
+    "addition": {
+      "item": "minecraft:netherite_ingot"
     },
     "result": {
       "item": "dolphinsofthedeep:netherite_dolphin_armour",

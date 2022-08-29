@@ -3,6 +3,7 @@ package io.github.webcoder49.dolphinsofthedeep.mixin;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.world.biome.SpawnSettings;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import org.apache.logging.log4j.Level;

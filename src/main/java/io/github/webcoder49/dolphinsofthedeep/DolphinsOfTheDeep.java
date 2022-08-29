@@ -1,24 +1,32 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
 import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
-import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.CommonDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.item.*;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.mixin.item.group.client.MixinCreativePlayerInventoryGui;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.entity.*;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,8 +50,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
 
     // SoundEvents - create instances
-    public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
-    public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_ID);
+    public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
+    public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE_SOUND = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID);
+    public static Item MUSIC_DISC_DOLPHIN_DANCE = new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE_SOUND, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC));
 
     // Items - create instances
     public static final Item MUSIC_DISC_DOLPHIN_DANCE_BROKEN = new Item(new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));
@@ -106,21 +115,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static ArmorItem DIAMOND_DELPHINIUM_LEGGINGS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
     public static ArmorItem DIAMOND_DELPHINIUM_BOOTS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
 
-    // Item Groups - TODO: Update
-    public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.create(
-    new Identifier(MOD_ID, "items"))
-    .icon(() -> new ItemStack(DIAMOND_DOLPHIN_ARMOUR))
-    .appendItems(stacks -> {
-        stacks.add(new ItemStack(DOLPHIN_SADDLE));
-        stacks.add(new ItemStack(LEATHER_DOLPHIN_ARMOUR));
-        stacks.add(new ItemStack(IRON_DOLPHIN_ARMOUR));
-        stacks.add(new ItemStack(GOLD_DOLPHIN_ARMOUR));
-        stacks.add(new ItemStack(DIAMOND_DOLPHIN_ARMOUR));
-        stacks.add(new ItemStack(NETHERITE_DOLPHIN_ARMOUR));
-        stacks.
-    })
-    .build();
-
     public static Logger LOGGER = LogManager.getLogger();
 
     /* Register Entities */
@@ -153,9 +147,95 @@ public class DolphinsOfTheDeep implements ModInitializer {
     );
 
     // Register spawn eggs - TODO: Change pinkriver + common
-    public static final Item BOTTLENOSE_SPAWN_EGG = new SpawnEggItem(BOTTLENOSE, 9197, 2473732, new Item.Settings().group(ItemGroup.MISC));
-    public static final Item COMMON_DOLPHIN_SPAWN_EGG = new SpawnEggItem(COMMON, 9197, 0, new Item.Settings().group(ItemGroup.MISC));
-    public static final Item PINKRIVER_SPAWN_EGG = new SpawnEggItem(PINKRIVER, 0, 2473732, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item BOTTLENOSE_SPAWN_EGG = new SpawnEggItem(BOTTLENOSE, 8167326, 11658211, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item COMMON_DOLPHIN_SPAWN_EGG = new SpawnEggItem(COMMON, 3158064, 14342804, new Item.Settings().group(ItemGroup.MISC));
+    public static final Item PINKRIVER_SPAWN_EGG = new SpawnEggItem(PINKRIVER, 8681078, 13342358, new Item.Settings().group(ItemGroup.MISC));
+
+    // Item Groups - TODO: Update
+    public static ItemGroup MAIN_ITEM_GROUP = FabricItemGroupBuilder.create(
+                    new Identifier(MOD_ID, "main"))
+            .icon(() -> new ItemStack(DOLPHIN_SADDLE))
+            .appendItems(stacks -> {
+                stacks.add(new ItemStack(COMMON_DOLPHIN_SPAWN_EGG));
+                stacks.add(new ItemStack(BOTTLENOSE_SPAWN_EGG));
+                stacks.add(new ItemStack(PINKRIVER_SPAWN_EGG));
+                for (int i = 0; i < 6; i++) {
+                    stacks.add(ItemStack.EMPTY);
+                }
+                // Next row
+                stacks.add(new ItemStack(DOLPHIN_SADDLE));
+                stacks.add(new ItemStack(LEATHER_DOLPHIN_ARMOUR));
+                stacks.add(new ItemStack(IRON_DOLPHIN_ARMOUR));
+                stacks.add(new ItemStack(GOLD_DOLPHIN_ARMOUR));
+                stacks.add(new ItemStack(DIAMOND_DOLPHIN_ARMOUR));
+                stacks.add(new ItemStack(NETHERITE_DOLPHIN_ARMOUR));
+                for (int i = 0; i < 3; i++) {
+                    stacks.add(ItemStack.EMPTY);
+                }
+                // Next row
+                stacks.add(new ItemStack(MUSIC_DISC_DOLPHIN_DANCE));
+                stacks.add(new ItemStack(MUSIC_DISC_DOLPHIN_DANCE_BROKEN));
+                stacks.add(new ItemStack(SEA_LASER_BLOCK));
+                for (int i = 0; i < 7; i++) {
+                    stacks.add(ItemStack.EMPTY);
+                }
+            })
+            .build();
+    public static ItemGroup DELPHINIUM_ITEM_GROUP = FabricItemGroupBuilder.create(
+                    new Identifier(MOD_ID, "delphinium"))
+            .icon(() -> new ItemStack(DIAMOND_DELPHINIUM_SWORD))
+            .appendItems(stacks -> {
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_HELMET));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_INGOT));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_PICKAXE));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_HELMET));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_INGOT));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_PICKAXE));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_HELMET));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_INGOT));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_PICKAXE));
+                // Next row
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_CHESTPLATE));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_BLOCK));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_AXE));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_CHESTPLATE));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_BLOCK));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_AXE));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_CHESTPLATE));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_BLOCK));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_AXE));
+                // Next row
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_LEGGINGS));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_SWORD));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_HOE));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_LEGGINGS));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_SWORD));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_HOE));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_LEGGINGS));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_SWORD));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_HOE));
+                // Next row
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_BOOTS));
+                stacks.add(new ItemStack(EMERALD_DELPHINIUM_SHOVEL));
+                stacks.add(ItemStack.EMPTY);
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_BOOTS));
+                stacks.add(new ItemStack(GOLDEN_DELPHINIUM_SHOVEL));
+                stacks.add(ItemStack.EMPTY);
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_BOOTS));
+                stacks.add(new ItemStack(DIAMOND_DELPHINIUM_SHOVEL));
+                stacks.add(ItemStack.EMPTY);
+            })
+            .build();
+
+
+    // Game Rules
+    private static CustomGameRuleCategory GAMERULES_DOTD = new CustomGameRuleCategory(new Identifier("dolphinsofthedeep", "dolphins"), Text.translatable("gamerule.category.dolphinsofthedeep.dolphins"));
+    public static final GameRules.Key<GameRules.BooleanRule> BEFRIEND_DOLPHINS =
+            GameRuleRegistry.register("befriendDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
+    public static final GameRules.Key<GameRules.BooleanRule> RIDE_DOLPHINS =
+            GameRuleRegistry.register("rideDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
+    public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_GIFTS =
+            GameRuleRegistry.register("dolphinGifts", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
 
     @Override
     public void onInitialize() {
@@ -167,7 +247,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         /* Register SoundEvents */
         // Music discs
-        Registry.register(Registry.SOUND_EVENT, MUSIC_DISC_DOLPHIN_DANCE_ID, MUSIC_DISC_DOLPHIN_DANCE);
+        Registry.register(Registry.SOUND_EVENT, MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID, MUSIC_DISC_DOLPHIN_DANCE_SOUND);
 
         /* Register Items */
         // Dolphin saddles and Armour
@@ -220,7 +300,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_boots"), DIAMOND_DELPHINIUM_BOOTS);
 
         // Music discs
-        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance"), new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC)));
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance"), MUSIC_DISC_DOLPHIN_DANCE);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "music_disc_dolphin_dance_broken"), MUSIC_DISC_DOLPHIN_DANCE_BROKEN);
 
         // Spawn eggs
@@ -236,7 +316,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "emerald_delphinium_block"), new BlockItem(EMERALD_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "diamond_delphinium_block"), DIAMOND_DELPHINIUM_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "diamond_delphinium_block"), new BlockItem(DIAMOND_DELPHINIUM_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
-        
+
         // Sea laser
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sea_laser"), SEA_LASER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));

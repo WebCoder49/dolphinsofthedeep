@@ -1,13 +1,13 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep.*;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.FollowOwnerGoal;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
-import net.fabricmc.fabric.api.gamerule.v1.FabricGameRuleVisitor;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.FollowMobGoal;
@@ -32,7 +32,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -153,7 +152,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                 return ActionResult.FAIL;
             }
         } else {
-            if(this.getOwner() == null) { // Untamed - try to tame
+            if(this.getOwner() == null && world.getGameRules().getBoolean(DolphinsOfTheDeep.BEFRIEND_DOLPHINS)) { // Untamed - try to tame
                 if (item.isFood() && this.isTamingItem(itemStack)) {
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
                     if(this.random.nextInt((int)this.getAttributeValue(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY)) == 0) { // TODO: TEST
@@ -171,8 +170,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     DolphinsOfTheDeep.log(Level.WARN, "Not taming item.");
                     return ActionResult.FAIL;
                 }
-            } else if(this.getOwner() == player) { // Tamed by player.
-                if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE)) { // Saddle
+            } else if(this.getOwner() == player && world.getGameRules().getBoolean(DolphinsOfTheDeep.BEFRIEND_DOLPHINS)) { // Tamed by player.
+                if(itemStack.isOf(DolphinsOfTheDeep.DOLPHIN_SADDLE) && world.getGameRules().getBoolean(DolphinsOfTheDeep.RIDE_DOLPHINS)) { // Saddle
                     if(player instanceof ServerPlayerEntity) {
                         Criteria.USING_ITEM.trigger((ServerPlayerEntity) player, itemStack);
                     }
@@ -411,6 +410,9 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     /* Gift giving - see TieredGiftInterface */
     public boolean shouldGiveGift() {
+        if(!world.getGameRules().getBoolean(DolphinsOfTheDeep.DOLPHIN_GIFTS)) {
+            return false;
+        }
         // TODO: Change to add only once a day
         long dayNo = this.getWorld().getLunarTime() / 24000;
         // Already given today
