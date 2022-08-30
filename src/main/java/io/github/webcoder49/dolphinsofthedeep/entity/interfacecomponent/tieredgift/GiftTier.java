@@ -1,6 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -76,7 +77,7 @@ import java.util.function.Consumer;
      * @param player The player the gift is for
      * @param pos The position of the entity (used for randomness)
      */
-    public void getGift(Consumer<ItemStack> after, World world, LivingEntity player, Vec3d pos) {
+    public void getGift(Consumer<ItemStack> after, World world, Entity player, Vec3d pos) {
         // TODO: Add loot table
 
         Identifier lootTableId = new Identifier(DolphinsOfTheDeep.MOD_ID, "dolphingift/" + this.name);

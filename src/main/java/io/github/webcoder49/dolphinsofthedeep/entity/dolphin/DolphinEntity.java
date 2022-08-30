@@ -29,6 +29,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -380,7 +381,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     public void travel(Vec3d movementInput) {
         LivingEntity passenger = this.getPrimaryPassenger();
-        if(this.hasPassengers() && passenger != null) {
+        if(this.hasPassengers() && passenger != null && this.isTouchingWater()) {
             // Allow riding
             // Rotate the same as passenger
             this.setYaw(passenger.getYaw());
