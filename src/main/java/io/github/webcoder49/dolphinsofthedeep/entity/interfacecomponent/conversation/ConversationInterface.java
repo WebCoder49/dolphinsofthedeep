@@ -1,8 +1,10 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Tameable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -17,11 +19,23 @@ import java.util.List;
 /**
  * Allow an entity to converse privately with its owner using the chat.
  */
-public interface ConversationInterface {
+public interface ConversationInterface extends Tameable {
+    // Linked to mc classes so obfuscation does not make method unreachable
+    default Text getName() {
+        // Must be entity for this
+        if(this instanceof Entity) {
+            return ((Entity)this).getName();
+        }
+        return Text.of("");
+    }
 
-    LivingEntity getOwner();
-    Text getName();
-    EntityType<?> getType();
+    default EntityType<?> getType() {
+        // Must be entity for this
+        if(this instanceof Entity) {
+            return ((Entity)this).getType();
+        }
+        return EntityType.DOLPHIN; // Default
+    }
 
     Conversation getConversation();
     void setConversation(Conversation conversation);
@@ -39,7 +53,7 @@ public interface ConversationInterface {
      */
     default boolean tellOwner(Text message) {
         DolphinsOfTheDeep.log(Level.INFO, message.getString());
-        LivingEntity owner = this.getOwner();
+        Entity owner = this.getOwner();
         if(owner instanceof PlayerEntity) {
             MutableText chatMessage = Text.empty().copy();
             chatMessage.append(this.getEntityTranslatedText("chatPrefix", this.getName())
