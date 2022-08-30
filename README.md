@@ -34,7 +34,7 @@ Through **raising awareness**, taking **political action** and **providing alter
   * Open the `mods` folder.
   * Empty this folder, and then download and move these JAR files into it:
     * [Fabric API 0.57.0+1.19](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3851965)
-    * Dolphins of the Deep 1.0.0 (The .JAR file in the Releases tab)
+    * Dolphins of the Deep 1.0.0 (The .JAR file in the [Releases section](https://github.com/WebCoder49/dolphinsofthedeep/releases))
   * Go back to the *Play* tab, change the version to `fabric-loader-1.19`, and click *Play*!
 
 If the game crashes or you notice a bug, please report it under the `Issues` tab.
