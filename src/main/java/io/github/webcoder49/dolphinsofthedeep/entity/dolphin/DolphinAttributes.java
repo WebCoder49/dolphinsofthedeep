@@ -3,7 +3,6 @@ package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 

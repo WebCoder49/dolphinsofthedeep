@@ -8,10 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
 import org.apache.logging.log4j.Level;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public interface TieredGiftInterface extends ConversationInterface {

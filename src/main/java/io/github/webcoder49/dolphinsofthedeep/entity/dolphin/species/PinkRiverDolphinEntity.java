@@ -4,16 +4,12 @@ import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BuiltinBiomes;
 import net.minecraft.world.chunk.Chunk;
-
-import java.util.List;
 
 public class PinkRiverDolphinEntity extends DolphinEntity {
     public PinkRiverDolphinEntity(EntityType<? extends net.minecraft.entity.passive.DolphinEntity> entityType, World world) {

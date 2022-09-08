@@ -1,7 +1,6 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
-import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep.*;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.FollowOwnerGoal;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
@@ -29,7 +28,6 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
@@ -37,7 +35,8 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.UUID;
 
 import static io.github.webcoder49.dolphinsofthedeep.util.Items.useUpItem;
 

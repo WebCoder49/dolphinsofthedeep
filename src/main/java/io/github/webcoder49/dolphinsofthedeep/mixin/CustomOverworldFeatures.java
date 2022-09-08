@@ -1,6 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep.mixin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import net.minecraft.block.entity.BannerPatterns;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.SlimeEntity;

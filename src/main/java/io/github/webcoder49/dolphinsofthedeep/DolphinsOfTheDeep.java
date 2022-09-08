@@ -4,8 +4,13 @@ import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.CommonDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
-import io.github.webcoder49.dolphinsofthedeep.item.*;
-
+import io.github.webcoder49.dolphinsofthedeep.item.CustomMusicDiscItem;
+import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourDiamondDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourEmeraldDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourGoldenDelphinium;
+import io.github.webcoder49.dolphinsofthedeep.material.tools.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
@@ -14,32 +19,21 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.mixin.item.group.client.MixinCreativePlayerInventoryGui;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.entity.*;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.*;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
 import net.minecraft.world.GameRules;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourDiamondDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourEmeraldDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourGoldenDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomAxeItem;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomHoeItem;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.CustomPickaxeItem;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsGoldenDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsEmeraldDelphinium;
-import io.github.webcoder49.dolphinsofthedeep.material.tools.ToolsDiamondDelphinium;
 
 
 public class DolphinsOfTheDeep implements ModInitializer {
@@ -52,7 +46,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     // SoundEvents - create instances
     public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
     public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE_SOUND = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID);
-    public static Item MUSIC_DISC_DOLPHIN_DANCE = new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE_SOUND, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC));
+    public static Item MUSIC_DISC_DOLPHIN_DANCE = new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE_SOUND, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC), 138);
 
     // Items - create instances
     public static final Item MUSIC_DISC_DOLPHIN_DANCE_BROKEN = new Item(new FabricItemSettings().group(ItemGroup.MISC).maxCount(1));

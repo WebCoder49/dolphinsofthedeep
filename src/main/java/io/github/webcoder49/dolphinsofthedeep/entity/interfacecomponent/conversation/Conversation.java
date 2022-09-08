@@ -1,12 +1,10 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation;
 
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
 
-import java.util.*;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 /**
  * A list of messages with delays to send to the owner via a `ConversationInterface`
