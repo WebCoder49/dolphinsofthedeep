@@ -19,6 +19,8 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.entity.EntityDimensions;
@@ -230,6 +232,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
             GameRuleRegistry.register("rideDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_GIFTS =
             GameRuleRegistry.register("dolphinGifts", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
+
+    // TODO: Advancement criteria
+//    public static final TickCriterion AVOID_VIBRATION = (TickCriterion)register(new TickCriterion(new Identifier("avoid_vibration")));
 
     @Override
     public void onInitialize() {
