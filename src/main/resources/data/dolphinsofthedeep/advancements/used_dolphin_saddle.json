@@ -1,5 +1,5 @@
 {
-    "parent": "dolphinsofthedeep:obtained_dolphin_saddle",
+    "parent": "dolphinsofthedeep:root",
     "display": {
         "icon": {
             "item": "dolphinsofthedeep:dolphin_saddle"
@@ -14,9 +14,21 @@
     },
     "criteria": {
         "used_dolphin_saddle": {
-            "trigger": "minecraft:using_item",
+            "trigger": "minecraft:started_riding",
             "conditions": {
-                "item": {"items": ["dolphinsofthedeep:dolphin_saddle"]}
+                "conditions": {
+                    "player": [
+                        {
+                            "condition": "minecraft:entity_properties",
+                            "entity": "this",
+                            "predicate": {
+                                "vehicle": {
+                                    "type": "#dolphinsofthedeep:dolphins"
+                                }
+                            }
+                        }
+                    ]
+                }
             }
         }
     }
