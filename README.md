@@ -1,5 +1,13 @@
 ### **Befriend and ride** a variety of dolphin species in Minecraft, gaining gifts to level up! **Fundraising** for WDC.
-[Minecraft: Java Edition 1.19](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc) / [Minecraft Forge 1.19 - 41.1.0](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.19.html) / [Fabric Loader 0.14.6](https://fabricmc.net/use/installer/) / [Fabric API 0.57.0+1.19](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3936024)
+#### ⬆️Now for Minecraft 1.19.2!
+
+[Minecraft: Java Edition 1.19.2](https://www.minecraft.net/en-us/store/minecraft-java-bedrock-edition-pc) / [Minecraft Forge for 1.19.2](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.19.2.html) / [Fabric Loader 0.14.9](https://fabricmc.net/use/installer/) / [Fabric API 0.60.0+1.19.2](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3936024)
+
+![Fundraising for WDC](https://raw.githubusercontent.com/WebCoder49/dolphinsofthedeep/main/src/main/resources/assets/dolphinsofthedeep/fundraise_banner.gif)
+# Fundraising to save dolphins from entanglement in nets, hunting and captivity.
+## 👇👇👇
+[JustGiving.com/dolphinsofthedeep](https://justgiving.com/dolphinsofthedeep)
+## 👆👆👆
 
 ![Preview](src/main/resources/assets/dolphinsofthedeep/large_icon.png)
 #### Features
@@ -25,17 +33,17 @@ Through **raising awareness**, taking **political action** and **providing alter
 ##### How do I install this mod?
 
 * Close the Minecraft Launcher.
-* Download [Minecraft Forge for 1.19](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.19.html) (Recommended Version) and double-click on the downloaded file.
+* Download [Minecraft Forge for 1.19](https://files.minecraftforge.net/net/minecraftforge/forge/index_1.19.2.html) (Recommended Version) and double-click on the downloaded file.
   * Click "Install for client"
 * Download and install [Fabric Loader](https://fabricmc.net/use/installer/) the same way.
-  * Select "Minecraft Version: 1.19" and "Launcher Version: 0.14.6".
-* Open the Minecraft Launcher, and under *Installations* click the folder icon next to `fabric-loader-1.19`.
+  * Select "Minecraft Version: 1.19" and "Loader Version: 0.14.9".
+* Open the Minecraft Launcher, and under *Installations* click the folder icon next to `fabric-loader-1.19.2`.
   * Your file viewer should open.
   * Open the `mods` folder.
   * Empty this folder, and then download and move these JAR files into it:
-    * [Fabric API 0.57.0+1.19](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3851965)
-    * Dolphins of the Deep 1.0.0 (The .JAR file in the [Releases section](https://github.com/WebCoder49/dolphinsofthedeep/releases))
-  * Go back to the *Play* tab, change the version to `fabric-loader-1.19`, and click *Play*!
+    * [Fabric API 0.60.0+1.19.2](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/3936024)
+    * Dolphins of the Deep 1.0.1 (The .JAR file in the [Releases section](https://github.com/WebCoder49/dolphinsofthedeep/releases))
+  * Go back to the *Play* tab, change the version to `fabric-loader-1.19.2`, and click *Play*!
 
 If the game crashes or you notice a bug, please report it under the `Issues` tab.
 
