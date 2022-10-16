@@ -1,0 +1,16 @@
+{
+  "name": "dolphinsofthedeep:dolphin_palace_main_room",
+  "fallback": "minecraft:empty",
+  "elements": [
+    // 1 main room
+    {
+      "weight": 1,
+      "element": {
+        "location": "dolphinsofthedeep:dolphin_palace/main_room",
+        "processors": "minecraft:empty",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

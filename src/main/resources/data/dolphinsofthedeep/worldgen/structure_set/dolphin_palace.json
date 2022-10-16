@@ -1,0 +1,22 @@
+{
+  // Choosing structures to spawn
+  "structures": [
+    {
+      "structure": "dolphinsofthedeep:dolphin_palace",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    // The kind of placement to use
+    "type": "minecraft:random_spread",
+
+    // Random seed for generation
+    "salt": 1694767080,
+
+    // Avg dist apart (chunks)
+    "spacing": 32,
+
+    // Min dist apart (chunks) - <avg
+    "separation": 16
+  }
+}
