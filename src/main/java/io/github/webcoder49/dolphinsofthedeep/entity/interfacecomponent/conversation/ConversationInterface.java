@@ -36,12 +36,9 @@ public interface ConversationInterface extends Tameable {
         return EntityType.DOLPHIN; // Default
     }
 
-    Conversation getConversation();
-    void setConversation(Conversation conversation);
-
-    default void conversationTick() {
-        if (this.getConversation() != null) {
-            this.getConversation().tick(this::tellOwner);
+    default void conversationTick(Conversation conversation) {
+        if (conversation != null) {
+            conversation.tick(this::tellOwner);
         }
     }
 

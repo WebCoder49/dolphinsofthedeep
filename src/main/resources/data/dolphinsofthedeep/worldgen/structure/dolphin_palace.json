@@ -22,7 +22,7 @@
 
   // What y value to use
   "start_height": {
-    "absolute": -15
+    "absolute": -10
   },
 
   // Get top land at even the bottom of oceans

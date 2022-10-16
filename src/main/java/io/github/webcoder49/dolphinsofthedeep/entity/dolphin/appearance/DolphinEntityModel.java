@@ -1,12 +1,14 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance;
 
 import com.google.common.collect.ImmutableList;
+import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.util.math.MatrixStack;
+import org.apache.logging.log4j.Level;
 
 public class DolphinEntityModel extends EntityModel<DolphinEntity> {
 
@@ -87,8 +89,8 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
                 EntityModelPartNames.LEFT_FIN,
                 ModelPartBuilder.create()
                         .uv(0, 16) // Texture location
-                        .cuboid(0F, -3F, 4F, 6F, 2F, 6F) // Offset + Size
-                , ModelTransform.pivot(6F, 25F, -15F)
+                        .cuboid(0F, -3F, 0F, 6F, 2F, 6F) // Offset + Size
+                , ModelTransform.pivot(6F, 25F, -11F)
         );
 
         modelPartData.addChild(
@@ -122,6 +124,15 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
     @Override
     public void setAngles(DolphinEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         // Animate transforms
+        DolphinsOfTheDeep.log(Level.WARN, "Limb angle="+limbAngle);//+"; Limb angle="+limbAngle+" distance="+limbDistance+"; Head yaw="+headYaw+" pitch="+headPitch);
+
+        /* Fin angle */ // TODO
+        float finAngle = limbAngle % 40;
+        if(finAngle > 20) {
+            finAngle = 40F-finAngle; // Move back
+        }
+        DolphinsOfTheDeep.log(Level.WARN, "Fin angle="+finAngle);
+        this.leftFin.setAngles(0F, finAngle, 0F);
     }
 
     @Override

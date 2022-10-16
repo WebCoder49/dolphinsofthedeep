@@ -5,6 +5,7 @@ import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.FollowOwn
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
+import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.DelayedMessage;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import net.minecraft.advancement.criterion.Criteria;
@@ -25,12 +26,16 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
@@ -44,8 +49,6 @@ import static io.github.webcoder49.dolphinsofthedeep.util.Items.useUpItem;
  * Extends vanilla dolphin to add vanilla functionality; extra modded functionality added here
  */
 public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements Tameable, Saddleable, ConversationInterface, TieredGiftInterface {
-    // Species-specific
-    private int TAMING_CHANCE = 2; // 1 in 2 chance - harder for most common
 
     // Components
     private final SaddledComponent saddledComponent;
@@ -100,6 +103,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             nbt.put("ArmorItem", armour.getDefaultStack().writeNbt(new NbtCompound())); // For consistency
         }
         nbt.put("GiftXP", NbtInt.of(this.giftXp)); // For consistency
+
+        // Conversation
+        if(this.getOwner() != null) {
+            this.conversation = new Conversation();
+        }
     }
 
     public void readCustomDataFromNbt(NbtCompound nbt) {
@@ -121,15 +129,26 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     // Attributes
     public static DefaultAttributeContainer.Builder createDolphinAttributes() {
-        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D);
+        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D).add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D);
     }
 
     // Events
     @Override
     public void tick() {
         // Components
+        /* Chat */
         if(!this.world.isClient) {
-            this.conversationTick();
+//            if(world.getGameRules().getBoolean(DolphinsOfTheDeep.DOLPHIN_CHAT)) { - TODO: Add
+                if(this.conversation != null) {
+                    if(this.getPrimaryPassenger() == this.getOwner()) {
+                        if(Math.random() < (double)this.getAttributeValue(DolphinAttributes.DOLPHIN_CHAT_CHANCE) && this.conversation.isFree()) {
+                            this.conversation.addConversation("hello");
+                            // TODO: Check+Fix
+                        }
+                    }
+                    this.conversationTick(this.conversation);
+                }
+//            }
         }
         super.tick();
     }
@@ -179,7 +198,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     useUpItem(itemStack, player);
 
                     if(this.shouldGiveGift()) {
-                        this.giveGift(this.getAttributeBaseValue(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY), this.giftXp);
+                        this.giveGift(this.getAttributeBaseValue(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY), this.giftXp, this.conversation);
                         giftXp++;
                     }
 
@@ -244,6 +263,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
      * @param player username of the owner
      */
     public void setOwner(PlayerEntity player) {
+        this.conversation = new Conversation();
         this.tameableComponent.setOwner(player);
     }
 
@@ -426,16 +446,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     /* Conversation - see ConversationInterface */
 
     @Nullable Conversation conversation = null;
-
-    @Override
-    public Conversation getConversation() {
-        return this.conversation;
-    }
-
-    @Override
-    public void setConversation(Conversation conversation) {
-        this.conversation = conversation;
-    }
 
     @Override
     public void onDeath(DamageSource damageSource) {

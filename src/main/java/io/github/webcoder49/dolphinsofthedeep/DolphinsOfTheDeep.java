@@ -232,6 +232,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
             GameRuleRegistry.register("rideDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_GIFTS =
             GameRuleRegistry.register("dolphinGifts", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
+//    public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_CHAT =
+//            GameRuleRegistry.register("dolphinChat", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
 
     // TODO: Advancement criteria
 //    public static final TickCriterion AVOID_VIBRATION = (TickCriterion)register(new TickCriterion(new Identifier("avoid_vibration")));

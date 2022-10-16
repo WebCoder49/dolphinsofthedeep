@@ -10,6 +10,7 @@ public class DelayedMessage { // TODO
     private @Nullable Text msg;
     private int delayTicks;
     private @Nullable Runnable action;
+    private boolean sent; // Has this been sent yet?
 
     public DelayedMessage(@Nullable Text msg, int delayTicks) {
         this(
@@ -28,6 +29,19 @@ public class DelayedMessage { // TODO
         this.msg = msg;
         this.action = action;
         this.delayTicks = delayTicks;
+        this.sent = false;
+    }
+
+    /**
+     * Is this a new message?
+     * @return true if the message hasn't been sent yet and should be now.
+     */
+    public boolean toBeSent() {
+        if(!this.sent) {
+            this.sent = true;
+            return true;
+        }
+        return false;
     }
 
     /**

@@ -1,6 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep.block;
 
 import io.github.webcoder49.dolphinsofthedeep.CustomDamageSource;
+import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -12,6 +13,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -36,7 +38,9 @@ public class SeaLaser extends Block implements Waterloggable {
     @Override
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         CustomDamageSource damageSource = new CustomDamageSource("sea_laser");
-        entity.damage(damageSource, 7F);
+        if(!(entity instanceof DolphinEntity)) {
+            entity.damage(damageSource, 7F);
+        }
     }
 
     @Override

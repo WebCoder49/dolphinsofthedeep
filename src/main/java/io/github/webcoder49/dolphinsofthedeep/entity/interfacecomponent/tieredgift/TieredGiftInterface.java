@@ -5,6 +5,7 @@ import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversa
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.DelayedMessage;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -15,39 +16,38 @@ import java.util.function.Consumer;
 public interface TieredGiftInterface extends ConversationInterface {
 
     /* Give gifts */
-    default void giveGiftFromTier(GiftTier tier) {
-        // TODO: Test next line; add to lang; add loot tables
+    default void giveGiftFromTier(GiftTier tier, Conversation conversation) {
         // Global
         Text styledTier = Text.translatable(DolphinsOfTheDeep.MOD_ID + ".gifts.tier." + tier.getName()).getWithStyle(Style.EMPTY.withFormatting(tier.getFormatting())).get(0);
-        this.setConversation(
-                new Conversation(
-                        new DelayedMessage(
-                                this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3)) // 3 different messages
-                                , 60 // delay in ticks
-                        ),
-                        new DelayedMessage(
-                                this.getTranslatedText("gifts.deliver.beforeTier")
-                                        .append(styledTier)
-                                        .append(this.getTranslatedText("gifts.deliver.afterTier"))
-                                , 20 // delay in ticks
-                                , () -> {
-                                    // Give gift
-                                    if(this instanceof Entity) {
-                                        Entity thisEntity = ((Entity) this);
-                                        Consumer<ItemStack> after = (gift) -> {
-                                            // Drop a gift stack
-                                            ((Entity) this).dropStack(gift, 2);
-                                        };
-                                        tier.getGift(after, thisEntity.world, this.getOwner(), thisEntity.getPos());
-                                    }
+        conversation.add(
+            new DelayedMessage(
+                    this.getTranslatedText("gifts.announce." + (int) (Math.random() * 3)) // 3 different messages
+                    , 60 // delay in ticks
+            ),
+            new DelayedMessage(
+                    this.getTranslatedText("gifts.deliver.beforeTier")
+                            .append(styledTier)
+                            .append(this.getTranslatedText("gifts.deliver.afterTier"))
+                    , 20 // delay in ticks
+                    , () -> {
+                        // Give gift
+                        if(this instanceof Entity) {
+                            Entity thisEntity = ((Entity) this);
+                            Consumer<ItemStack> after = (gift) -> {
+                                // Drop a gift stack
+                                if(this.getOwner() instanceof  PlayerEntity) {
+                                    ((PlayerEntity)this.getOwner()).giveItemStack(gift);
                                 }
-                        )
-                )
+                            };
+                            tier.getGift(after, thisEntity.world, this.getOwner(), thisEntity.getPos());
+                        }
+                    }
+            )
         ); // TODO: this.CONVERSATION_NUMPOSS_GIFTS_DELIVER
     }
 
-    default void giveGift(double minQuality, double xp) {
-        this.giveGiftFromTier(this.getGiftTier(minQuality, xp));
+    default void giveGift(double minQuality, double xp, Conversation conversation) {
+        this.giveGiftFromTier(this.getGiftTier(minQuality, xp), conversation);
     }
 
     /**

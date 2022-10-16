@@ -18,7 +18,10 @@ public class PinkRiverDolphinEntity extends DolphinEntity {
 
     public static DefaultAttributeContainer.Builder createPinkRiverAttributes() {
         // Harder to tame; better gifts
-        return DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.2D);
+        return DolphinEntity.createDolphinAttributes()
+                .add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2)
+                .add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.2D)
+                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.003D);
     }
 
     @Override

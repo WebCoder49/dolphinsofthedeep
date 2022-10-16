@@ -13,6 +13,9 @@ public class BottlenoseDolphinEntity extends DolphinEntity {
 
     public static DefaultAttributeContainer.Builder createBottlenoseAttributes() {
         // Slightly better gifts than common
-        return DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 3).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.1D);
+        return DolphinEntity.createDolphinAttributes()
+                .add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 3)
+                .add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.1D)
+                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D);
     }
 }

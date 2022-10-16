@@ -13,6 +13,9 @@ public class CommonDolphinEntity extends DolphinEntity {
 
     public static DefaultAttributeContainer.Builder createCommonAttributes() {
         // Defaults
-        return DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D);
+        return DolphinEntity.createDolphinAttributes()
+                .add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2)
+                .add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D)
+                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.005D);
     }
 }
