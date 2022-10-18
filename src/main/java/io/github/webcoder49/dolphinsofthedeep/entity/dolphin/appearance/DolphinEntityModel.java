@@ -82,8 +82,8 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
                 EntityModelPartNames.RIGHT_FIN,
                 ModelPartBuilder.create()
                         .uv(0, 7) // Texture location
-                        .cuboid(-6F, -3F, 4F, 6F, 2F, 6F) // Offset + Size
-                , ModelTransform.pivot(-6F, 25F, -15F)
+                        .cuboid(-6F, -3F, 0F, 6F, 2F, 6F) // Offset + Size
+                , ModelTransform.pivot(-6F, 25F, -11F)
         );
         modelPartData.addChild(
                 EntityModelPartNames.LEFT_FIN,
@@ -106,8 +106,8 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
                 EntityModelPartNames.TAIL_FIN,
                 ModelPartBuilder.create()
                         .uv(25, 41) // Texture location
-                        .cuboid(-8F, 21F, 28F, 16F, 1F, 10F) // Offset + Size
-                , ModelTransform.pivot(0, 0, -8F)
+                        .cuboid(-8F, 0, 0F, 16F, 1F, 10F) // Offset + Size
+                , ModelTransform.pivot(0, 21F, 20F)
         );
 
         return TexturedModelData.of(modelData, 80, 62); // 80x62px texture file
@@ -124,15 +124,23 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
     @Override
     public void setAngles(DolphinEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
         // Animate transforms
-        DolphinsOfTheDeep.log(Level.WARN, "Limb angle="+limbAngle);//+"; Limb angle="+limbAngle+" distance="+limbDistance+"; Head yaw="+headYaw+" pitch="+headPitch);
+//        DolphinsOfTheDeep.log(Level.WARN, "Limb angle="+limbAngle);//+"; Limb angle="+limbAngle+" distance="+limbDistance+"; Head yaw="+headYaw+" pitch="+headPitch);
 
-        /* Fin angle */ // TODO
-        float finAngle = limbAngle % 40;
-        if(finAngle > 20) {
-            finAngle = 40F-finAngle; // Move back
+        /* Tail angle */ // TODO
+        // Repeating animation up to 40deg
+        float tailAngle = (limbAngle/5) % (80*((float)Math.PI)/180);
+        if(tailAngle > (40*((float)Math.PI)/180)) {
+            tailAngle = (80*((float)Math.PI)/180)-tailAngle; // Move forwards and back
         }
-        DolphinsOfTheDeep.log(Level.WARN, "Fin angle="+finAngle);
-        this.leftFin.setAngles(0F, finAngle, 0F);
+        // Up+Down
+        tailAngle -= (20*((float)Math.PI)/180);
+//        DolphinsOfTheDeep.log(Level.WARN, "Tail angle="+tailAngle);
+
+        // Fins
+        this.tailFin.setAngles(tailAngle, 0F, 0F);
+        this.leftFin.setAngles(tailAngle/2, 0F, 0F);
+        this.rightFin.setAngles(tailAngle/2, 0F, 0F);
+        this.dorsalFin.setAngles(45F + tailAngle/2, 0F, 0F);
     }
 
     @Override
