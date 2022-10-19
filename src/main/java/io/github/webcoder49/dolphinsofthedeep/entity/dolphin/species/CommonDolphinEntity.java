@@ -16,6 +16,7 @@ public class CommonDolphinEntity extends DolphinEntity {
         return DolphinEntity.createDolphinAttributes()
                 .add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2)
                 .add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D)
-                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.005D);
+                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.005D)
+                .add(DolphinAttributes.DOLPHIN_FRIENDLY_CHANCE, 0.3D);
     }
 }

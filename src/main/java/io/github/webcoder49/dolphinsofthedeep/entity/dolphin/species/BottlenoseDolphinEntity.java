@@ -16,6 +16,7 @@ public class BottlenoseDolphinEntity extends DolphinEntity {
         return DolphinEntity.createDolphinAttributes()
                 .add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 3)
                 .add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.1D)
-                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D);
+                .add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D)
+                .add(DolphinAttributes.DOLPHIN_FRIENDLY_CHANCE, 0.6D);
     }
 }

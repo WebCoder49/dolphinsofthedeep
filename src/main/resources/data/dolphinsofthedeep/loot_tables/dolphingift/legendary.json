@@ -6,7 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "dolphinsofthedeep:music_disc_dolphin_dance_broken"
+          "name": "minecraft:map",
+          "functions": [
+            {
+              "function": "exploration_map",
+              "destination": "dolphinsofthedeep:on_dolphin_maps",
+              "decoration": "banner_cyan",
+              "skip_existing_chunks": true
+            }
+          ]
         }
       ]
     }

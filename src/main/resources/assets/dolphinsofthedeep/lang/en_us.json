@@ -103,6 +103,8 @@
 
     "attribute.name.dolphin.taming_difficulty": "Dolphin Taming Difficulty",
     "attribute.name.dolphin.gift_min_quality": "Dolphin Gift Minimum Quality",
+    "attribute.name.dolphin.chat_chance": "Dolphin Chat Chance",
+    "attribute.name.dolphin.friendly_chance": "Dolphin Friendly Chance",
 
     "gamerule.category.dolphinsofthedeep.dolphins": "Dolphins",
     "gamerule.befriendDolphins": "Befriend Dolphins",

@@ -11,6 +11,7 @@ import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.FollowMobGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -18,10 +19,13 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.function.ExplorationMapLootFunction;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.particle.ParticleTypes;
@@ -62,7 +66,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     protected static final TrackedData<Boolean> IS_TAMED;
     protected static final TrackedData<Optional<UUID>> OWNER_UUID;
-    protected @Nullable FollowMobGoal followOwnerGoal = null;
 
     private static final TrackedData<Boolean> SADDLED;
     private static final TrackedData<Integer> BOOST_TIME;
@@ -125,11 +128,14 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     protected void initGoals() {
         super.initGoals();
         this.goalSelector.add(10, new FollowOwnerGoal(this, 1.0, 1.0, 1024.0));
+        if(Math.random() < this.getAttributes().getValue(DolphinAttributes.DOLPHIN_FRIENDLY_CHANCE)) {
+            this.goalSelector.add(3, new TemptGoal(this, 1.1D, TAMING_INGREDIENT, false));
+        }
     }
 
     // Attributes
     public static DefaultAttributeContainer.Builder createDolphinAttributes() {
-        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D).add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D);
+        return net.minecraft.entity.passive.DolphinEntity.createDolphinAttributes().add(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY, 2).add(DolphinAttributes.DOLPHIN_GIFT_MIN_QUALITY, 0.0D).add(DolphinAttributes.DOLPHIN_CHAT_CHANCE, 0.01D).add(DolphinAttributes.DOLPHIN_FRIENDLY_CHANCE, 1.0D);
     }
 
     // Events
@@ -375,6 +381,13 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
 
     // Rideable
+    /**
+     * Prevent drowning when ridden underwater
+     */
+    public boolean canBreatheInWater() {
+        return true;
+    }
+
     /**
      * Dolphins can be ridden in water
      * @return true

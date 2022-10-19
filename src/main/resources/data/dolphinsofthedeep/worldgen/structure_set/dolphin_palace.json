@@ -14,9 +14,9 @@
     "salt": 1694767080,
 
     // Avg dist apart (chunks)
-    "spacing": 32,
+    "spacing": 512,
 
     // Min dist apart (chunks) - <avg
-    "separation": 16
+    "separation": 256
   }
 }

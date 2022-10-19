@@ -8,6 +8,8 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import org.apache.logging.log4j.Level;
 
 public class DolphinEntityModel extends EntityModel<DolphinEntity> {
@@ -113,7 +115,6 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         return TexturedModelData.of(modelData, 80, 62); // 80x62px texture file
     }
 
-
     public static TexturedModelData getTexturedModelDataDefault() {
         return DolphinEntityModel.getTexturedModelData(false);
     }
@@ -126,7 +127,7 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         // Animate transforms
 //        DolphinsOfTheDeep.log(Level.WARN, "Limb angle="+limbAngle);//+"; Limb angle="+limbAngle+" distance="+limbDistance+"; Head yaw="+headYaw+" pitch="+headPitch);
 
-        /* Tail angle */ // TODO
+        /* Tail angle - fins follow more gently */ // TODO
         // Repeating animation up to 40deg
         float tailAngle = (limbAngle/5) % (80*((float)Math.PI)/180);
         if(tailAngle > (40*((float)Math.PI)/180)) {
@@ -134,7 +135,6 @@ public class DolphinEntityModel extends EntityModel<DolphinEntity> {
         }
         // Up+Down
         tailAngle -= (20*((float)Math.PI)/180);
-//        DolphinsOfTheDeep.log(Level.WARN, "Tail angle="+tailAngle);
 
         // Fins
         this.tailFin.setAngles(tailAngle, 0F, 0F);

@@ -13,6 +13,8 @@ public class DolphinAttributes {
     public static final EntityAttribute DOLPHIN_GIFT_MIN_QUALITY = register("dolphin.gift_min_quality", new ClampedEntityAttribute("attribute.name.dolphin.gift_min_quality", 0.0D, 0.0D, 1.0D));
     /** Average Chance to send a chat message each tick when conversation free */
     public static final EntityAttribute DOLPHIN_CHAT_CHANCE = register("dolphin.chat_chance", new ClampedEntityAttribute("attribute.name.dolphin.chat_chance", 0.01D, 0.0D, 1.0D)); // once every 100 ticks by default
+    /** Chance to spawn as "Friendly" and follow player with fish */
+    public static final EntityAttribute DOLPHIN_FRIENDLY_CHANCE = register("dolphin.friendly_chance", new ClampedEntityAttribute("attribute.name.dolphin.friendly_chance", 0.5D, 0.0D, 1.0D));
 
     private static EntityAttribute register(String path, EntityAttribute attribute) {
         return (EntityAttribute)Registry.register(Registry.ATTRIBUTE, Identifier.of(DolphinsOfTheDeep.MOD_ID, path), attribute);
