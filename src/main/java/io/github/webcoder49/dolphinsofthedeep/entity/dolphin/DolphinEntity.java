@@ -127,7 +127,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Override
     protected void initGoals() {
         super.initGoals();
-        this.goalSelector.add(10, new FollowOwnerGoal(this, 1.0, 1.0, 1024.0));
         if(Math.random() < this.getAttributes().getValue(DolphinAttributes.DOLPHIN_FRIENDLY_CHANCE)) {
             this.goalSelector.add(3, new TemptGoal(this, 1.1D, TAMING_INGREDIENT, false));
         }
@@ -155,6 +154,13 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     this.conversationTick(this.conversation);
                 }
 //            }
+        }
+        /* Move to owner */
+        if(this.getOwner() != null) {
+            // Constantly follow owner when in water
+            if(this.isTouchingWater()) {
+                this.navigation.startMovingTo(this.getOwner(), 1.0);
+            }
         }
         super.tick();
     }
@@ -215,6 +221,11 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     itemStack.useOnEntity(player, this, hand);
                     this.setArmour(itemStack);
                     useUpItem(itemStack, player);
+                } else {
+                    // Ride
+                    if(this.isSaddled()) {
+                        player.startRiding(this);
+                    }
                 }
                 return ActionResult.SUCCESS;
             } else { // Tamed by someone else
