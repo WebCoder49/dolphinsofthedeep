@@ -63,16 +63,6 @@ public interface ConversationInterface extends Tameable {
     }
 
     /**
-     * Send a conversation to the player, with delays
-     * @param messages A List of Pairs of (message (MutableText), delay (int, s))
-     * @param then A closure to run after the messages
-     */
-    default void tellOwnerMany(List<Pair<MutableText, Integer>> messages, @Nullable Runnable then) { // TODO: add `then` parameter (what to do afterwards)
-        // TODO: Delete
-        tellOwner(Text.of("PLACEHOLDER"));
-    }
-
-    /**
      * Get the translated text by path key under general conversation.
      * @param path "."-separated path of key after modid."conversation"
      * @return Translated MutableText

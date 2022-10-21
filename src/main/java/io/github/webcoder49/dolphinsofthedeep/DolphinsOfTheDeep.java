@@ -13,12 +13,14 @@ import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourGoldenDelphi
 import io.github.webcoder49.dolphinsofthedeep.material.tools.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.block.Block;
@@ -43,7 +45,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final String MOD_ID = "dolphinsofthedeep";
     public static final String MOD_NAME = "Dolphins of the Deep";
 
-
+    public static Logger LOGGER = LogManager.getLogger();
 
     // SoundEvents - create instances
     public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
@@ -111,8 +113,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static ArmorItem DIAMOND_DELPHINIUM_LEGGINGS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
     public static ArmorItem DIAMOND_DELPHINIUM_BOOTS = new ArmorItem(DIAMOND_DELPHINIUM_ARMOUR, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
 
-    public static Logger LOGGER = LogManager.getLogger();
-
     /* Register Entities */
     // Dolphin
     public static final EntityType<BottlenoseDolphinEntity> BOTTLENOSE = Registry.register(
@@ -177,6 +177,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
                 }
             })
             .build();
+
     public static ItemGroup DELPHINIUM_ITEM_GROUP = FabricItemGroupBuilder.create(
                     new Identifier(MOD_ID, "delphinium"))
             .icon(() -> new ItemStack(DIAMOND_DELPHINIUM_SWORD))
@@ -232,11 +233,11 @@ public class DolphinsOfTheDeep implements ModInitializer {
             GameRuleRegistry.register("rideDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_GIFTS =
             GameRuleRegistry.register("dolphinGifts", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
-//    public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_CHAT =
-//            GameRuleRegistry.register("dolphinChat", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
+    public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_CHAT =
+            GameRuleRegistry.register("dolphinChat", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
 
-    // TODO: Advancement criteria
-//    public static final TickCriterion AVOID_VIBRATION = (TickCriterion)register(new TickCriterion(new Identifier("avoid_vibration")));
+    // GUI - TODO
+
 
     @Override
     public void onInitialize() {
@@ -244,7 +245,6 @@ public class DolphinsOfTheDeep implements ModInitializer {
         log(Level.INFO, "Initializing");
 
         log(Level.INFO, "Hello, World! Hello, Minecraft!");
-
 
         /* Register SoundEvents */
         // Music discs

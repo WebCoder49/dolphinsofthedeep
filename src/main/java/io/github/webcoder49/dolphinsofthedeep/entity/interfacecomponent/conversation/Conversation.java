@@ -1,5 +1,7 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation;
 
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -66,7 +68,9 @@ public class Conversation {
         String[] encodedMessagePairs = encodedMessages.split(";");
         for (String encodedMessagePair : encodedMessagePairs) {
             String[] messagePair = encodedMessagePair.split(":", 2);
-            this.messages.offer(new DelayedMessage(Text.of(messagePair[1]), Integer.parseInt(messagePair[0])));
+            if(messagePair.length == 2) {
+                this.messages.offer(new DelayedMessage(Text.of(messagePair[1]), Integer.parseInt(messagePair[0])));
+            }
         }
     }
 
