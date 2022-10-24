@@ -2,15 +2,15 @@ package io.github.webcoder49.dolphinsofthedeep;
 
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityModel;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityRenderer;
+import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
 
 @Environment(EnvType.CLIENT)
 public class DolphinsOfTheDeepClient implements ClientModInitializer {
@@ -33,5 +33,8 @@ public class DolphinsOfTheDeepClient implements ClientModInitializer {
         // Register different models
         EntityModelLayerRegistry.registerModelLayer(MODEL_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataDefault);
         EntityModelLayerRegistry.registerModelLayer(MODEL_LONG_NOSE_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataLongNose);
+
+        /* Register GUI Screens */
+        HandledScreens.register(DolphinsOfTheDeep.DOLPHIN_INVENTORY_SCREEN_HANDLER, DolphinInventoryScreen::new);
     }
 }

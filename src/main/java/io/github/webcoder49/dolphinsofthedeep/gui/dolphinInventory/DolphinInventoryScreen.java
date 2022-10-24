@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,8 +15,8 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
     // GUI Texture path
     private static final Identifier TEXTURE = new Identifier("textures/gui/container/generic_54.png");
 
-    public DolphinInventoryScreen(DolphinInventoryScreenHandler handler, PlayerInventory playerInventory, DolphinEntity dolphin) {
-        super(handler, playerInventory, dolphin.getDisplayName());
+    public DolphinInventoryScreen(DolphinInventoryScreenHandler handler, PlayerInventory playerInventory, Text title) {
+        super(handler, playerInventory, title);
         this.backgroundHeight = 114 + 6 * 18;
     }
 
@@ -25,7 +26,11 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
      * @param mouseX
      * @param mouseY
      */
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        renderBackground(matrices);
+        super.render(matrices, mouseX, mouseY, delta);
+        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+
         this.textRenderer.draw(matrices, this.title, 8.0F, 6.0F, 4210752);
         this.textRenderer.draw(matrices, this.playerInventoryTitle, 8.0F, (float)(this.backgroundHeight - 96 + 2), 4210752);
     }

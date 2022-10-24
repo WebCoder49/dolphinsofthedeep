@@ -1,27 +1,38 @@
 package io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory;
 
+import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
+import net.minecraft.client.gui.screen.ingame.Generic3x3ContainerScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.screen.Generic3x3ContainerScreenHandler;
 import net.minecraft.screen.HorseScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 
 public class DolphinInventoryScreenHandler extends ScreenHandler {
-    private final DolphinEntity dolphin;
-    private static final int INVENTORY_SIZE = 2;
+    public final DolphinEntity dolphin;
+    public static final int INVENTORY_SIZE = 2;
 
-    public DolphinInventoryScreenHandler(int syncId, PlayerInventory playerInventory, DolphinEntity dolphin) {
-        super(null, syncId);
+    //TODO: Add needed constructors - https://github.com/FabricMC/fabric/blob/1.19.1/fabric-screen-handler-api-v1/src/testmod/java/net/fabricmc/fabric/test/screenhandler/screen/BagScreenHandler.java
+    public DolphinInventoryScreenHandler(int syncId, PlayerInventory playerInventory) {
+        this(syncId, playerInventory, null, null);
+    }
+
+    public DolphinInventoryScreenHandler(int syncId, PlayerInventory playerInventory, PlayerEntity player, DolphinEntity dolphin) {
+        super(DolphinsOfTheDeep.DOLPHIN_INVENTORY_SCREEN_HANDLER, syncId);
+
         this.dolphin = dolphin;
         checkSize(dolphin.inventory, INVENTORY_SIZE);
-        dolphin.inventory.onOpen(playerInventory.player);
+        dolphin.inventory.onOpen(player);
 
         // GUI slots
         // Dolphin inventory
@@ -69,7 +80,6 @@ public class DolphinInventoryScreenHandler extends ScreenHandler {
     public boolean canUse(PlayerEntity player) {
         return this.dolphin.getOwner() == player;
     }
-
     // Shift + Player Inv Slot - https://fabricmc.net/wiki/tutorial:containers
     @Override
     public ItemStack transferSlot(PlayerEntity player, int invSlot) {

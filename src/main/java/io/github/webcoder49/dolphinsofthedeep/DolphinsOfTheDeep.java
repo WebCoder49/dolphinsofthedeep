@@ -4,6 +4,8 @@ import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.CommonDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandler;
+import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandlerFactory;
 import io.github.webcoder49.dolphinsofthedeep.item.CustomMusicDiscItem;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
@@ -30,6 +32,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.*;
+import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -236,7 +239,8 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_CHAT =
             GameRuleRegistry.register("dolphinChat", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
 
-    // GUI - TODO
+    // GUI - TODO: Add custom factory??
+    public static final ScreenHandlerType<DolphinInventoryScreenHandler> DOLPHIN_INVENTORY_SCREEN_HANDLER = new ScreenHandlerType<>(DolphinInventoryScreenHandler::new);
 
 
     @Override
@@ -321,6 +325,9 @@ public class DolphinsOfTheDeep implements ModInitializer {
         // Sea laser
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "sea_laser"), SEA_LASER_BLOCK);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "sea_laser"), new BlockItem(SEA_LASER_BLOCK, new FabricItemSettings().group(ItemGroup.DECORATIONS)));
+
+        /* Register GUI */
+        Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "dolphin_inventory"), DOLPHIN_INVENTORY_SCREEN_HANDLER);
     }
 
     public static void log(Level level, String message){
