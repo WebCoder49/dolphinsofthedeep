@@ -239,7 +239,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
     public static final GameRules.Key<GameRules.BooleanRule> DOLPHIN_CHAT =
             GameRuleRegistry.register("dolphinChat", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
 
-    // GUI - TODO: Add custom factory??
+    // GUI
     public static final ScreenHandlerType<DolphinInventoryScreenHandler> DOLPHIN_INVENTORY_SCREEN_HANDLER = new ScreenHandlerType<>(DolphinInventoryScreenHandler::new);
 
 

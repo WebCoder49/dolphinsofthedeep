@@ -17,6 +17,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryChangedListener;
@@ -77,7 +78,9 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public DolphinEntity(EntityType<? extends net.minecraft.entity.passive.DolphinEntity> entityType, World world) {
         super(entityType, world);
         this.tameableComponent = new TameableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
+
         this.inventory = new SimpleInventory(2); // Saddle 0; armour 1
+        this.inventory.addListener(this); // So can control with listeners
     }
 
     /* Saved data */
@@ -503,28 +506,23 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     /* Riding Inventory */
     @Override
     public void openInventory(PlayerEntity player) {
-        this.tellOwner(Text.of("DEBUG - To Open Inventory")); // TODO: Debug
         ((ServerOpenDolphinInventoryInterface)player).openDolphinInventory(this, this.inventory); // 🦆 (see class for comment)
-
-//        NamedScreenHandlerFactory screenHandlerFactory = new DolphinInventoryScreenHandlerFactory(this);
-
-
-        //With this call the server will request the client to open the appropriate ScreenHandler
-//        player.openHandledScreen(screenHandlerFactory); // TODO: Update implementation
     }
 
     @Override
-    public void onInventoryChanged(Inventory sender) {
-        // Use inventory to set saddle dataTracker
-        // Armour accessed through inv
-        ItemStack saddleStack = this.inventory.getStack(0);
-        boolean inventorySaddled = SADDLE_INGREDIENT.test(saddleStack);
-        if(!inventorySaddled) {
-            // Remove saddle
-            this.inventory.setStack(0, ItemStack.EMPTY);
-            this.dropStack(saddleStack);
+    public void onInventoryChanged(Inventory sender) { // TODO: Test; add GUI
+        if(sender == this.inventory) {
+            // Use inventory to set saddle dataTracker
+            // Armour accessed through inv
+            ItemStack saddleStack = this.inventory.getStack(0);
+            boolean inventorySaddled = SADDLE_INGREDIENT.test(saddleStack);
+            if(!(saddleStack.isEmpty() || inventorySaddled)) { // Not allowed to be saddled w/ this
+                // Remove saddle
+                this.inventory.setStack(0, ItemStack.EMPTY);
+                this.dropStack(saddleStack);
+            }
+            this.dataTracker.set(SADDLED, inventorySaddled);
         }
-        this.dataTracker.set(SADDLED, inventorySaddled);
     }
 
 }

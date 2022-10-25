@@ -3,6 +3,7 @@ package io.github.webcoder49.dolphinsofthedeep.mixin.gui;
 
 import com.mojang.authlib.GameProfile;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
+import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandler;
 import io.github.webcoder49.dolphinsofthedeep.mixinInterfaces.gui.ServerOpenDolphinInventoryInterface;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.HorseEntity;
@@ -22,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Add a method to a ServerPlayerEntity to open a dolphin inventory
+ * Add a method to the ServerPlayerEntity to open a dolphin inventory
  */
 @Mixin(ServerPlayerEntity.class)
 // ServerOpenDolphinInventoryInterface is a "duck interface" - allows openDolphinInventory to be accessed
@@ -45,7 +46,6 @@ public abstract class ServerOpenDolphinInventory extends PlayerEntity
 
     public void openDolphinInventory(DolphinEntity dolphin,
                                      Inventory inventory) {
-        dolphin.tellOwner(Text.of("DEBUG - Opening inv"));
 
         if(this.currentScreenHandler != this.playerScreenHandler) {
             // Close screen handler
@@ -54,14 +54,9 @@ public abstract class ServerOpenDolphinInventory extends PlayerEntity
 
         this.incrementScreenHandlerSyncId();
 
-
-        // Spawn a random horse to hijack its inventory - TODO: Change to dolphin
-        HorseEntity debuggingHorse = new HorseEntity(EntityType.HORSE, this.world);
-        this.world.spawnEntity(debuggingHorse);
-
-        this.networkHandler.sendPacket(new OpenHorseScreenS2CPacket(this.screenHandlerSyncId, inventory.size(), debuggingHorse.getId()));
-        // ^ Tell the client to open the inventory
-        this.currentScreenHandler = new HorseScreenHandler(this.screenHandlerSyncId, this.getInventory(), inventory, debuggingHorse);
+        this.networkHandler.sendPacket(new OpenHorseScreenS2CPacket(this.screenHandlerSyncId, inventory.size(), dolphin.getId()));
+        // ^ Tell the client to open the inventory; horse packet changed in ClientOpenDolphinInventory to also include dolphin
+        this.currentScreenHandler = new DolphinInventoryScreenHandler(this.screenHandlerSyncId, this.getInventory(), this, dolphin);
         // ^ Set the screen handler on the server
         this.onScreenHandlerOpened(this.currentScreenHandler);
     }

@@ -5,7 +5,8 @@
   "mixins": [
     "spawning.CustomDefaultFeatures",
     "spawning.CustomOverworldFeatures",
-    "gui.ServerOpenDolphinInventory"
+    "gui.ServerOpenDolphinInventory",
+    "gui.ClientOpenDolphinInventory"
   ],
   "client": [],
   "server": [],
