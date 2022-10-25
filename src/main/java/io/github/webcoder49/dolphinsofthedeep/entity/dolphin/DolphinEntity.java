@@ -5,11 +5,9 @@ import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableC
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
-import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandlerFactory;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import io.github.webcoder49.dolphinsofthedeep.mixinInterfaces.gui.ServerOpenDolphinInventoryInterface;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -30,9 +28,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.screen.Generic3x3ContainerScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -508,7 +503,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     /* Riding Inventory */
     @Override
     public void openInventory(PlayerEntity player) {
-        this.tellOwner(Text.of("Open Inventory")); // TODO: Debug
+        this.tellOwner(Text.of("DEBUG - To Open Inventory")); // TODO: Debug
+        ((ServerOpenDolphinInventoryInterface)player).openDolphinInventory(this, this.inventory); // 🦆 (see class for comment)
 
 //        NamedScreenHandlerFactory screenHandlerFactory = new DolphinInventoryScreenHandlerFactory(this);
 
