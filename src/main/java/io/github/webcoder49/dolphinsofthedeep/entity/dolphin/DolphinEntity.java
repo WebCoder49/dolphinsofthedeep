@@ -5,11 +5,9 @@ import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableC
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
-import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandlerFactory;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
+import io.github.webcoder49.dolphinsofthedeep.mixinInterfaces.gui.ServerOpenDolphinInventoryInterface;
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -19,6 +17,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryChangedListener;
@@ -30,9 +29,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.screen.Generic3x3ContainerScreenHandler;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandlerFactory;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -44,6 +40,7 @@ import net.minecraft.world.World;
 import org.apache.logging.log4j.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -82,7 +79,9 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     public DolphinEntity(EntityType<? extends net.minecraft.entity.passive.DolphinEntity> entityType, World world) {
         super(entityType, world);
         this.tameableComponent = new TameableComponent(this.dataTracker, IS_TAMED, OWNER_UUID);
+
         this.inventory = new SimpleInventory(2); // Saddle 0; armour 1
+        this.inventory.addListener(this); // So can control with listeners
     }
 
     /* Saved data */
@@ -128,7 +127,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         }
         // Dolphin armour
         if(nbt.contains("ArmorItem", 10)) { // TYPE==COMPOUND
-            this.equipArmour(ItemStack.fromNbt(nbt.getCompound("ArmorItem")));
+            this.setArmour(ItemStack.fromNbt(nbt.getCompound("ArmorItem")));
         }
     }
 
@@ -235,7 +234,9 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
                 } else if(isDolphinArmour(itemStack)) { // Armour
                     itemStack.useOnEntity(player, this, hand);
-                    this.equipArmour(itemStack);
+                    // Drop old armour
+                    this.dropStack(this.getArmourStack());
+                    this.setArmour(itemStack);
                     useUpItem(itemStack, player);
                 } else if(itemStack.isFood()) {
                     // Eat food
@@ -352,14 +353,10 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     /* Armour */
 
     /**
-     * Equip a piece of dolphin armour from the player.
+     * Equip a piece of dolphin armour from the player, after having called `setArmour`
      * @param armourStack The player's stack of dolphin armour
      */
     public void equipArmour(ItemStack armourStack) {
-        // Drop old armour
-        this.dropStack(this.getArmourStack());
-        this.setArmour(armourStack);
-
         if(!this.world.isClient()) {
             // Update attribute based on armour
             if(this.dolphinArmourBonus != null) { // Remove past bonus
@@ -373,10 +370,12 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     }
 
     /**
-     * LOW-LEVEL: Equip a piece of dolphin armour visually using the CHEST EquipmentSlot and inventory. Use {@code setArmour} for complete equipping.
+     * Equip a piece of dolphin armour visually using the CHEST EquipmentSlot and inventory. Use {@code setArmour} for armour attribute equipping.
      * @param armourStack ItemStack of dolphin armour
      */
     protected void setArmour(ItemStack armourStack) {
+        // Add attributes
+        this.equipArmour(armourStack);
         // Add armour to inventory
         this.inventory.setStack(1, armourStack);
         // Add armour to CHEST slot
@@ -446,7 +445,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
 
     public void travel(Vec3d movementInput) {
         LivingEntity passenger = this.getPrimaryPassenger();
-        if(this.hasPassengers() && passenger != null && this.isTouchingWater()) {
+        if(this.isSaddled() && this.hasPassengers() && passenger != null && this.isTouchingWater()) {
             // Allow riding
             // Rotate the same as passenger
             this.setYaw(passenger.getYaw());
@@ -472,6 +471,8 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
             super.travel(new Vec3d(passenger.sidewaysSpeed, passenger.upwardSpeed, passenger.forwardSpeed));
 
             this.tryCheckBlockCollision();
+        } else if(this.hasPassengers() && !this.isSaddled() && passenger != null)  {
+            passenger.dismountVehicle();
         } else {
             super.travel(movementInput);
         }
@@ -508,27 +509,44 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     /* Riding Inventory */
     @Override
     public void openInventory(PlayerEntity player) {
-        this.tellOwner(Text.of("Open Inventory")); // TODO: Debug
-
-//        NamedScreenHandlerFactory screenHandlerFactory = new DolphinInventoryScreenHandlerFactory(this);
-
-
-        //With this call the server will request the client to open the appropriate ScreenHandler
-//        player.openHandledScreen(screenHandlerFactory); // TODO: Update implementation
+        ((ServerOpenDolphinInventoryInterface)player).openDolphinInventory(this, this.inventory); // 🦆 (see class for comment)
     }
 
     @Override
-    public void onInventoryChanged(Inventory sender) {
-        // Use inventory to set saddle dataTracker
-        // Armour accessed through inv
-        ItemStack saddleStack = this.inventory.getStack(0);
-        boolean inventorySaddled = SADDLE_INGREDIENT.test(saddleStack);
-        if(!inventorySaddled) {
-            // Remove saddle
-            this.inventory.setStack(0, ItemStack.EMPTY);
-            this.dropStack(saddleStack);
+    public void onInventoryChanged(Inventory sender) { // TODO: Test; add GUI
+        if(sender == this.inventory) {
+            // Use inventory to set saddle dataTracker
+            ItemStack saddleStack = this.inventory.getStack(0);
+            boolean inventorySaddled = SADDLE_INGREDIENT.test(saddleStack);
+            if(!(saddleStack.isEmpty() || inventorySaddled)) { // Not allowed to be saddled w/ this
+                // Remove saddle
+                this.inventory.setStack(0, ItemStack.EMPTY);
+                this.dropStack(saddleStack);
+            }
+            this.dataTracker.set(SADDLED, inventorySaddled);
+
+
+            // Use inventory to set equipped armour
+            ItemStack armourStack = this.inventory.getStack(1);
+            boolean inventoryArmour = ARMOUR_INGREDIENT.test(armourStack);
+            if(!(armourStack.isEmpty() || inventoryArmour)) { // Not allowed to be saddled w/ this
+                // Remove saddle
+                this.inventory.setStack(1, ItemStack.EMPTY);
+                this.dropStack(armourStack);
+            } else if(inventoryArmour) {
+                // Add attributes
+                this.equipArmour(armourStack);
+            } else {
+                // Remove attributes
+                if(this.dolphinArmourBonus != null) { // Remove past bonus
+                    this.getAttributeInstance(EntityAttributes.GENERIC_ARMOR).removeModifier(this.dolphinArmourBonus);
+                }
+            }
+            // Add armour to CHEST slot
+            this.equipStack(EquipmentSlot.CHEST, armourStack);
+            // Don't drop on death
+            this.setEquipmentDropChance(EquipmentSlot.CHEST, 0.0F);
         }
-        this.dataTracker.set(SADDLED, inventorySaddled);
     }
 
 }

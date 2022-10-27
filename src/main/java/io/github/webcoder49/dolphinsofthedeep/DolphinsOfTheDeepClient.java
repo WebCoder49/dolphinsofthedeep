@@ -3,6 +3,7 @@ package io.github.webcoder49.dolphinsofthedeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityModel;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.appearance.DolphinEntityRenderer;
 import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreen;
+import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -35,6 +36,6 @@ public class DolphinsOfTheDeepClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_LONG_NOSE_DOLPHIN_LAYER, DolphinEntityModel::getTexturedModelDataLongNose);
 
         /* Register GUI Screens */
-        HandledScreens.register(DolphinsOfTheDeep.DOLPHIN_INVENTORY_SCREEN_HANDLER, DolphinInventoryScreen::new);
+        HandledScreens.<DolphinInventoryScreenHandler, DolphinInventoryScreen>register(DolphinsOfTheDeep.DOLPHIN_INVENTORY_SCREEN_HANDLER, DolphinInventoryScreen::new);
     }
 }

@@ -3,8 +3,10 @@
   "package": "io.github.webcoder49.dolphinsofthedeep.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CustomDefaultFeatures",
-    "CustomOverworldFeatures"
+    "spawning.CustomDefaultFeatures",
+    "spawning.CustomOverworldFeatures",
+    "gui.ServerOpenDolphinInventory",
+    "gui.ClientOpenDolphinInventory"
   ],
   "client": [],
   "server": [],

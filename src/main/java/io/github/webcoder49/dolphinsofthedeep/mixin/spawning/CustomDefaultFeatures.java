@@ -1,4 +1,4 @@
-package io.github.webcoder49.dolphinsofthedeep.mixin;
+package io.github.webcoder49.dolphinsofthedeep.mixin.spawning;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import net.minecraft.entity.EntityType;
