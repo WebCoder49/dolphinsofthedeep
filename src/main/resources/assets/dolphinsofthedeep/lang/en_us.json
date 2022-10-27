@@ -81,10 +81,16 @@
 
     "entity.dolphinsofthedeep.bottlenose": "Bottlenose Dolphin",
     "entity.dolphinsofthedeep.bottlenose.chatPrefix": "[Bottlenose D.] %1$s > ",
+    "entity.dolphinsofthedeep.bottlenose.latin": "T. truncatus",
+    "entity.dolphinsofthedeep.bottlenose.status": "[LC]",
     "entity.dolphinsofthedeep.pinkriver": "Pink River Dolphin",
     "entity.dolphinsofthedeep.pinkriver.chatPrefix": "[Pink River D.] %1$s > ",
+    "entity.dolphinsofthedeep.pinkriver.latin": "I. geoffrensis",
+    "entity.dolphinsofthedeep.pinkriver.status": "[EN]",
     "entity.dolphinsofthedeep.common_dolphin": "Common Dolphin",
     "entity.dolphinsofthedeep.common_dolphin.chatPrefix": "[Common Dolphin] %1$s > ",
+    "entity.dolphinsofthedeep.common_dolphin.latin": "D. delphis",
+    "entity.dolphinsofthedeep.common_dolphin.status": "[LC]",
 
     "dolphinsofthedeep.conversation.tamed": "Hi, %1$s!",
 

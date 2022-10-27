@@ -77,9 +77,7 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
         // Write statistics
         this.textRenderer.draw(matrices, Text.translatable(DolphinsOfTheDeep.MOD_ID+".stats.giftXp").append(Text.of(": ")).append(Text.of(String.valueOf(dolphin.giftXp)).getWithStyle(Style.EMPTY.withColor(Formatting.AQUA)).get(0)), (float)topLeftX+80+4, (float)topLeftY+18+4, 15658734);
         this.textRenderer.draw(matrices, Text.translatable(DolphinsOfTheDeep.MOD_ID+".stats.armour").append(Text.of(": ")).append(Text.of(String.valueOf(dolphin.getAttributeValue(EntityAttributes.GENERIC_ARMOR))).getWithStyle(Style.EMPTY.withColor(Formatting.RED)).get(0)), (float)topLeftX+80+4, (float)topLeftY+18+4+9+1, 15658734);
-
-        this.textRenderer.draw(matrices, Text.translatable(DolphinsOfTheDeep.MOD_ID+".fundraising.inventory.0"), (float)topLeftX-96, (float)1, 16776960);
-        this.textRenderer.draw(matrices, Text.translatable(DolphinsOfTheDeep.MOD_ID+".fundraising.inventory.1", this.title), (float)topLeftX-96, (float)10, 16776960);
-        this.textRenderer.draw(matrices, Text.translatable(DolphinsOfTheDeep.MOD_ID+".fundraising.inventory.2", this.title), (float)topLeftX-96, (float)19, 16776960);
+        this.textRenderer.draw(matrices, Text.translatable(dolphin.getType().getTranslationKey()+".latin").getWithStyle(Style.EMPTY.withColor(Formatting.GRAY).withItalic(true)).get(0), (float)topLeftX+80+4, (float)topLeftY+18+4+27+1, 15658734);
+        this.textRenderer.draw(matrices, Text.translatable(dolphin.getType().getTranslationKey()+".status").getWithStyle(Style.EMPTY.withColor(Formatting.DARK_RED)).get(0), (float)topLeftX+80+4, (float)topLeftY+18+4+36+1, 15658734);
     }
 }

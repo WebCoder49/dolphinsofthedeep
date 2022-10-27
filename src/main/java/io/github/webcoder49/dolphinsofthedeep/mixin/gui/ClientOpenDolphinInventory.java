@@ -38,9 +38,7 @@ public class ClientOpenDolphinInventory {
 
     @Inject(method="onOpenHorseScreen(Lnet/minecraft/network/packet/s2c/play/OpenHorseScreenS2CPacket;)V", at=@At("TAIL"), locals= LocalCapture.CAPTURE_FAILHARD)
     public void addDolphinInventoryHandler(OpenHorseScreenS2CPacket packet, CallbackInfo ci, Entity entity) {
-        DolphinsOfTheDeep.log(Level.WARN, "Client received riding inventory opening");
         if(entity instanceof DolphinEntity) {
-            DolphinsOfTheDeep.log(Level.WARN, "It's a dolphin for the inventory!");
             ClientPlayerEntity player = this.client.player;
             DolphinEntity dolphin = (DolphinEntity)entity;
             DolphinInventoryScreenHandler screenHandler = new DolphinInventoryScreenHandler(packet.getSyncId(), player.getInventory(), player, dolphin);
