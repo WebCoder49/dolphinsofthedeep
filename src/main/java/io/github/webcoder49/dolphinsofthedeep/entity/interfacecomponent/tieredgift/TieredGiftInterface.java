@@ -56,20 +56,19 @@ public interface TieredGiftInterface extends ConversationInterface {
      * @param xp The gift XP (e.g. days experience)
      */
     default GiftTier getGiftTier(double minQuality, double xp) {
-        return GiftTier.LEGENDARY;
-//        DolphinsOfTheDeep.log(Level.DEBUG, String.valueOf(minQuality));
-//        double randomLeft = 1 - (Math.random()*minQuality);
-//        for (GiftTier tier : GiftTier.values()) {
-//            if(tier != GiftTier.COMMON) { // TODO: TEST; Add list of non-default tiers + default in GiftTier
-//                double prob = tier.getProbability(xp);
-////                this.tellOwner(Text.of(tier.getName() + " " + prob + " (" + randomLeft + " left)"));
-//                if (randomLeft < prob) {
-//                    return tier;
-//                }
-//                // Remove this prob - on next tier
-//                randomLeft -= prob;
-//            }
-//        }
-//        return GiftTier.COMMON; // Default
+        DolphinsOfTheDeep.log(Level.DEBUG, String.valueOf(minQuality));
+        double randomLeft = 1 - (Math.random()*minQuality);
+        for (GiftTier tier : GiftTier.values()) {
+            if(tier != GiftTier.COMMON) { // TODO: TEST; Add list of non-default tiers + default in GiftTier
+                double prob = tier.getProbability(xp);
+//                this.tellOwner(Text.of(tier.getName() + " " + prob + " (" + randomLeft + " left)"));
+                if (randomLeft < prob) {
+                    return tier;
+                }
+                // Remove this prob - on next tier
+                randomLeft -= prob;
+            }
+        }
+        return GiftTier.COMMON; // Default
     }
 }

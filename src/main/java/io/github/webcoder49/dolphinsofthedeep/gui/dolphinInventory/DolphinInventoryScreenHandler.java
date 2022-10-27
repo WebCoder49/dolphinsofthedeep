@@ -66,13 +66,13 @@ public class DolphinInventoryScreenHandler extends ScreenHandler {
         int j;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 9; j++) {
-                this.addSlot(new Slot(playerInventory, i * 9 + j + 9, 8 + j * 18, 18 + i * 18 + 103 + 18));
+                this.addSlot(new Slot(playerInventory, i * 9 + j + 9, 8 + j * 18, 102 + i * 18 - 18));
             }
         }
 
 
         for (j = 0; j < 9; j++) {
-            this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 18 + 161 + 18));
+            this.addSlot(new Slot(playerInventory, j, 8 + j * 18, 142));
         }
     }
 

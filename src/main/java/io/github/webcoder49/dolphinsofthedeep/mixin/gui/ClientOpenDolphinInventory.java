@@ -6,12 +6,20 @@ import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreen;
 import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandler;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.network.ClientConnection;
+import net.minecraft.network.message.SentMessage;
 import net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Util;
 import org.apache.logging.log4j.Level;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,7 +45,7 @@ public class ClientOpenDolphinInventory {
             DolphinEntity dolphin = (DolphinEntity)entity;
             DolphinInventoryScreenHandler screenHandler = new DolphinInventoryScreenHandler(packet.getSyncId(), player.getInventory(), player, dolphin);
             player.currentScreenHandler = screenHandler;
-            this.client.setScreen(new DolphinInventoryScreen(screenHandler, player.getInventory(), dolphin.getDisplayName()));
+            this.client.setScreen(new DolphinInventoryScreen(screenHandler, player.getInventory(), dolphin));
         }
     }
 }
