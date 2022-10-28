@@ -1,6 +1,7 @@
 //package io.github.webcoder49.dolphinsofthedeep.mixin.fundraising;
 //
 //import com.mojang.authlib.GameProfile;
+//import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 //import net.minecraft.client.MinecraftClient;
 //import net.minecraft.client.gui.screen.ConfirmScreen;
 //import net.minecraft.client.network.ClientPlayerEntity;
@@ -15,6 +16,7 @@
 //import net.minecraft.util.Util;
 //import net.minecraft.util.math.BlockPos;
 //import net.minecraft.world.World;
+//import org.apache.logging.log4j.Level;
 //import org.jetbrains.annotations.Nullable;
 //import org.spongepowered.asm.mixin.Mixin;
 //import org.spongepowered.asm.mixin.injection.At;
@@ -27,9 +29,11 @@
 //        super(entityType, world);
 //    }
 //
-//    @Inject(method="wakeUp()V", at=@At("TAIL"))
-//    public void wakeUpReminder(CallbackInfo ci) { // TODO: FIX
+//    @Inject(method="wakeUp(ZZ)V", at=@At("TAIL"))
+//    public void wakeUpReminder(CallbackInfo ci) { // TODO: Translation Files
+//        DolphinsOfTheDeep.log(Level.WARN, "Wake up");
 //        if(this.getWorld().isClient()) {
+//            DolphinsOfTheDeep.log(Level.WARN, "Wake up client");
 //            MinecraftClient.getInstance().setScreen(new ConfirmScreen((wantsToDonate) -> { // Ask if wants to donate
 //
 //                if(wantsToDonate) {
@@ -44,7 +48,7 @@
 //                } else {
 //                    MinecraftClient.getInstance().setScreen(null);
 //                }
-//            }, Text.of("We need your help.").getWithStyle(Style.EMPTY
+//            }, Text.of("A message from Dolphins of the Deep: \nWe need your help.").getWithStyle(Style.EMPTY
 //                    .withBold(true)
 //                    .withFormatting(Formatting.AQUA)
 //            ).get(0), Text.of("Not all dolphins live in the sea: there are 4 species of river dolphins, but unfortunately all of them are endangered.\n\nPlease donate to the WDC to help keep them safe."), Text.of("Donate").getWithStyle(Style.EMPTY
