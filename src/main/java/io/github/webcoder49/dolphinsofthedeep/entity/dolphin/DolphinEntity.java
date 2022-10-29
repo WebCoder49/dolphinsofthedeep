@@ -17,7 +17,9 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryChangedListener;
@@ -27,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -241,6 +244,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                 } else if(itemStack.isFood()) {
                     // Eat food
                     this.eatFood(world, itemStack);
+                    this.heal(Objects.requireNonNull(itemStack.getItem().getFoodComponent()).getHunger());
                 } else {
                     // Ride dolphin
                     if(this.isSaddled()) {
@@ -314,6 +318,10 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Nullable
     public LivingEntity getOwner() {
         return this.tameableComponent.getOwner(this.world);
+    }
+
+    public boolean canImmediatelyDespawn(double distanceSquared) {
+        return !this.getTamed() && super.canImmediatelyDespawn(distanceSquared);
     }
 
     /**

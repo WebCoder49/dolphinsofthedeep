@@ -124,7 +124,13 @@
     "gamerule.dolphinGifts": "Dolphins give Gifts",
     "gamerule.dolphinChat": "Chat with Dolphins",
 
-    "dolphinsofthedeep.fundraising.inventory.0": "We hope you're enjoying this mod.     Unfortunately, there's bad news.",
-    "dolphinsofthedeep.fundraising.inventory.1": "   1000s of cetaceans are facing captivity, entanglement and hunting.",
-    "dolphinsofthedeep.fundraising.inventory.2": "       Please help stop this at JustGiving.com/DolphinsOfTheDeep"
+    "dolphinsofthedeep.fundraising.thanks.title": "Thank you so much for your donation.",
+    "dolphinsofthedeep.fundraising.thanks.body": "We're opening the page now; if it doesn't work, please go to JustGiving.com/DolphinsOfTheDeep.\n\n To see how your support will be used, please see WDC's website below, or continue playing the game!",
+    "dolphinsofthedeep.fundraising.learnMore": "Learn more about WDC",
+
+    "dolphinsofthedeep.fundraising.reminder.title": "A message from Dolphins of the Deep: \nWe need your help.", // TODO: Fix
+    "dolphinsofthedeep.fundraising.reminder.body.num": "1",
+    "dolphinsofthedeep.fundraising.reminder.body.0": "Not all dolphins live in the sea: there are 4 species of river dolphins, but unfortunately all of them are endangered.\\n\\nPlease donate to the WDC to help keep them safe.",
+    "dolphinsofthedeep.fundraising.reminder.donate": "Donate",
+    "dolphinsofthedeep.fundraising.reminder.maybeLater": "Maybe Later"
 }

@@ -5,11 +5,14 @@
   "mixins": [
     "spawning.CustomDefaultFeatures",
     "spawning.CustomOverworldFeatures",
+    "gui.ClientOpenDolphinInventory",
     "gui.ServerOpenDolphinInventory",
-    "gui.ClientOpenDolphinInventory"
+    "network.AddServerPlayNetworkHandler"
   ],
-  "client": [],
-  "server": [],
+  "client": [
+  ],
+  "server": [
+  ],
   "injectors": {
     "defaultRequire": 1
   }

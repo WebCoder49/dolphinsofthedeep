@@ -5,6 +5,7 @@ import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
+import io.github.webcoder49.dolphinsofthedeep.network.packet.c2s.RenameEntityC2SPacket;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.realms.gui.screen.RealmsSettingsScreen;
 import net.minecraft.client.render.GameRenderer;
@@ -20,16 +22,21 @@ import net.minecraft.client.sound.AmbientSoundLoops;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.NameTagItem;
+import net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket;
 import net.minecraft.screen.HorseScreenHandler;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.jmx.Server;
 
 import java.awt.*;
+import java.util.Objects;
 
 public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreenHandler> {
     // GUI Texture path
@@ -81,13 +88,17 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
      * @return
      */
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if(this.nameBox.keyPressed(keyCode, scanCode, modifiers)) {
-            // Rename
+        this.nameBox.keyPressed(keyCode, scanCode, modifiers);
+        // Success at entering in box
+        if(!Objects.equals(this.dolphin.getName().getString(), this.nameBox.getText())) {
+            // Name on client
             this.dolphin.setCustomName(Text.of(this.nameBox.getText()));
-            return true;
-        } else {
-            return super.keyPressed(keyCode, scanCode, modifiers);
+            // Name on server
+            this.dolphin.getWorld().sendPacket(new RenameEntityC2SPacket(this.dolphin.getId(), this.nameBox.getText()));
         }
+
+        // Already completed if box focused; else normal action
+        return this.nameBox.isFocused() && keyCode != 256 || super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     /**
@@ -102,9 +113,6 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
 
         this.nameBox.render(matrices, mouseX, mouseY, delta);
-
-//        this.textRenderer.draw(matrices, this.title, 8.0F, 6.0F, 4210752);
-//        this.textRenderer.draw(matrices, this.playerInventoryTitle, 8.0F, (float)(this.backgroundHeight - 96 + 2), 4210752);
     }
 
     @Override
@@ -133,10 +141,5 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
             this.textRenderer.draw(matrices, Text.of("Click to name"), (float)topLeftX+80+4, (float)topLeftY+18+4+23+1, 2171169);
         }
         this.textRenderer.draw(matrices, Text.translatable(dolphin.getType().getTranslationKey()+".latin").getWithStyle(Style.EMPTY.withColor(Formatting.GRAY).withItalic(true)).get(0).copy().append(" ").append(Text.translatable(dolphin.getType().getTranslationKey() + ".status").getWithStyle(Style.EMPTY.withColor(Formatting.DARK_RED)).get(0)), (float)topLeftX+80+4, (float)topLeftY+18+4+36+1, 15658734);
-
-        // New name
-        if(this.dolphin.getCustomName() == null || editedName != this.dolphin.getCustomName().getString()) {
-            this.dolphin.setCustomName(Text.of(editedName)); // TODO: Sync name with server; bind with keyEvent so `e` doesn't close inv
-        }
     }
 }
