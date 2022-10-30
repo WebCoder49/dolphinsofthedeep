@@ -2,40 +2,23 @@ package io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
-import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinAttributes;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.DolphinEntity;
-import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
-import io.github.webcoder49.dolphinsofthedeep.network.packet.c2s.RenameEntityC2SPacket;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.ingame.HorseScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.realms.gui.screen.RealmsSettingsScreen;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.sound.AmbientSoundLoops;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.NameTagItem;
-import net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket;
-import net.minecraft.screen.HorseScreenHandler;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.ClickEvent;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.core.jmx.Server;
 
-import java.awt.*;
 import java.util.Objects;
 
 public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreenHandler> {
@@ -93,8 +76,12 @@ public class DolphinInventoryScreen extends HandledScreen<DolphinInventoryScreen
         if(!Objects.equals(this.dolphin.getName().getString(), this.nameBox.getText())) {
             // Name on client
             this.dolphin.setCustomName(Text.of(this.nameBox.getText()));
+
             // Name on server
-            this.dolphin.getWorld().sendPacket(new RenameEntityC2SPacket(this.dolphin.getId(), this.nameBox.getText()));
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeInt(this.dolphin.getId());
+            buf.writeString(this.nameBox.getText());
+            ClientPlayNetworking.send(DolphinsOfTheDeep.RENAME_ENTITY_PACKET_ID, buf);
         }
 
         // Already completed if box focused; else normal action

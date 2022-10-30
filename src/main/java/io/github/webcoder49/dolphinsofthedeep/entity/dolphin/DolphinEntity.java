@@ -1,12 +1,15 @@
 package io.github.webcoder49.dolphinsofthedeep.entity.dolphin;
 
 import io.github.webcoder49.dolphinsofthedeep.DolphinsOfTheDeep;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.ClientTameListener;
 import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.TameableComponent;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.Conversation;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.conversation.ConversationInterface;
 import io.github.webcoder49.dolphinsofthedeep.entity.interfacecomponent.tieredgift.TieredGiftInterface;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import io.github.webcoder49.dolphinsofthedeep.mixinInterfaces.gui.ServerOpenDolphinInventoryInterface;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -17,9 +20,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.InventoryChangedListener;
@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
-import net.minecraft.particle.ParticleEffect;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -55,7 +55,9 @@ import static java.lang.Integer.parseInt;
  */
 public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity implements
         Tameable, RideableInventory, InventoryChangedListener, // Vanilla
-        ConversationInterface, TieredGiftInterface { // DOTD InterfaceComponents
+        ConversationInterface, TieredGiftInterface,
+        ClientTameListener // DOTD InterfaceComponents
+{
 
     // Components
     private final TameableComponent tameableComponent;
@@ -115,7 +117,7 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
         nbt.put("GiftXP", NbtInt.of(this.giftXp)); // For consistency
 
         // Conversation
-        if(this.getOwner() != null) {
+        if(this.getOwner() != null && this.world.isClient) {
             this.conversation = new Conversation();
         }
     }
@@ -153,19 +155,23 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     @Override
     public void tick() {
         // Components
-        /* Chat */
-        if(!this.world.isClient) {
+        /* Chat - CLIENT ONLY */
+        if(this.world.isClient) {
             if(world.getGameRules().getBoolean(DolphinsOfTheDeep.DOLPHIN_CHAT)) {
                 if(this.conversation != null) {
                     if(this.getPrimaryPassenger() == this.getOwner()) {
                         if(Math.random() < (double)this.getAttributeValue(DolphinAttributes.DOLPHIN_CHAT_CHANCE) && this.conversation.isFree()) {
-                            // Random chat index from 0 to [MOD_ID].conversation.numChats
+                            // Random chat index from 0 to [MOD_ID].conversation.num
                             // Saved in lang file as [MOD_ID].conversation.[index]
-                            this.conversation.addConversation(String.valueOf(
-                                    (int)Math.floor(Math.random() * parseInt(
-                                            Text.translatable(DolphinsOfTheDeep.MOD_ID + ".conversation.numChats").getString())
-                                    ))
-                            );
+                            try {
+                                this.conversation.addConversation(String.valueOf(
+                                        (int) Math.floor(Math.random() * parseInt(
+                                                Text.translatable(DolphinsOfTheDeep.MOD_ID + ".conversation.num").getString())
+                                        ))
+                                );
+                            } catch (NumberFormatException e) {
+                                DolphinsOfTheDeep.log(Level.ERROR, "Couldn't get number of conversations from language file");
+                            }
                         }
                     }
                     this.conversationTick(this.conversation);
@@ -205,7 +211,6 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
                     DolphinsOfTheDeep.log(Level.INFO, "Taming.");
                     if(this.random.nextInt((int)this.getAttributeValue(DolphinAttributes.DOLPHIN_TAMING_DIFFICULTY)) == 0) { // TODO: TEST
                         this.setOwner(player);
-                        this.tellOwner(this.getTranslatedText("tamed", player.getName()));
                         DolphinsOfTheDeep.log(Level.INFO, "Tamed.");
                         this.world.addParticle(ParticleTypes.BUBBLE, this.getParticleX(1.0), this.getY()+1.0, this.getParticleZ(1.0), 0.0, 1.0, 0.0);
                     }
@@ -304,12 +309,30 @@ public class DolphinEntity extends net.minecraft.entity.passive.DolphinEntity im
     }
 
     /**
-     * Set the username of the owner, or null if not tamed
+     * Set the username of the owner on the server, or null if not tamed
      * @param player username of the owner
      */
     public void setOwner(PlayerEntity player) {
-        this.conversation = new Conversation();
-        this.tameableComponent.setOwner(player);
+        if(!this.world.isClient) {
+            this.tameableComponent.setOwner(player);
+
+            // On client
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeInt(this.getId());
+            ServerPlayNetworking.send((ServerPlayerEntity) player, DolphinsOfTheDeep.TAME_ENTITY_PACKET_ID, buf);
+        }
+    }
+
+    /**
+     * Set the owner on client-side
+     * @param player username of the owner
+     */
+    public void clientSetOwner(PlayerEntity player) {
+        if(this.world.isClient) {
+            this.tameableComponent.setOwner(player);
+            this.conversation = new Conversation();
+            this.tellOwner(this.getTranslatedText("tamed", player.getName()));
+        }
     }
 
     /**
