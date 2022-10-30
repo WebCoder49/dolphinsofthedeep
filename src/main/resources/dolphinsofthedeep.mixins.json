@@ -6,7 +6,8 @@
     "spawning.CustomDefaultFeatures",
     "spawning.CustomOverworldFeatures",
     "gui.ServerOpenDolphinInventory",
-    "gui.ClientOpenDolphinInventory"
+    "gui.ClientOpenDolphinInventory",
+    "fundraising.AddFundraisingReminders"
   ],
   "client": [],
   "server": [],
