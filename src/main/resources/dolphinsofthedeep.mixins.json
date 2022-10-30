@@ -6,8 +6,7 @@
     "spawning.CustomDefaultFeatures",
     "spawning.CustomOverworldFeatures",
     "gui.ClientOpenDolphinInventory",
-    "gui.ServerOpenDolphinInventory",
-    "network.AddServerPlayNetworkHandler"
+    "gui.ServerOpenDolphinInventory"
   ],
   "client": [
   ],
