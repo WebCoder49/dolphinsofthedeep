@@ -1,11 +1,11 @@
 package io.github.webcoder49.dolphinsofthedeep;
 
 import io.github.webcoder49.dolphinsofthedeep.block.SeaLaser;
+import io.github.webcoder49.dolphinsofthedeep.entity.component.tamable.ClientTameListener;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.BottlenoseDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.CommonDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.entity.dolphin.species.PinkRiverDolphinEntity;
 import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandler;
-import io.github.webcoder49.dolphinsofthedeep.gui.dolphinInventory.DolphinInventoryScreenHandlerFactory;
 import io.github.webcoder49.dolphinsofthedeep.item.CustomMusicDiscItem;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinArmour;
 import io.github.webcoder49.dolphinsofthedeep.item.DolphinSaddle;
@@ -15,22 +15,17 @@ import io.github.webcoder49.dolphinsofthedeep.material.armour.ArmourGoldenDelphi
 import io.github.webcoder49.dolphinsofthedeep.material.tools.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.client.screenhandler.v1.ScreenRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.gamerule.v1.CustomGameRuleCategory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.*;
 import net.minecraft.item.*;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.SoundEvent;
@@ -50,8 +45,16 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
     public static Logger LOGGER = LogManager.getLogger();
 
+    // Networking - packet IDs
+
+    // C2S
+    public static final Identifier RENAME_ENTITY_PACKET_ID = new Identifier(MOD_ID, "rename_entity");
+
+    // S2C
+    public static final Identifier TAME_ENTITY_PACKET_ID = new Identifier(MOD_ID, "tame_entity");
+
     // SoundEvents - create instances
-    public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID = new Identifier("dolphinsofthedeep", "music_disc_dolphin_dance");
+    public static final Identifier MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID = new Identifier(MOD_ID, "music_disc_dolphin_dance");
     public static SoundEvent MUSIC_DISC_DOLPHIN_DANCE_SOUND = new SoundEvent(MUSIC_DISC_DOLPHIN_DANCE_SOUND_ID);
     public static Item MUSIC_DISC_DOLPHIN_DANCE = new CustomMusicDiscItem(14, MUSIC_DISC_DOLPHIN_DANCE_SOUND, (new Item.Settings()).maxCount(1).group(ItemGroup.MISC), 138);
 
@@ -229,7 +232,7 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
 
     // Game Rules
-    private static CustomGameRuleCategory GAMERULES_DOTD = new CustomGameRuleCategory(new Identifier("dolphinsofthedeep", "dolphins"), Text.translatable("gamerule.category.dolphinsofthedeep.dolphins"));
+    private static CustomGameRuleCategory GAMERULES_DOTD = new CustomGameRuleCategory(new Identifier(MOD_ID, "dolphins"), Text.translatable("gamerule.category.dolphinsofthedeep.dolphins"));
     public static final GameRules.Key<GameRules.BooleanRule> BEFRIEND_DOLPHINS =
             GameRuleRegistry.register("befriendDolphins", GAMERULES_DOTD, GameRuleFactory.createBooleanRule(true));
     public static final GameRules.Key<GameRules.BooleanRule> RIDE_DOLPHINS =
@@ -328,6 +331,15 @@ public class DolphinsOfTheDeep implements ModInitializer {
 
         /* Register GUI */
         Registry.register(Registry.SCREEN_HANDLER, new Identifier(MOD_ID, "dolphin_inventory"), DOLPHIN_INVENTORY_SCREEN_HANDLER);
+
+        /* Networking - incoming C2S packets */
+        // Rename entity
+        ServerPlayNetworking.registerGlobalReceiver(DolphinsOfTheDeep.RENAME_ENTITY_PACKET_ID, (server, sendingPlayer, handler, buf, responseSender) -> {
+            // Run on netty event loop
+            // BUF: INT entity id; STRING new name
+            Entity entity = sendingPlayer.getWorld().getEntityById(buf.readInt());
+            entity.setCustomName(Text.of(buf.readString()));
+        });
     }
 
     public static void log(Level level, String message){

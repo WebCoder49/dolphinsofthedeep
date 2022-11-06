@@ -99,7 +99,7 @@
     "dolphinsofthedeep.conversation.gifts.deliver.beforeTier": "It's a(n) ",
     "dolphinsofthedeep.conversation.gifts.deliver.afterTier": " gift!",
 
-    "dolphinsofthedeep.conversation.numChats": "3",
+    "dolphinsofthedeep.conversation.num": "3",
     "dolphinsofthedeep.conversation.0": "10:Hello;20:World!",
     "dolphinsofthedeep.conversation.1": "40:Thanks for all the fish!",
     "dolphinsofthedeep.conversation.2": "10:Under;10:The;20:Sea!", // TODO: Change
