@@ -116,7 +116,7 @@
     "gamerule.befriendDolphins": "Befriend Dolphins",
     "gamerule.rideDolphins": "Ride Dolphins",
     "gamerule.dolphinGifts": "Dolphins give Gifts",
-    "gamerule.dolphinChat": "Chat with Dolphins",,
+    "gamerule.dolphinChat": "Chat with Dolphins",
     "itemGroup.dolphinsofthedeep.main": "Dolphins Of The Deep",
     "itemGroup.dolphinsofthedeep.delphinium": "Dolphins Of The Deep: Delphinium",
     "item.dolphinsofthedeep.dolphin_saddle": "Dolphin Saddle",
@@ -223,13 +223,13 @@
     "gamerule.dolphinGifts": "Dolphins give Gifts",
     "gamerule.dolphinChat": "Chat with Dolphins",
 
+    "dolphinsofthedeep.fundraising.reminder.title": "We need your help.",
+    "dolphinsofthedeep.fundraising.reminder.body.num": "1",
+    "dolphinsofthedeep.fundraising.reminder.body.0": "Not all dolphins live in the sea: there are 4 species of river dolphins, but unfortunately all of them are endangered.\n\nPlease donate to the WDC to help keep them safe.",
+    "dolphinsofthedeep.fundraising.reminder.donate": "Donate",
+    "dolphinsofthedeep.fundraising.reminder.maybeLater": "Maybe Later",
     "dolphinsofthedeep.fundraising.thanks.title": "Thank you so much for your donation.",
     "dolphinsofthedeep.fundraising.thanks.body": "We're opening the page now; if it doesn't work, please go to JustGiving.com/DolphinsOfTheDeep.\n\n To see how your support will be used, please see WDC's website below, or continue playing the game!",
-    "dolphinsofthedeep.fundraising.learnMore": "Learn more about WDC",
-
-    "dolphinsofthedeep.fundraising.reminder.title": "A message from Dolphins of the Deep: \nWe need your help.", // TODO: Fix
-    "dolphinsofthedeep.fundraising.reminder.body.num": "1",
-    "dolphinsofthedeep.fundraising.reminder.body.0": "Not all dolphins live in the sea: there are 4 species of river dolphins, but unfortunately all of them are endangered.\\n\\nPlease donate to the WDC to help keep them safe.",
-    "dolphinsofthedeep.fundraising.reminder.donate": "Donate",
-    "dolphinsofthedeep.fundraising.reminder.maybeLater": "Maybe Later"
+    "dolphinsofthedeep.fundraising.thanks.learnMore": "Learn More about WDC",
+    "dolphinsofthedeep.fundraising.thanks.keepPlaying": "Keep Playing"
 }

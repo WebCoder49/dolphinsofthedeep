@@ -3,15 +3,20 @@
   "package": "io.github.webcoder49.dolphinsofthedeep.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "spawning.CustomDefaultFeatures",
-    "spawning.CustomOverworldFeatures",
+    "fundraising.AddFundraisingRemindersPlayer",
+    "fundraising.HasDonatedGameOption",
+
+    "network.AddServerPlayNetworkHandler",
+
     "gui.ClientOpenDolphinInventory",
-    "gui.ServerOpenDolphinInventory"
+    "gui.ServerOpenDolphinInventory",
+    "spawning.CustomDefaultFeatures",
+    "spawning.CustomOverworldFeatures"
   ],
   "client": [
+    "fundraising.AddFundraisingRemindersClient"
   ],
-  "server": [
-  ],
+  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

@@ -27,7 +27,7 @@ If you **enjoy this free mod**, please show your support by giving a **voluntary
 Through **raising awareness**, taking **political action** and **providing alternatives**, WDC aims to take action to prevent all these factors putting cetaceans in danger. To learn more about the actions WDC is taking, **[please see their website](https://uk.whales.org/our-4-goals/)**.
 
 #### Credits
->  Thank you to MG, AG and CG for helping with playtesting, graphics, and ideas!
+>  Thank you to PeetaKeeta, MG, AG and CG for helping with playtesting, graphics, and ideas!
 
 #### FAQs
 ##### How do I install this mod?

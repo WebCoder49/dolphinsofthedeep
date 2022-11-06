@@ -1,0 +1,5 @@
+accessWidener	v1	named
+
+# An annoyingly hacky fix to adding new game settings
+# Set the settings' visibility to `public`
+accessible  class    net/minecraft/client/option/GameOptions$Visitor
