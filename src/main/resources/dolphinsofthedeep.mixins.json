@@ -4,8 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "fundraising.AddFundraisingRemindersPlayer",
-    "fundraising.AddFundraisingRemindersClient",
     "fundraising.HasDonatedGameOption",
+
+    "network.AddServerPlayNetworkHandler",
 
     "gui.ClientOpenDolphinInventory",
     "gui.ServerOpenDolphinInventory",
