@@ -47,11 +47,14 @@ Through **raising awareness**, taking **political action** and **providing alter
 
 If the game crashes or you notice a bug, please report it under the `Issues` tab.
 
-##### Can I use this mod in a modpack? Is it open-source?
+##### Can I use this mod in a modpack? Is it open source?
 
-The [license](https://github.com/WebCoder49/dolphinsofthedeep/blob/main/LICENSE) of this mod allows you to copy and distribute it and its source code, as long as you don't sell it as:
-* You don't **sell** the software as a whole or sell substantial portions of it,
-* You include the fundraising link **visible to users** in any uses of it (this includes modpacks), and
-* You include the copyright and permission notice from the license.
+Yes. Dolphins of the Deep is licensed under [the GNU Lesser General Public License Version 3.0](https://en.wikipedia.org/wiki/GNU_Lesser_General_Public_License) or any later version; it's free, libre and open source software.
 
-Please refer to [the full license](https://github.com/WebCoder49/dolphinsofthedeep/blob/main/LICENSE).
+![LGPLv3: Free as in Freedom](https://github.com/user-attachments/assets/40a1ccfa-54bd-4f46-bd70-ac123686705e)
+
+<small>Logo above by José Obed</small>
+
+**Non-legally binding:** This means any modified versions you make of the mod must be licensed the same and have their source code available to those who download the mod. This requirement is limited in scope, so you can use the mod with a closed source game (Minecraft), or include it in a modpack with other mods under any license, including closed source ones.
+
+**Legally binding:** Please see [the LICENSE file](LICENSE).
