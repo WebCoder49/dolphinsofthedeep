@@ -1,3 +1,9 @@
+### Status: Unmaintained
+
+This project has been practically unmaintained for a while now, and now it's officially unmaintained too; sorry. 😢
+
+It's not a library and I don't know of any modpacks that use it so hopefully this doesn't cause too many problems. I've licensed it under the LGPL-3.0-or-later so feel free to fork it into your own newer version, use its code in another project, or ask me about the code! 😄
+
 ### **Befriend and ride** a variety of dolphin species in Minecraft, gaining gifts to level up! **Fundraising** for WDC.
 #### ⬆️Now for Minecraft 1.19.2!
 
